@@ -1,0 +1,1494 @@
+command /enchantmentshop:
+    aliases: /eshop
+    trigger: 
+        set metadata tag "eshop" of player to chest inventory with 5 rows named "Enchantment Shop"
+        set slot 0 of metadata tag "eshop" of player to enchanted book named "&dAqua Affinity"
+        set slot 1 of metadata tag "eshop" of player to enchanted book named "&dBane of Arthropods"
+        set slot 2 of metadata tag "eshop" of player to enchanted book named "&dBlast Protection"
+        set slot 3 of metadata tag "eshop" of player to enchanted book named "&dChanneling"
+        set slot 4 of metadata tag "eshop" of player to enchanted book named "&dDepth Strider"
+        set slot 5 of metadata tag "eshop" of player to enchanted book named "&dEfficiency"
+        set slot 6 of metadata tag "eshop" of player to enchanted book named "&dFeather Falling"
+        set slot 7 of metadata tag "eshop" of player to enchanted book named "&dFire Aspect"
+        set slot 8 of metadata tag "eshop" of player to enchanted book named "&dFire Protection"
+        set slot 9 of metadata tag "eshop" of player to enchanted book named "&dFlame"
+        set slot 10 of metadata tag "eshop" of player to enchanted book named "&dFortune"
+        set slot 11 of metadata tag "eshop" of player to enchanted book named "&dFrost Walker"
+        set slot 12 of metadata tag "eshop" of player to enchanted book named "&dImpaling"
+        set slot 13 of metadata tag "eshop" of player to enchanted book named "&dInfinity"
+        set slot 14 of metadata tag "eshop" of player to enchanted book named "&dKnockback"
+        set slot 15 of metadata tag "eshop" of player to enchanted book named "&dLooting"
+        set slot 16 of metadata tag "eshop" of player to enchanted book named "&dLoyalty"
+        set slot 17 of metadata tag "eshop" of player to enchanted book named "&dLuck of the Sea"
+        set slot 18 of metadata tag "eshop" of player to enchanted book named "&dLure"
+        set slot 19 of metadata tag "eshop" of player to enchanted book named "&dMending"
+        set slot 20 of metadata tag "eshop" of player to enchanted book named "&dMultishot"
+        set slot 21 of metadata tag "eshop" of player to enchanted book named "&dPiercing"
+        set slot 22 of metadata tag "eshop" of player to enchanted book named "&dPower"
+        set slot 23 of metadata tag "eshop" of player to enchanted book named "&dProjectile Protection"
+        set slot 24 of metadata tag "eshop" of player to enchanted book named "&dProtection"
+        set slot 25 of metadata tag "eshop" of player to enchanted book named "&dPunch"
+        set slot 26 of metadata tag "eshop" of player to enchanted book named "&dQuick Charge"
+        set slot 27 of metadata tag "eshop" of player to enchanted book named "&dRespiration"
+        set slot 28 of metadata tag "eshop" of player to enchanted book named "&dRiptide"
+        set slot 29 of metadata tag "eshop" of player to enchanted book named "&dSharpness"
+        set slot 30 of metadata tag "eshop" of player to enchanted book named "&dSilk Touch"
+        set slot 31 of metadata tag "eshop" of player to enchanted book named "&dSmite"
+        set slot 32 of metadata tag "eshop" of player to enchanted book named "&dSoul Speed"
+        set slot 33 of metadata tag "eshop" of player to enchanted book named "&dSweeping Edge"
+        set slot 34 of metadata tag "eshop" of player to enchanted book named "&dThorns"
+        set slot 35 of metadata tag "eshop" of player to enchanted book named "&dUnbreaking"
+        set slot 36 of metadata tag "eshop" of player to enchanted book named "&dSwift Sneak"
+        open (metadata tag "eshop" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop" of player):
+        cancel event
+        if index of event-slot is 0:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop2" of player to dispenser inventory named "Aqua Affinity"
+            set slot 0 of metadata tag "eshop2" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop2" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop2" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop2" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop2" of player to enchanted book named "&dAqua Affinity I" with lore "&7$150"
+            set slot 5 of metadata tag "eshop2" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop2" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop2" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop2" of player to black stained glass pane
+            open (metadata tag "eshop2" of player) to player
+        if index of event-slot is 1:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop3" of player to dispenser inventory named "Bane of Arthropods"
+            set slot 0 of metadata tag "eshop3" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop3" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop3" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop3" of player to enchanted book named "&dBane of Arthropods I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop3" of player to enchanted book named "&dBane of Arthropods II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop3" of player to enchanted book named "&dBane of Arthropods III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop3" of player to enchanted book named "&dBane of Arthropods IV" with lore "&7$350"
+            set slot 7 of metadata tag "eshop3" of player to enchanted book named "&dBane of Arthropods V" with lore "&7$450"
+            set slot 8 of metadata tag "eshop3" of player to black stained glass pane
+            open (metadata tag "eshop3" of player) to player
+        if index of event-slot is 2:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop4" of player to dispenser inventory named "Blast Protection"
+            set slot 0 of metadata tag "eshop4" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop4" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop4" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop4" of player to enchanted book named "&dBlast Protection I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop4" of player to enchanted book named "&dBlast Protection II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop4" of player to enchanted book named "&dBlast Protection III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop4" of player to enchanted book named "&dBlast Protection IV" with lore "&7$450" 
+            set slot 7 of metadata tag "eshop4" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop4" of player to black stained glass pane
+            open (metadata tag "eshop4" of player) to player
+        if index of event-slot is 3:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop5" of player to dispenser inventory named "Channeling"
+            set slot 0 of metadata tag "eshop5" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop5" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop5" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop5" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop5" of player to enchanted book named "&dChanneling I" with lore "&7$150"
+            set slot 5 of metadata tag "eshop5" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop5" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop5" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop5" of player to black stained glass pane
+            open (metadata tag "eshop5" of player) to player
+        if index of event-slot is 4:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop6" of player to dispenser inventory named "Depth Strider"
+            set slot 0 of metadata tag "eshop6" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop6" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop6" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop6" of player to enchanted book named "&dDepth Strider I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop6" of player to enchanted book named "&dDepth Strider II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop6" of player to enchanted book named "&dDepth Strider III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop6" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop6" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop6" of player to black stained glass pane
+            open (metadata tag "eshop6" of player) to player
+        if index of event-slot is 5:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop7" of player to dispenser inventory named "Efficiency"
+            set slot 0 of metadata tag "eshop7" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop7" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop7" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop7" of player to enchanted book named "&dEfficiency I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop7" of player to enchanted book named "&dEfficiency II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop7" of player to enchanted book named "&dEfficiency III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop7" of player to enchanted book named "&dEfficiency IV" with lore "&7$450"
+            set slot 7 of metadata tag "eshop7" of player to enchanted book named "&dEfficiency V" with lore "&7$550"
+            set slot 8 of metadata tag "eshop7" of player to black stained glass pane
+            open (metadata tag "eshop7" of player) to player
+        if index of event-slot is 6:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop8" of player to dispenser inventory named "Feather Falling"
+            set slot 0 of metadata tag "eshop8" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop8" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop8" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop8" of player to enchanted book named "&dFeather Falling I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop8" of player to enchanted book named "&dFeather Falling II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop8" of player to enchanted book named "&dFeather Falling III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop8" of player to enchanted book named "&dFeather Falling IV" with lore "&7$350" 
+            set slot 7 of metadata tag "eshop8" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop8" of player to black stained glass pane
+            open (metadata tag "eshop8" of player) to player
+        if index of event-slot is 7:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop9" of player to dispenser inventory named "Fire Aspect"
+            set slot 0 of metadata tag "eshop9" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop9" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop9" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop9" of player to enchanted book named "&dFire Aspect I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop9" of player to enchanted book named "&dFire Aspect II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop9" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop9" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop9" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop9" of player to black stained glass pane
+            open (metadata tag "eshop9" of player) to player
+        if index of event-slot is 8:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop10" of player to dispenser inventory named "Fire Protection"
+            set slot 0 of metadata tag "eshop10" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop10" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop10" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop10" of player to enchanted book named "&dFire Protection I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop10" of player to enchanted book named "&dFire Protection II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop10" of player to enchanted book named "&dFire Protection III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop10" of player to enchanted book named "&dFire Protection IV" with lore "&7$450" 
+            set slot 7 of metadata tag "eshop10" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop10" of player to black stained glass pane
+            open (metadata tag "eshop10" of player) to player
+        if index of event-slot is 9:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop11" of player to dispenser inventory named "Flame"
+            set slot 0 of metadata tag "eshop11" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop11" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop11" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop11" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop11" of player to enchanted book named "&dFlame I" with lore "&7$150"
+            set slot 5 of metadata tag "eshop11" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop11" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop11" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop11" of player to black stained glass pane
+            open (metadata tag "eshop11" of player) to player
+        if index of event-slot is 10:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop12" of player to dispenser inventory named "Fortune"
+            set slot 0 of metadata tag "eshop12" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop12" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop12" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop12" of player to enchanted book named "&dFortune I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop12" of player to enchanted book named "&dFortune II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop12" of player to enchanted book named "&dFortune III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop12" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop12" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop12" of player to black stained glass pane
+            open (metadata tag "eshop12" of player) to player
+        if index of event-slot is 11:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop13" of player to dispenser inventory named "Frost Walker"
+            set slot 0 of metadata tag "eshop13" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop13" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop13" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop13" of player to enchanted book named "&dFrost Walker I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop13" of player to enchanted book named "&dFrost Walker II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop13" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop13" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop13" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop13" of player to black stained glass pane
+            open (metadata tag "eshop13" of player) to player
+        if index of event-slot is 12:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop14" of player to dispenser inventory named "Impaling"
+            set slot 0 of metadata tag "eshop14" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop14" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop14" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop14" of player to enchanted book named "&dImpaling I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop14" of player to enchanted book named "&dImpaling II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop14" of player to enchanted book named "&dImpaling III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop14" of player to enchanted book named "&dImpaling IV" with lore "&7$350"
+            set slot 7 of metadata tag "eshop14" of player to enchanted book named "&dImpaling V" with lore "&7$450"
+            set slot 8 of metadata tag "eshop14" of player to black stained glass pane
+            open (metadata tag "eshop14" of player) to player
+        if index of event-slot is 13:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop15" of player to dispenser inventory named "Infinity"
+            set slot 0 of metadata tag "eshop15" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop15" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop15" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop15" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop15" of player to enchanted book named "&dInfinity I" with lore "&7$150"
+            set slot 5 of metadata tag "eshop15" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop15" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop15" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop15" of player to black stained glass pane
+            open (metadata tag "eshop15" of player) to player
+        if index of event-slot is 14:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop16" of player to dispenser inventory named "Knockback"
+            set slot 0 of metadata tag "eshop16" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop16" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop16" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop16" of player to enchanted book named "&dKnockback I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop16" of player to enchanted book named "&dKnockback II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop16" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop16" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop16" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop16" of player to black stained glass pane
+            open (metadata tag "eshop16" of player) to player
+        if index of event-slot is 15:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop17" of player to dispenser inventory named "Looting"
+            set slot 0 of metadata tag "eshop17" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop17" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop17" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop17" of player to enchanted book named "&dLooting I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop17" of player to enchanted book named "&dLooting II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop17" of player to enchanted book named "&dLooting III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop17" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop17" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop17" of player to black stained glass pane
+            open (metadata tag "eshop17" of player) to player
+        if index of event-slot is 16:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop18" of player to dispenser inventory named "Loyalty"
+            set slot 0 of metadata tag "eshop18" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop18" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop18" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop18" of player to enchanted book named "&dLoyalty I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop18" of player to enchanted book named "&dLoyalty II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop18" of player to enchanted book named "&dLoyalty III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop18" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop18" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop18" of player to black stained glass pane
+            open (metadata tag "eshop18" of player) to player
+        if index of event-slot is 17:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop19" of player to dispenser inventory named "Luck of the Sea"
+            set slot 0 of metadata tag "eshop19" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop19" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop19" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop19" of player to enchanted book named "&dLuck of the Sea I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop19" of player to enchanted book named "&dLuck of the Sea II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop19" of player to enchanted book named "&dLuck of the Sea III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop19" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop19" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop19" of player to black stained glass pane
+            open (metadata tag "eshop19" of player) to player
+        if index of event-slot is 18:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop20" of player to dispenser inventory named "Lure"
+            set slot 0 of metadata tag "eshop20" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop20" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop20" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop20" of player to enchanted book named "&dLure I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop20" of player to enchanted book named "&dLure II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop20" of player to enchanted book named "&dLure III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop20" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop20" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop20" of player to black stained glass pane
+            open (metadata tag "eshop20" of player) to player
+        if index of event-slot is 19:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop21" of player to dispenser inventory named "Mending"
+            set slot 0 of metadata tag "eshop21" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop21" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop21" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop21" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop21" of player to enchanted book named "&dMending I" with lore "&7$550"
+            set slot 5 of metadata tag "eshop21" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop21" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop21" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop21" of player to black stained glass pane
+            open (metadata tag "eshop21" of player) to player
+        if index of event-slot is 20:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop22" of player to dispenser inventory named "Multishot"
+            set slot 0 of metadata tag "eshop22" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop22" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop22" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop22" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop22" of player to enchanted book named "&dMultishot I" with lore "&7$200"
+            set slot 5 of metadata tag "eshop22" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop22" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop22" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop22" of player to black stained glass pane
+            open (metadata tag "eshop22" of player) to player
+        if index of event-slot is 21:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop23" of player to dispenser inventory named "Piercing"
+            set slot 0 of metadata tag "eshop23" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop23" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop23" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop23" of player to enchanted book named "&dPiercing I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop23" of player to enchanted book named "&dPiercing II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop23" of player to enchanted book named "&dPiercing III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop23" of player to enchanted book named "&dPiercing IV" with lore "&7$450" 
+            set slot 7 of metadata tag "eshop23" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop23" of player to black stained glass pane
+            open (metadata tag "eshop23" of player) to player
+        if index of event-slot is 22:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop24" of player to dispenser inventory named "Power"
+            set slot 0 of metadata tag "eshop24" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop24" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop24" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop24" of player to enchanted book named "&dPower I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop24" of player to enchanted book named "&dPower II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop24" of player to enchanted book named "&dPower III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop24" of player to enchanted book named "&dPower IV" with lore "&7$450"
+            set slot 7 of metadata tag "eshop24" of player to enchanted book named "&dPower V" with lore "&7$550"
+            set slot 8 of metadata tag "eshop24" of player to black stained glass pane
+            open (metadata tag "eshop24" of player) to player
+        if index of event-slot is 23:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop25" of player to dispenser inventory named "Projectile Protection"
+            set slot 0 of metadata tag "eshop25" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop25" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop25" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop25" of player to enchanted book named "&dProjectile Protection I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop25" of player to enchanted book named "&dProjectile Protection II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop25" of player to enchanted book named "&dProjectile Protection III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop25" of player to enchanted book named "&dProjectile Protection IV" with lore "&7$450" 
+            set slot 7 of metadata tag "eshop25" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop25" of player to black stained glass pane
+            open (metadata tag "eshop25" of player) to player
+        if index of event-slot is 24:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop26" of player to dispenser inventory named "Protection"
+            set slot 0 of metadata tag "eshop26" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop26" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop26" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop26" of player to enchanted book named "&dProtection I" with lore "&7$250"
+            set slot 4 of metadata tag "eshop26" of player to enchanted book named "&dProtection II" with lore "&7$350"
+            set slot 5 of metadata tag "eshop26" of player to enchanted book named "&dProtection III" with lore "&7$450"
+            set slot 6 of metadata tag "eshop26" of player to enchanted book named "&dProtection IV" with lore "&7$550" 
+            set slot 7 of metadata tag "eshop26" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop26" of player to black stained glass pane
+            open (metadata tag "eshop26" of player) to player
+        if index of event-slot is 25:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop27" of player to dispenser inventory named "Punch"
+            set slot 0 of metadata tag "eshop27" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop27" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop27" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop27" of player to enchanted book named "&dPunch I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop27" of player to enchanted book named "&dPunch II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop27" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop27" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop27" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop27" of player to black stained glass pane
+            open (metadata tag "eshop27" of player) to player
+        if index of event-slot is 26:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop28" of player to dispenser inventory named "Quick Charge"
+            set slot 0 of metadata tag "eshop28" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop28" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop28" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop28" of player to enchanted book named "&dQuick Charge I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop28" of player to enchanted book named "&dQuick Charge II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop28" of player to enchanted book named "&dQuick Charge III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop28" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop28" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop28" of player to black stained glass pane
+            open (metadata tag "eshop28" of player) to player
+        if index of event-slot is 27:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop29" of player to dispenser inventory named "Respiration"
+            set slot 0 of metadata tag "eshop29" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop29" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop29" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop29" of player to enchanted book named "&dRespiration I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop29" of player to enchanted book named "&dRespiration II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop29" of player to enchanted book named "&dRespiration III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop29" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop29" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop29" of player to black stained glass pane
+            open (metadata tag "eshop29" of player) to player
+        if index of event-slot is 28:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop30" of player to dispenser inventory named "Riptide"
+            set slot 0 of metadata tag "eshop30" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop30" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop30" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop30" of player to enchanted book named "&dRiptide I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop30" of player to enchanted book named "&dRiptide II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop30" of player to enchanted book named "&dRiptide III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop30" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop30" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop30" of player to black stained glass pane
+            open (metadata tag "eshop30" of player) to player
+        if index of event-slot is 29:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop31" of player to dispenser inventory named "Sharpness"
+            set slot 0 of metadata tag "eshop31" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop31" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop31" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop31" of player to enchanted book named "&dSharpness I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop31" of player to enchanted book named "&dSharpness II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop31" of player to enchanted book named "&dSharpness III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop31" of player to enchanted book named "&dSharpness IV" with lore "&7$450"
+            set slot 7 of metadata tag "eshop31" of player to enchanted book named "&dSharpness V" with lore "&7$550"
+            set slot 8 of metadata tag "eshop31" of player to black stained glass pane
+            open (metadata tag "eshop31" of player) to player
+        if index of event-slot is 30:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop32" of player to dispenser inventory named "Silk Touch"
+            set slot 0 of metadata tag "eshop32" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop32" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop32" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop32" of player to lime stained glass pane
+            set slot 4 of metadata tag "eshop32" of player to enchanted book named "&dSilk Touch I" with lore "&7$150"
+            set slot 5 of metadata tag "eshop32" of player to lime stained glass pane
+            set slot 6 of metadata tag "eshop32" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop32" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop32" of player to black stained glass pane
+            open (metadata tag "eshop32" of player) to player
+        if index of event-slot is 31:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop33" of player to dispenser inventory named "Smite"
+            set slot 0 of metadata tag "eshop33" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop33" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop33" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop33" of player to enchanted book named "&dSmite I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop33" of player to enchanted book named "&dSmite II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop33" of player to enchanted book named "&dSmite III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop33" of player to enchanted book named "&dSmite IV" with lore "&7$350"
+            set slot 7 of metadata tag "eshop33" of player to enchanted book named "&dSmite V" with lore "&7$450"
+            set slot 8 of metadata tag "eshop33" of player to black stained glass pane
+            open (metadata tag "eshop33" of player) to player
+        if index of event-slot is 32:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop34" of player to dispenser inventory named "Soul Speed"
+            set slot 0 of metadata tag "eshop34" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop34" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop34" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop34" of player to enchanted book named "&dSoul Speed I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop34" of player to enchanted book named "&dSoul Speed II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop34" of player to enchanted book named "&dSoul Speed III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop34" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop34" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop34" of player to black stained glass pane
+            open (metadata tag "eshop34" of player) to player
+        if index of event-slot is 33:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop35" of player to dispenser inventory named "Sweeping Edge"
+            set slot 0 of metadata tag "eshop35" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop35" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop35" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop35" of player to enchanted book named "&dSweeping Edge I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop35" of player to enchanted book named "&dSweeping Edge II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop35" of player to enchanted book named "&dSweeping Edge III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop35" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop35" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop35" of player to black stained glass pane
+            open (metadata tag "eshop35" of player) to player
+        if index of event-slot is 34:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop36" of player to dispenser inventory named "Thorns"
+            set slot 0 of metadata tag "eshop36" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop36" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop36" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop36" of player to enchanted book named "&dThorns I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop36" of player to enchanted book named "&dThorns II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop36" of player to enchanted book named "&dThorns III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop36" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop36" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop36" of player to black stained glass pane
+            open (metadata tag "eshop36" of player) to player
+        if index of event-slot is 35:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop37" of player to dispenser inventory named "Unbreaking"
+            set slot 0 of metadata tag "eshop37" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop37" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop37" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop37" of player to enchanted book named "&dUnbreaking I" with lore "&7$200"
+            set slot 4 of metadata tag "eshop37" of player to enchanted book named "&dUnbreaking II" with lore "&7$250"
+            set slot 5 of metadata tag "eshop37" of player to enchanted book named "&dUnbreaking III" with lore "&7$350"
+            set slot 6 of metadata tag "eshop37" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop37" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop37" of player to black stained glass pane
+            open (metadata tag "eshop37" of player) to player
+        if index of event-slot is 36:
+            close player's inventory
+            wait 1 tick
+            set metadata tag "eshop38" of player to dispenser inventory named "Swift Sneak"
+            set slot 0 of metadata tag "eshop38" of player to black stained glass pane
+            set slot 1 of metadata tag "eshop38" of player to lime stained glass pane
+            set slot 2 of metadata tag "eshop38" of player to black stained glass pane
+            set slot 3 of metadata tag "eshop38" of player to enchanted book named "&dSwift Sneak I" with lore "&7$150"
+            set slot 4 of metadata tag "eshop38" of player to enchanted book named "&dSwift Sneak II" with lore "&7$200"
+            set slot 5 of metadata tag "eshop38" of player to enchanted book named "&dSwift Sneak III" with lore "&7$250"
+            set slot 6 of metadata tag "eshop38" of player to black stained glass pane
+            set slot 7 of metadata tag "eshop38" of player to lime stained glass pane
+            set slot 8 of metadata tag "eshop38" of player to black stained glass pane
+            open (metadata tag "eshop38" of player) to player
+			
+        
+on inventory click:
+    if event-inventory = (metadata tag "eshop2" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased an Aqua Affinity I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:aqua_affinity',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop3" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Bane of Arthropods I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:bane_of_arthropods',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Bane of Arthropods II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:bane_of_arthropods',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Bane of Arthropods III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:bane_of_arthropods',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Bane of Arthropods IV book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:bane_of_arthropods',lvl:4s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance 
+                send "&aYou have purchased a Bane of Arthropods V book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:bane_of_arthropods',lvl:5s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop4" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Blast Protection I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:blast_protection',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Blast Protection II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:blast_protection',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Blast Protection III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:blast_protection',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Blast Protection IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:blast_protection',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop5" of player):
+        cancel event
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased an Channeling I book for $150!" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:channeling',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop6" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Depth Strider I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:depth_strider',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Depth Strider II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:depth_strider',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Depth Strider III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:depth_strider',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop7" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Efficiency I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:efficiency',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Efficiency II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:efficiency',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Efficiency III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:efficiency',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Efficiency IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:efficiency',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 550:
+                remove 550 from player's balance 
+                send "&aYou have purchased a Efficiency V book for $550" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:efficiency',lvl:5s}]}"
+            else if player's balance is less than 550:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop8" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Feather Falling I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:feather_falling',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Feather Falling II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:feather_falling',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Feather Falling III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:feather_falling',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Feather Falling IV book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:feather_falling',lvl:4s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop9" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Fire Aspect I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_aspect',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Fire Aspect II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_aspect',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop10" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Fire Protection I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_protection',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Fire Protection II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_protection',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Fire Protection III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_protection',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Fire Protection IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fire_protection',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop11" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased an Flame I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:flame',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop12" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Fortune I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fortune',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Fortune II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fortune',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Fortune III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:fortune',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+            
+on inventory click:
+    if event-inventory = (metadata tag "eshop13" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Frost Walker I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:frost_walker',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Frost Walker II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:frost_walker',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop14" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Impaling I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:impaling,lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Impaling II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:impaling',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Impaling III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:impaling',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Impaling IV book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:impaling',lvl:4s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance 
+                send "&aYou have purchased a Impaling V book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:impaling',lvl:5s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop15" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased an Infinity I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:infinity',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop16" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Knockback I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:knockback',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Knockback II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:knockback',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop17" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Looting I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:looting',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Looting II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:looting',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Looting III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:looting',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop18" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Loyalty I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:loyalty',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Loyalty II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:loyalty',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Loyalty III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:loyalty',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop19" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Luck of the Sea I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:luck_of_the_sea',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Luck of the Sea II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:luck_of_the_sea',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Luck of the Sea III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:luck_of_the_sea',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop20" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Lure I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:lure',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Lure II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:lure',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Lure III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:lure',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop21" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 550:
+                remove 550 from player's balance
+                send "&aYou have purchased an Mending I book for $550" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:mending',lvl:1s}]}"
+            else if player's balance is less than 550:
+                send "&cYou do not have enough money to purchase this item!"
+
+#baby baby baby
+#ohhhhhh
+#line 1025 is very monumental, why? I have no idea, this is very very stupid.
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop22" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased an Multishot I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:multishot',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop23" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Piercing I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:piercing',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Piercing II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:piercing',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Piercing III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:piercing',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Piercing IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:piercing',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop24" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Power I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:power',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Power II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:power',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Power III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:power',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Power IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:power',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 550:
+                remove 550 from player's balance 
+                send "&aYou have purchased a Power V book for $550" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:power',lvl:5s}]}"
+            else if player's balance is less than 550:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop25" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Projectile Protection I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:projectile_protection',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Projectile Protection II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:projectile_protection',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Projectile Protection III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:projectile_protection',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Projectile Protection IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:projectile_protection',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop26" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Protection I book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:protection',lvl:1s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Protection II book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:protection',lvl:2s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Protection III book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:protection',lvl:3s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 550:
+                remove 550 from player's balance
+                send "&aYou have purchased a Protection IV book for $550" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:protection',lvl:4s}]}"
+            else if player's balance is less than 550:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop27" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Punch I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:punch',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Punch II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:punch',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop28" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Quick Charge I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:quick_charge',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Quick Charge II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:quick_charge',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Quick Charge III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:quick_charge',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop29" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Respiration I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:respiration',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Respiration II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:respiration',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Respiration III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:respiration',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop30" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Riptide I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:riptide',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Riptide II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:riptide',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Riptide III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:riptide',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop31" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Sharpness I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sharpness',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Sharpness II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sharpness',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Sharpness III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sharpness',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance
+                send "&aYou have purchased a Sharpness IV book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sharpness',lvl:4s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 550:
+                remove 550 from player's balance 
+                send "&aYou have purchased a Sharpness V book for $550" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sharpness',lvl:5s}]}"
+            else if player's balance is less than 550:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop32" of player):
+        cancel event 
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased an Silk Touch I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:silk_touch',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop33" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Smite I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:smite,lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Smite II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:smite',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Smite III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:smite',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 6:
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Smite IV book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:smite',lvl:4s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 7:
+            if player's balance is greater than or equal to 450:
+                remove 450 from player's balance 
+                send "&aYou have purchased a Smite V book for $450" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:smite',lvl:5s}]}"
+            else if player's balance is less than 450:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop34" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Soul Speed I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:soul_speed',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Soul Speed II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:soul_speed',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Soul Speed III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:soul_speed',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop35" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Sweeping Edge I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sweeping',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Sweeping Edge II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sweeping',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Sweeping Edge III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:sweeping',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop36" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Thorns I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:thorns',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Thorns II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:thorns',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Thorns III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:thorns',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+
+on inventory click:
+    if event-inventory = (metadata tag "eshop37" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Unbreaking I book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:unbreaking',lvl:1s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a Unbreaking II book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:unbreaking',lvl:2s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 350:
+                remove 350 from player's balance
+                send "&aYou have purchased a Unbreaking III book for $350" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:unbreaking',lvl:3s}]}"
+            else if player's balance is less than 350:
+                send "&cYou do not have enough money to purchase this item!"
+				
+on inventory click:
+    if event-inventory = (metadata tag "eshop38" of player):
+        cancel event
+        if index of event-slot is 3:
+            if player's balance is greater than or equal to 150:
+                remove 150 from player's balance
+                send "&aYou have purchased a Swift Sneak I book for $150" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:swift_sneak',lvl:1s}]}"
+            else if player's balance is less than 150:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 4:
+            if player's balance is greater than or equal to 200:
+                remove 200 from player's balance
+                send "&aYou have purchased a Swift Sneak II book for $200" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:swift_sneak',lvl:2s}]}"
+            else if player's balance is less than 200:
+                send "&cYou do not have enough money to purchase this item!"
+        if index of event-slot is 5: 
+            if player's balance is greater than or equal to 250:
+                remove 250 from player's balance
+                send "&aYou have purchased a  Swift Sneak III book for $250" to player
+                execute console command "minecraft:give %player% enchanted_book{StoredEnchantments:[{id:'minecraft:swift_sneak',lvl:3s}]}"
+            else if player's balance is less than 250:
+                send "&cYou do not have enough money to purchase this item!"

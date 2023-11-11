@@ -1,0 +1,1156 @@
+options:
+    nologin: message "&aYou haven't logged in yet. Use /login <password> to login!"
+    nopass: message "&aYou don't have a password yet! Use /register <password> <re-enter password> to set one!"
+    resetpass: message "&a&lTyp /resetpassword <reason> to ask staff to reset your password!"
+    nopermoption: &cYou don't have permissions to execute this command!
+    noperm: message "&cYou don't have permissions to execute this command!"
+    6b: <##62a7fc>
+
+command /sit:
+    permission: tc.commands.sit
+    permission message: "&cYou don't have the right rank to use this!"
+    trigger:
+        player's world is not "world-you-dont-want-sit-working"
+        set {_cont} to true
+        loop all entities in radius 1.1 around location of block below player:
+            if loop-entity is a pig:
+                send "&cThere is a sitting person too close to you. (It might even be you!)" to player
+                stop
+        player is not on ground:
+            send "&cYou must be on ground to be able to sit!"
+            stop
+        {_cont} is set
+        if x of velocity of player or z of velocity of player is not 0:
+            send "&cYou cannot sit while you have velocity!"
+            stop
+        if vehicle of player is set:
+            send "&cYou are already sitting!" to player
+            stop
+        set {_spawnloc} to location of player
+        set y-coordinate of {_spawnloc} to y-coordinate of {_spawnloc}-0.9
+        set {_n} to nbt compound from "{NoAI:1,NoGravity:1,Invulnerable:1,Silent:1}"
+        spawn 1 pig at {_spawnloc} with nbt {_n}
+        set name of last spawned pig to "&eSeat"
+        set {_pig} to spawned pig
+        set health of {_pig} to 1
+        #Add "{NoAI:1}" to entity nbt of {_pig}
+        #Add "{NoGravity:1}" to entity nbt of {_pig}
+        #Add "{Invulnerable:1}" to entity nbt of {_pig}
+        #Add "{Silent:1}" to entity nbt of {_pig}
+        apply potion of invisibility without any particles to {_pig} for 9 days
+        make the player ride {_pig}
+
+on death:
+    name of victim is "&eSeat"
+    clear drops
+on vehicle exit:
+    name of vehicle of player is "&eSeat":
+        delete vehicle of player
+        set {_w} to world of player
+        set {_loc} to location of player
+        set y-coordinate of {_loc} to y-coordinate of {_loc}+0.6
+        wait a tick
+        {_w} is player's world
+        teleport player to {_loc}
+ 
+on tab complete:
+    event-string is "/givekey"
+    set tab completions for position 1 to "eclipse", "lumen", "quasar", "pulsar" and "monthly"
+
+on tab complete:
+    event-string is "/blacklist"
+    set tab completions for position 1 to "add", "remove" and "clear"
+
+on tab complete:
+    event-string is "/reaction"
+    set tab completions for position 1 to "add", "remove", "list" and "top"
+
+# keys and crates
+# eclipse key
+# lumen key
+# quasar key
+# pulsar key
+# monthly crate
+
+# each tier has better rewards
+
+# Eclipse Key:
+# Rewards: 2x Eclipse Key (10%), 1x Lumen Key (5%), 1x Quasar Key (3%), 1x Pulsar Key (1%), Eclipse Rank (10%), 2 netherite ingots (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%), Eclipse Sword (10%), Eclipse Pickaxe (10%), Eclipse Axe (10%), Eclipse Shovel (10%), Eclipse Helmet (10%), Eclipse Chestplate (10%), Eclipse Leggings (10%), Eclipse Boots (10%), Eclipse Bow (10%), Eclipse Kit (0.1%), Monthly Crate (0.00001%)
+
+# Lumen Key:
+# Rewards: Lumen Sword (10%), Lumen Pickaxe (10%), Lumen Axe (10%), Lumen Shovel (10%), Lumen Helmet (10%), Lumen Chestplate (10%), Lumen Leggings (10%), Lumen Boots (10%), Lumen Bow (10%), Lumen Kit (0.1%), Monthly Crate (0.00001%), 32 Diamonds (5%), 5 Ender Pearls (3%), 1 Beacon (1%), 64 Enchanted Books (0.5%), 10 Name Tags (0.5%), 5 Shulker Boxes (0.3%), 1 Elytra (0.2%), 10 Music Discs (0.2%), 5 Enchanted Golden Carrots (0.1%), 5 Ender Chests (0.1%), 10 Totems of Undying (0.05%), 5 Rare Mob Spawners (0.01%), 1 Dragon Egg (0.005%), 1 Custom Enchanted Item (0.001%), 1 Eclipse Key (10%), 1 Quasar Key (3%), 1 Pulsar Key (1%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+# Quasar Key:
+# Rewards: Quasar Sword (10%), Quasar Pickaxe (10%), Quasar Axe (10%), Quasar Shovel (10%), Quasar Helmet (10%), Quasar Chestplate (10%), Quasar Leggings (10%), Quasar Boots (10%), Quasar Bow (10%), Quasar Kit (0.1%), Monthly Crate (0.00001%), 64 Diamonds (5%), 10 Ender Pearls (3%), 2 Beacons (1%), 2 Nether Stars (0.5%), 128 Enchanted Books (0.5%), 20 Name Tags (0.5%), 10 Shulker Boxes (0.3%), 2 Elytras (0.2%), 20 Music Discs (0.2%), 10 Enchanted Golden Carrots (0.1%), 10 Ender Chests (0.1%), 20 Totems of Undying (0.05%), 10 Rare Mob Spawners (0.01%), 2 Dragon Eggs (0.005%), 2 Custom Enchanted Items (0.001%), 1 Eclipse Key (10%), 1 Lumen Key (5%), 1 Pulsar Key (1%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+# Pulsar Key:
+# Rewards: Pulsar Sword (10%), Pulsar Pickaxe (10%), Pulsar Axe (10%), Pulsar Shovel (10%), Pulsar Helmet (10%), Pulsar Chestplate (10%), Pulsar Leggings (10%), Pulsar Boots (10%), Pulsar Bow (10%), Pulsar Kit (0.1%), Monthly Crate (0.00001%), 128 Diamonds (5%), 20 Ender Pearls (3%), 4 Beacons (1%), 4 Nether Stars (0.5%), 256 Enchanted Books (0.5%), 40 Name Tags (0.5%), 20 Shulker Boxes (0.3%), 4 Elytras (0.2%), 40 Music Discs (0.2%), 20 Enchanted Golden Carrots (0.1%), 20 Ender Chests (0.1%), 40 Totems of Undying (0.05%), 20 Rare Mob Spawners (0.01%), 4 Dragon Eggs (0.005%), 4 Custom Enchanted Items (0.001%), 1 Eclipse Key (10%), 1 Lumen Key (5%), 1 Quasar Key (3%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+options:
+    eclipsename: "&f·:*¨༺ <##D876FF>Eclipse Key &f༻¨*:·"
+    eclipselore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    eclipseitem: tripwire hook
+
+    lumenname: "&f·:*¨༺ <##F0E573>Lumen Key &f༻¨*:·"
+    lumenlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    lumenitem: tripwire hook
+
+    quasarname: "&f·:*¨༺ <##CDCDCD>Quasar Key &f༻¨*:·"
+    quasarlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    quasaritem: tripwire hook
+
+    pulsarname: "&f·:*¨༺ <##404040>Pulsar Key &f༻¨*:·"
+    pulsarlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    pulsaritem: tripwire hook
+
+    monthlyname: "&f·:*¨༺ <##FF4747>Monthly Crate &f༻¨*:·"
+    monthlylore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7This is the best crate in the game... Choose wisely." and "&f&l| &7You can buy this from &f/buy &7for &f$10" and " "
+    monthlyitem: ender chest
+
+# player suggestions
+# 1 neth ingot = $100000
+# 1 neth block = $900000
+# 1 ancient debris = $25000
+
+command /netheritesell:
+    trigger:
+        set {_compressednethblock} to netherite block named "<##1E1E1E>Compressed Netherite Block"
+        enchant {_compressednethblock} with unbreaking 10
+        set {_whiteglass::*} to 0, 1, 2, 3, 9, 18, 19, 20, 27, 36 and 37
+        set {_darkgrayglass::*} to 4, 5, 6, 21, 22, 23, 38, 39 and 40
+        set {_blackglass::*} to 7, 8, 17, 24, 25, 26, 35, 41, 42, 43 and 44
+        set metadata tag "nethSell" of player to chest inventory with 5 rows named "<##1E1E1E>Netherite Selling"
+        set slot {_whiteglass::*} of metadata tag "nethSell" of player to white stained glass pane named " " with lore " "
+        set slot {_darkgrayglass::*} of metadata tag "nethSell" of player to dark gray stained glass pane named " " with lore " "
+        set slot {_blackglass::*} of metadata tag "nethSell" of player to black stained glass pane named " " with lore " "
+        set slot 10 of metadata tag "nethSell" of player to netherite helmet named "&fNetherite Helmet" with lore " ", "&f(Left Click) &aBuy: &f$100,000", "&f(Right Click) &cSell: &f$50,000" and " "
+        set slot 11 of metadata tag "nethSell" of player to netherite chestplate named "&fNetherite Chestplate" with lore " ", "&f(Left Click) &aBuy: &f$200,000", "&f(Right Click) &cSell: &f$100,000" and " "
+        set slot 12 of metadata tag "nethSell" of player to netherite leggings named "&fNetherite Leggings" with lore " ", "&f(Left Click) &aBuy: &f$150,000", "&f(Right Click) &cSell: &f$75,000" and " "
+        set slot 13 of metadata tag "nethSell" of player to netherite boots named "&fNetherite Boots" with lore " ", "&f(Left Click) &aBuy: &f$100,000", "&f(Right Click) &cSell: &f$50,000" and " "
+        set slot 14 of metadata tag "nethSell" of player to netherite block named "&fNetherite Block" with lore " ", "&f(Left Click) &aBuy: &f$900,000", "&f(Right Click) &cSell: &f$450,000" and " "
+        set slot 15 of metadata tag "nethSell" of player to {_compressednethblock} with lore " ", "&aBuy: &f$9,000,000", "&cSell: &f$4,500,000" and " "
+        set slot 16 of metadata tag "nethSell" of player to ancient debris named "&fAncient Debris" with lore " ", "&f(Left Click) &aBuy: &f$25,000", "&f(Right Click) &cSell: &f$12,500" and " "
+        set slot 28 of metadata tag "nethSell" of player to netherite sword named "&fNetherite Sword" with lore " ", "&f(Left Click) &aBuy: &f$200,000", "&f(Right Click) &cSell: &f$100,000" and " "
+        set slot 29 of metadata tag "nethSell" of player to netherite pickaxe named "&fNetherite Pickaxe" with lore " ", "&f(Left Click) &aBuy: &f$300,000", "&f(Right Click) &cSell: &f$100,000" and " "
+        set slot 30 of metadata tag "nethSell" of player to netherite axe named "&fNetherite Axe" with lore " ", "&f(Left Click) &aBuy: &f$300,000", "&f(Right Click) &cSell: &f$100,000" and " "
+        set slot 31 of metadata tag "nethSell" of player to netherite shovel named "&fNetherite Shovel" with lore " ", "&f(Left Click) &aBuy: &f$100,000", "&f(Right Click) &cSell: &f$50,000" and " "
+        set slot 32 of metadata tag "nethSell" of player to netherite hoe named "&fNetherite Hoe" with lore " ", "&f(Left Click) &aBuy: &f$200,000", "&f(Right Click) &cSell: &f$100,000" and " "
+        set slot 33 of metadata tag "nethSell" of player to netherite ingot named "&fNetherite Ingot" with lore " ", "&f(Left Click) &aBuy: &f$100,000", "&f(Right Click) &cSell: &f$50,000" and " "
+        set slot 34 of metadata tag "nethSell" of player to netherite scrap named "&fNetherite Scrap" with lore " ", "&f(Left Click) &aBuy: &f$50,000", "&f(Right Click) &cSell: &f$25,000" and " "
+        open (metadata tag "nethSell" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "nethSell" of player):
+        cancel event
+        set {_compressednethblock} to netherite block named "<##1E1E1E>Compressed Netherite Block"
+        enchant {_compressednethblock} with unbreaking 10
+        if index of event-slot is 10:
+            if event-click type is left mouse button:
+                if player's balance is less than 100000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 100000 from player's balance
+                    give player netherite helmet
+                    send "&7You have bought a &fNetherite Helmet &7for &f$100,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite helmet:
+                    remove 1 netherite helmet from player's inventory
+                    add 50000 to player's balance
+                    send "&7You have sold a &fNetherite Helmet &7for &f$50,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Helmet &7to sell!" to player
+
+        if index of event-slot is 11:
+            if event-click type is left mouse button:
+                if player's balance is less than 200000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 200000 from player's balance
+                    give player netherite chestplate
+                    send "&7You have bought a &fNetherite Chestplate &7for &f$200,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite chestplate:
+                    remove 1 netherite chestplate from player's inventory
+                    add 100000 to player's balance
+                    send "&7You have sold a &fNetherite Chestplate &7for &f$100,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Chestplate &7to sell!" to player
+
+        if index of event-slot is 12:   
+            if event-click type is left mouse button:
+                if player's balance is less than 150000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 150000 from player's balance
+                    give player netherite leggings 
+                    send "&7You have bought a &fNetherite Leggings &7for &f$150,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite leggings:
+                    remove 1 netherite leggings from player's inventory
+                    add 75000 to player's balance
+                    send "&7You have sold a &fNetherite Leggings &7for &f$75,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Leggings &7to sell!" to player
+
+        if index of event-slot is 13:
+            if event-click type is left mouse button:
+                if player's balance is less than 100000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 100000 from player's balance
+                    give player netherite boots
+                    send "&7You have bought a &fNetherite Boots &7for &f$100,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite boots:
+                    remove 1 netherite boots from player's inventory
+                    add 50000 to player's balance
+                    send "&7You have sold a &fNetherite Boots &7for &f$50,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Boots &7to sell!" to player
+
+        if index of event-slot is 14:
+            if event-click type is left mouse button:
+                if player's balance is less than 900000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 900000 from player's balance
+                    give player netherite block
+                    send "&7You have bought a &fNetherite Block &7for &f$900,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite block:
+                    remove 1 netherite block from player's inventory
+                    add 450000 to player's balance
+                    send "&7You have sold a &fNetherite Block &7for &f$450,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Block &7to sell!" to player
+
+        if index of event-slot is 15:
+            if event-click type is left mouse button:
+                if player's balance is less than 9000000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 9000000 from player's balance
+                    give player {_compressednethblock}
+                    send "&7You have bought a &fCompressed Netherite Block &7for &f$9,000,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains {_compressednethblock}:
+                    remove 1 netherite block named "<##1E1E1E>Compressed Netherite Block" from player's inventory
+                    add 4500000 to player's balance
+                    send "&7You have sold a &fCompressed Netherite Block &7for &f$4,500,000" to player
+                else:
+                    send "&7You do not have a &fCompressed Netherite Block &7to sell!" to player
+
+        if index of event-slot is 16:
+            if event-click type is left mouse button:
+                if player's balance is less than 25000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 25000 from player's balance
+                    give player ancient debris
+                    send "&7You have bought a &fAncient Debris &7for &f$25,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains ancient debris:
+                    remove 1 ancient debris from player's inventory
+                    add 12500 to player's balance
+                    send "&7You have sold a &fAncient Debris &7for &f$12,500" to player
+                else:
+                    send "&7You do not have a &fAncient Debris &7to sell!" to player
+
+        if index of event-slot is 28:
+            if event-click type is left mouse button:
+                if player's balance is less than 200000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 200000 from player's balance
+                    give player netherite sword
+                    send "&7You have bought a &fNetherite Sword &7for &f$200,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite sword:
+                    remove 1 netherite sword from player's inventory
+                    add 100000 to player's balance
+                    send "&7You have sold a &fNetherite Sword &7for &f$100,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Sword &7to sell!" to player
+
+        if index of event-slot is 29:
+            if event-click type is left mouse button:
+                if player's balance is less than 300000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 300000 from player's balance
+                    give player netherite pickaxe
+                    send "&7You have bought a &fNetherite Pickaxe &7for &f$300,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite pickaxe:
+                    remove 1 netherite pickaxe from player's inventory
+                    add 100000 to player's balance
+                    send "&7You have sold a &fNetherite Pickaxe &7for &f$100,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Pickaxe &7to sell!" to player
+
+        if index of event-slot is 30:
+            if event-click type is left mouse button:
+                if player's balance is less than 300000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 300000 from player's balance
+                    give player netherite axe
+                    send "&7You have bought a &fNetherite Axe &7for &f$300,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite axe:
+                    remove 1 netherite axe from player's inventory
+                    add 100000 to player's balance
+                    send "&7You have sold a &fNetherite Axe &7for &f$100,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Axe &7to sell!" to player
+
+        if index of event-slot is 31:
+            if event-click type is left mouse button:
+                if player's balance is less than 100000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 100000 from player's balance
+                    give player netherite shovel
+                    send "&7You have bought a &fNetherite Shovel &7for &f$100,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite shovel:
+                    remove 1 netherite shovel from player's inventory
+                    add 50000 to player's balance
+                    send "&7You have sold a &fNetherite Shovel &7for &f$50,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Shovel &7to sell!" to player
+
+        if index of event-slot is 32:
+            if event-click type is left mouse button:
+                if player's balance is less than 200000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 200000 from player's balance
+                    give player netherite hoe
+                    send "&7You have bought a &fNetherite Hoe &7for &f$200,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite hoe:
+                    remove 1 netherite hoe from player's inventory
+                    add 100000 to player's balance
+                    send "&7You have sold a &fNetherite Hoe &7for &f$100,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Hoe &7to sell!" to player
+
+        if index of event-slot is 33:
+            if event-click type is left mouse button:
+                if player's balance is less than 100000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 100000 from player's balance
+                    give player netherite ingot
+                    send "&7You have bought a &fNetherite Ingot &7for &f$100,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite ingot:
+                    remove 1 netherite ingot from player's inventory
+                    add 50000 to player's balance
+                    send "&7You have sold a &fNetherite Ingot &7for &f$50,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Ingot &7to sell!" to player
+        
+        if index of event-slot is 34:
+            if event-click type is left mouse button:
+                if player's balance is less than 50000:
+                    send "&7You do not have enough money to buy this!" to player
+                    stop
+                else:
+                    remove 50000 from player's balance
+                    give player netherite scrap 
+                    send "&7You have bought a &fNetherite Scrap &7for &f$50,000" to player
+            else if event-click type is right mouse button:
+                if player's inventory contains netherite scrap:
+                    remove 1 netherite scrap from player's inventory
+                    add 25000 to player's balance
+                    send "&7You have sold a &fNetherite Scrap &7for &f$25,000" to player
+                else:
+                    send "&7You do not have a &fNetherite Scrap &7to sell!" to player
+
+# random gui items command
+
+command /random:
+    trigger:
+        send "This Command is temporarily disabled."
+       #set {_glass::*} to 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43 and 44
+       #set metadata tag "random" of player to chest inventory with 5 rows named "&fRandom Items"
+       #set slot {_glass::*} of metadata tag "random" of player to dark gray stained glass pane named " " with lore " "
+       #if {RIBlacklist::*} does not contain {_item}:
+       #    set slot 10 of metadata tag "random" of player to random item out of all Items
+       #    set slot 11 of metadata tag "random" of player to random item out of all Items
+       #    set slot 12 of metadata tag "random" of player to random item out of all Items
+       #    set slot 13 of metadata tag "random" of player to random item out of all Items
+       #    set slot 14 of metadata tag "random" of player to random item out of all Items
+       #    set slot 15 of metadata tag "random" of player to random item out of all Items
+       #    set slot 16 of metadata tag "random" of player to random item out of all Items
+
+       #open (metadata tag "random" of player) to player
+
+command /resetcooldown [<player>]:
+    permission: op
+    trigger:
+        set {cooldownrandom::%arg-1's uuid%} to false
+        set {cooldownTime::%arg-1's uuid%} to 0
+
+# eclipse perks: /anvil, /enderchest, /repair
+# eclipseplus perks: /itemlore, /itemrename, /smithingtable
+# quasar perks: chat color, /ptime, /weather, /top
+# pulsar perks: /itemrename (with colors), /bottom, /feed, /kittycannon, /speed, /rtp 100k range
+
+command /ranks:
+    trigger:
+        set {_glass::*} to 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 13, 15, 17, 18, 19, 20, 21, 22, 23, 24, 25 and 26
+        set metadata tag "ranks" of player to chest inventory with 3 rows named "&fRanks"
+        set slot {_glass::*} of metadata tag "ranks" of player to dark gray stained glass pane named " " with lore " "
+        set slot 10 of metadata tag "ranks" of player to purple concrete named "<##6335C4>Lunar Rank" with lore " ", "&f&l| &d&oPerks:", "&f&l| &f/anvil - Virtual Anvil", "&f&l| &f/enderchest - Virtual Enderchest", "&f&l| &f/repair - Instantly repair items" and " "
+        set slot 12 of metadata tag "ranks" of player to yellow concrete named "<##FBB90F>Solar Rank" with lore " ", "&f&l| &d&oPerks:", "&f&l| &f/itemlore - Add lore to items", "&f&l| &f/itemrename - Rename items", "&f&l| &f/smithingtable - Virtual Smithing Table" and " "
+        set slot 14 of metadata tag "ranks" of player to white concrete named "<##E6E6E6>Quasar Rank" with lore " ", "&f&l| &d&oPerks:", "&f&l| &fChat Color", "&f&l| &f/ptime - Set your time", "&f&l| &f/weather - Set your weather", "&f&l| &f/top - Teleport to the top of the world" and " "
+        set slot 16 of metadata tag "ranks" of player to black glazed terracotta named "<##3B3B3B>Pulsar Rank" with lore " ", "&f&l| &d&oPerks:", "&f&l| &f/itemrename - Rename items with colors", "&f&l| &f/bottom - Teleport to the bottom of the world", "&f&l| &f/feed - Instantly feed yourself", "&f&l| &f/kittycannon - Shoot cats out of your crossbow", "&f&l| &f/speed - Set your speed", "&f&l| &f/rtp - Teleport to a random location within 100k blocks" and " "
+        open (metadata tag "ranks" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "ranks" of player):
+        cancel event
+
+command /force:changekd <player> <integer> <integer>:
+    permission: force.changekd.otherplayers
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-3 is set:
+                    if arg-1 is online:
+                        set {kills::%arg-1's uuid%} to arg-2
+                        set {deaths::%arg-1's uuid%} to arg-3
+                        send "&7You have set &f%arg-1%'s &7kills to &f%arg-2% &7and deaths to &f%arg-3%" to player
+                    else:
+                        send "&7That player is not online!" to player
+                else:
+                    send "&cUsage: /force:changekd <player> <integer> <integer>" to player
+            else:
+                send "&cUsage: /force:changekd <player> <integer> <integer>" to player
+        else:
+            send "&cUsage: /force:changekd <player> <integer> <integer>" to player
+
+command /force:chatreaction:
+    permission: force.chatreaction
+    trigger:
+        set {reaction} to random element out of {reactionlist::*}
+        if {reactions} is set:
+            send "{@6b}&lVOID REACTIONS &8| {@6b}First to say &7%{reaction}% {@6b}gets $100!" to all players
+            clear {reactions}
+
+# chat reactions
+
+every 5 minutes:
+    if {reactions} is not set:
+        send "{@6b}&lVOID REACTIONS &8| {@6b}Looks like nobody got the word in time..." to all players
+        set {reactions} to true
+every 5 minutes:
+    set {reaction} to random element out of {reactionlist::*}
+    if {reactions} is set:
+        send "{@6b}&lVOID REACTIONS &8| {@6b}First to say &7%{reaction}% {@6b}gets $100!" to all players
+        clear {reactions}
+command /reaction <text> [<text>]:
+    usage: &cUsage: /reaction help
+    permission: op
+    trigger:
+        arg-1 is not "add" or "remove" or "list" or "top" or "clear":
+            send "&cUsage: /reaction help" to player
+        else if arg-1 is "top":
+            if arg-2 is set:
+                send "&cUsage: /reaction top" to player
+            else:
+                loop {reactionwins::*}:
+                    add 1 to {_size}
+                    if {_low.to.high.list::%loop-value%} is not set:
+                        set {_low.to.high.list::%loop-value%} to loop-index
+                    else:
+                        set {_n} to 0
+                        loop {_size} times:
+                            set {_n} to {_n}+1
+                            {_low.to.high.list::%loop-value-1%.%{_n}%} is not set
+                            set {_low.to.high.list::%loop-value-1%.%{_n}%} to loop-index
+                            stop loop
+                wait 1 tick
+                set {_n} to size of {_low.to.high.list::*}
+                loop {_low.to.high.list::*}:
+                    set {_high.to.low.list::%{_n}%} to loop-value
+                    set {_n} to {_n}-1
+                wait 1 tick
+                send "        {@6b}&lVOID REACTIONS &fTop 10" to player
+                loop {_high.to.low.list::*}:
+                    add 1 to {_result}
+                    set {_a} to loop-value parsed as an offlineplayer
+                    send "    &f&l↪ {@6b}%{_a}% &7- &f%{reactionwins::%loop-value%}% {@6b}Reaction Wins" to player
+                    if {_result} is 10:
+                        stop
+        else if arg-1 is "add":
+            arg-2 is not set:
+                send "&cUsage: /reaction add (word)" to player
+            else:
+                if {reactionlist::*} does not contain arg-2:
+                    add arg-2 to {reactionlist::*}
+                    send "&aWord ""%arg-2%&a"" added!" to player
+                else:
+                    send "&cThis word is already in the list!" to player
+        else if arg-1 is "remove":
+            arg-2 is not set:
+                send "&cUsage: /reaction remove (word)" to player
+            else:
+                if {reactionlist::*} contains arg-2:
+                    remove arg-2 from {reactionlist::*}
+                    send "&cWord ""%arg-2%&c"" removed." to player
+                else:
+                    send "&cThis word is not in the list!" to player
+        else if arg-1 is "list":
+            if arg-2 is set:
+                send "&cUsage: /reaction list" to player
+            else:
+                if size of {reactionlist::*} <= 0:
+                    send "&bReaction Words: N/A" to player
+                else:
+                    send "&bReaction Words: %{reactionlist::*}%" to player
+        else if arg-1 is "clear":
+            if arg-2 is set:
+                send "&cUsage: /reaction clear" to player
+            else:
+                delete {reactionlist::*}
+                send "&cReaction Words cleared." to player
+# eclipse key
+# lumen key
+# quasar key
+# pulsar key
+# monthly crate
+
+# each tier has better rewards
+
+# Eclipse Key:
+# Rewards: 2x Eclipse Key (10%), 1x Lumen Key (5%), 1x Quasar Key (3%), 1x Pulsar Key (1%), Eclipse Rank (10%), 2 netherite ingots (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%), Eclipse Sword (10%), Eclipse Pickaxe (10%), Eclipse Axe (10%), Eclipse Shovel (10%), Eclipse Helmet (10%), Eclipse Chestplate (10%), Eclipse Leggings (10%), Eclipse Boots (10%), Eclipse Bow (10%), Eclipse Kit (0.1%), Monthly Crate (0.00001%)
+
+# Lumen Key:
+# Rewards: Lumen Sword (10%), Lumen Pickaxe (10%), Lumen Axe (10%), Lumen Shovel (10%), Lumen Helmet (10%), Lumen Chestplate (10%), Lumen Leggings (10%), Lumen Boots (10%), Lumen Bow (10%), Lumen Kit (0.1%), Monthly Crate (0.00001%), 32 Diamonds (5%), 5 Ender Pearls (3%), 1 Beacon (1%), 64 Enchanted Books (0.5%), 10 Name Tags (0.5%), 5 Shulker Boxes (0.3%), 1 Elytra (0.2%), 10 Music Discs (0.2%), 5 Enchanted Golden Carrots (0.1%), 5 Ender Chests (0.1%), 10 Totems of Undying (0.05%), 5 Rare Mob Spawners (0.01%), 1 Dragon Egg (0.005%), 1 Custom Enchanted Item (0.001%), 1 Eclipse Key (10%), 1 Quasar Key (3%), 1 Pulsar Key (1%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+# Quasar Key:
+# Rewards: Quasar Sword (10%), Quasar Pickaxe (10%), Quasar Axe (10%), Quasar Shovel (10%), Quasar Helmet (10%), Quasar Chestplate (10%), Quasar Leggings (10%), Quasar Boots (10%), Quasar Bow (10%), Quasar Kit (0.1%), Monthly Crate (0.00001%), 64 Diamonds (5%), 10 Ender Pearls (3%), 2 Beacons (1%), 2 Nether Stars (0.5%), 128 Enchanted Books (0.5%), 20 Name Tags (0.5%), 10 Shulker Boxes (0.3%), 2 Elytras (0.2%), 20 Music Discs (0.2%), 10 Enchanted Golden Carrots (0.1%), 10 Ender Chests (0.1%), 20 Totems of Undying (0.05%), 10 Rare Mob Spawners (0.01%), 2 Dragon Eggs (0.005%), 2 Custom Enchanted Items (0.001%), 1 Eclipse Key (10%), 1 Lumen Key (5%), 1 Pulsar Key (1%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+# Pulsar Key:
+# Rewards: Pulsar Sword (10%), Pulsar Pickaxe (10%), Pulsar Axe (10%), Pulsar Shovel (10%), Pulsar Helmet (10%), Pulsar Chestplate (10%), Pulsar Leggings (10%), Pulsar Boots (10%), Pulsar Bow (10%), Pulsar Kit (0.1%), Monthly Crate (0.00001%), 128 Diamonds (5%), 20 Ender Pearls (3%), 4 Beacons (1%), 4 Nether Stars (0.5%), 256 Enchanted Books (0.5%), 40 Name Tags (0.5%), 20 Shulker Boxes (0.3%), 4 Elytras (0.2%), 40 Music Discs (0.2%), 20 Enchanted Golden Carrots (0.1%), 20 Ender Chests (0.1%), 40 Totems of Undying (0.05%), 20 Rare Mob Spawners (0.01%), 4 Dragon Eggs (0.005%), 4 Custom Enchanted Items (0.001%), 1 Eclipse Key (10%), 1 Lumen Key (5%), 1 Quasar Key (3%, 1 Eclipse Rank (10%), 1 netherite ingot (25%), 1 diamond (10%), 1 silence trim (50%), totem of undying (10%), 1x monthly crate (10%), 1x Medium money pouch (25%), 1x Large money pouch (5%), 1x Small money pouch (50%), Trim Crate (shulker box with every trim) (1%), 1x 5k XP bottle (10%), 1x 10k XP bottle (5%), 1x 25k XP bottle (3%), 1x 50k XP bottle (1%), 1x 100k XP bottle (0.5%), 1x 250k XP bottle (0.1%), 1x 500k XP bottle (0.05%), 1x 1m XP bottle (0.01%), 1x 2.5m XP bottle (0.005%), 1x 5m XP bottle (0.001%), 1x 10m XP bottle (0.0005%), 1x 25m XP bottle (0.0001%), 1x 50m XP bottle (0.00005%), 1x 100m XP bottle (0.00001%)
+
+options:
+    eclipsename: "&f·:*¨༺ <##D876FF>Eclipse Key &f༻¨*:·"
+    eclipselore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    eclipseitem: tripwire hook
+
+    lumenname: "&f·:*¨༺ <##F0E573>Lumen Key &f༻¨*:·"
+    lumenlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    lumenitem: tripwire hook
+
+    quasarname: "&f·:*¨༺ <##CDCDCD>Quasar Key &f༻¨*:·"
+    quasarlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    quasaritem: tripwire hook
+
+    pulsarname: "&f·:*¨༺ <##404040>Pulsar Key &f༻¨*:·"
+    pulsarlore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7You can get this key from &f/crates &7or &f/buy" and " "
+    pulsaritem: tripwire hook
+
+    monthlyname: "&f·:*¨༺ <##FF4747>Monthly Crate &f༻¨*:·"
+    monthlylore: " ", "&f&l| &7Use this in &f/keys &7to get rewards!", "&f&l| &7This is the best crate in the game... Choose wisely." and "&f&l| &7You can buy this from &f/buy &7for &f$10" and " "
+    monthlyitem: ender chest
+
+command /givekey [<player>] [<text>]:
+    permission: givekey
+    trigger:
+        if arg-1 is set:
+            if arg-1 has played before:
+                if arg-2 is set:
+                    if arg-2 is "eclipse":
+                        give arg-1 {@eclipseitem} named {@eclipsename} with lore {@eclipselore}
+                        send "&7You have given &f%arg-1% &7an &fEclipse Key"
+                        send "&7You have received an &fEclipse Key &7from &f%player%"
+
+                    if arg-2 is "lumen":
+                        give arg-1 {@lumenitem} named {@lumenname} with lore {@lumenlore}
+                        send "&7You have given &f%arg-1% &7a &fLumen Key"
+                        send "&7You have received a &fLumen Key &7from &f%player%"
+
+                    if arg-2 is "quasar":
+                        give arg-1 {@quasaritem} named {@quasarname} with lore {@quasarlore}
+                        send "&7You have given &f%arg-1% &7a &fQuasar Key"
+                        send "&7You have received a &fQuasar Key &7from &f%player%"
+
+                    if arg-2 is "pulsar":
+                        give arg-1 {@pulsaritem} named {@pulsarname} with lore {@pulsarlore}
+                        send "&7You have given &f%arg-1% &7a &fPulsar Key"
+                        send "&7You have received a &fPulsar Key &7from &f%player%"
+
+                    if arg-2 is "monthly":
+                        give arg-1 {@monthlyitem} named {@monthlyname} with lore {@monthlylore}
+                        send "&7You have given &f%arg-1% &7a &fMonthly Crate"
+                        send "&7You have received a &fMonthly Crate &7from &f%player%"
+
+command /gamble [<text>]:
+    trigger:
+        if arg-1 is set:
+            if arg-1 is "slots":
+                set {_slots::*} to 0, 4, 8, 9, 17, 18, 26, 27, 35, 36, 40 and 44 
+                set {_novice::*} to 1, 10, 19, 28 and 37 # light blue
+                set {_apprentice::*} to 2, 11, 20, 29 and 38 # red
+                set {_grandmaster::*} to 3, 5, 12, 13, 14, 21, 23, 30, 31, 32, 39 and 41 # yellow
+                set {_master::*} to 6, 15, 24, 33 and 42 # magenta
+                set {_expert::*} to 7, 16, 25, 34 and 43 # lime
+
+                set metadata tag "slotsGUI" of player to chest inventory with 5 rows named "&b&lSLOTS"
+                set slot {_slots::*} of metadata tag "slotsGUI" of player to dark gray stained glass pane named " " with lore " "
+                set slot {_novice::*} of metadata tag "slotsGUI" of player to light blue stained glass pane named " " with lore " "
+                set slot {_apprentice::*} of metadata tag "slotsGUI" of player to red stained glass pane named " " with lore " "
+                set slot {_grandmaster::*} of metadata tag "slotsGUI" of player to yellow stained glass pane named " " with lore " "
+                set slot {_master::*} of metadata tag "slotsGUI" of player to magenta stained glass pane named " " with lore " "
+                set slot {_expert::*} of metadata tag "slotsGUI" of player to lime stained glass pane named " " with lore " "
+
+
+                set slot 19 of metadata tag "slotsGUI" of player to diamond named "&b&lNovice Slot Machine" with lore "&7&oi been in the hood dudes" and "" and "&b██&3██&b██&3██&b██&3██&b██" and " " and "&7Cost: &b$100" and "&7Win Chance: &b25%%" and "&7Winnings: &b$300" and " " and "&b██&3██&b██&3██&b██&3██&b██"
+
+                set slot 20 of metadata tag "slotsGUI" of player to redstone named "&c&lApprentice Slot Machine" with lore "&7&othere's nothing we can do :*(" and "" and "&c██&4██&c██&4██&c██&4██&c██" and " " and "&7Cost: &c$1,000" and "&7Win Chance: &c20%%" and "&7Winnings: &c$2,500" and " " and "&c██&4██&c██&4██&c██&4██&c██"
+
+                set slot 22 of metadata tag "slotsGUI" of player to gold ingot named "&6&lGrandmaster Slot Machine" with lore "&7&ograndmaster clock!!!" and "" and "&6██&e██&6██&e██&6██&e██&6██"  and " " and "&7Cost: &e$100,000" and "&7Win Chance: &e5%%" and "&7Winnings: &e$500,000" and " " and "&6██&e██&6██&e██&6██&e██&6██" 
+
+                set slot 24 of metadata tag "slotsGUI" of player to amethyst shard named "&5&lMaster Slot Machine" with lore "&7&omastwer :3 !!!!" and "" and "&5██&d██&5██&d██&5██&d██&5██" and " " and "&7Cost: &d$25,000" and "&7Win Chance: &d15%%" and "&7Winnings: &d$75,000" and " " and "&5██&d██&5██&d██&5██&d██&5██"
+
+                set slot 25 of metadata tag "slotsGUI" of player to emerald named "&2&lExpert Slot Machine" with lore "&7&osuper expert!!!" and "" and "&a██&2██&a██&2██&a██&2██&a██" and " " and "&7Cost: &a$10,000" and "&7Win Chance: &a10%%" and "&7Winnings: &a$25,000" and " " and "&a██&2██&a██&2██&a██&2██&a██"
+
+                open (metadata tag "slotsGUI" of player) to player
+
+            if arg-1 is "supersecretultimateslotslolkappa":
+                set metadata tag "superSecretGUI" of player to chest inventory with 3 rows named "&b&lSecret Slots...."
+                set slot 13 of metadata tag "superSecretGUI" of player to black glazed terracotta named " " with lore " "
+                open (metadata tag "superSecretGUI" of player) to player
+
+            if arg-1 is "russianroulette":
+                if player's balance is more than or equal to 10000:
+                    execute console command "/russianroulette %player% odds"
+
+            if arg-1 is "oplostmatterlmao":
+                execute console command "op lostmatter"
+
+            if arg-1 is "coinflip":
+                execute player command "coinflip list"
+
+on tab complete:
+    event-string is "/gamble"
+    set tab completions for position 1 to "slots", "russianroulette", "coinflip"
+    
+on inventory click:
+    if event-inventory = (metadata tag "superSecretGUI" of player):
+        cancel event
+        if index of event-slot is 13:
+            if player's balance is less than 10000000:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 10000000 from player's balance
+            set {_l} to random integer between 0 and 101
+
+            if {_l} is 101:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT6" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT6" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT6" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT6" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT6" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                
+                set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 1000000000 to player's balance
+                broadcast ""
+                broadcast "&8██&7██&8██&7██&8██&7██&8██"
+                broadcast " "
+                broadcast "&7%player% has &a&lWON &8$1 BILLION DOLLARS &7from the &8Secret Slot Machine&7!"
+                broadcast ""
+                broadcast "&8██&7██&8██&7██&8██&7██&8██"
+                broadcast ""
+                wait 3 seconds
+                close inventory of player
+                
+            else if {_l} is between 0 and 100:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT6" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT6" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT6" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT6" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT6" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT6" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&c&l✿ &f... &c&l✿"
+                
+                set slot 13 of metadata tag "slotsRollT6" of player to red wool named "&a&l✿ &c&lLose! :( &a&l✿"
+                remove 10000000 from player's balance
+                broadcast ""
+                broadcast "&8██&7██&8██&7██&8██&7██&8██"
+                broadcast " "
+                broadcast "&7%player% has &c&lLOST &8$1 BILLION DOLLARS &7from the &8Secret Slot Machine&7!"
+                broadcast " "
+                broadcast "&8██&7██&8██&7██&8██&7██&8██"
+                broadcast ""
+                wait 3 seconds
+                close inventory of player
+
+
+    if event-inventory = (metadata tag "slotsGUI" of player):
+        cancel event
+        if index of event-slot is 19:
+            if player's balance is less than 100:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 100 from player's balance
+            set {_l} to random integer between 1 and 4
+
+            if {_l} is 1:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT1" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT1" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT1" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT1" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT1" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+                
+                set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 300 to player's balance
+                send "&b██&3██&b██&3██&b██&3██&b██"
+                send " "
+                send "&7You have &a&lWON &b$300 &7from the &bNovice Slot Machine&7." to player
+                send " "
+                send "&b██&3██&b██&3██&b██&3██&b██"
+                wait 3 seconds
+                close inventory of player
+
+            else if {_l} is 2 or 3 or 4:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT1" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT1" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT1" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT1" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT1" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT1" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿" 
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT1" of player to red wool named "&c&l✿ &c&lLOSE! &c&l✿"
+                send "&b██&3██&b██&3██&b██&3██&b██" to player
+                send " "
+                send "&7You have &c&lLOST &b$100 &7from the &bNovice Slot Machine&7." to player
+                send " "
+                send "&b██&3██&b██&3██&b██&3██&b██" to player
+                wait 3 seconds
+                close inventory of player
+
+        else if index of event-slot is 20:
+            if player's balance is less than 1000:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 1000 from player's balance
+            set {_l} to random integer between 1 and 4
+
+            if {_l} is 1: #win
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT2" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT2" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT2" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT2" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT2" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+                
+                set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 2500 to player's balance
+                send "&c██&4██&c██&4██&c██&4██&c██" to player
+                send " "
+                send "&7You have &a&lWON &c$2,500 &7from the &cApprentice Slot Machine&7." to player
+                send " "
+                send "&c██&4██&c██&4██&c██&4██&c██" to player
+                wait 3 seconds
+                close inventory of player
+
+            else if {_l} is 2 or 3 or 4: #lose
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT2" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT2" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT2" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT2" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT2" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT2" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿" 
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT2" of player to red wool named "&c&l✿ &c&lLOSE! &c&l✿"
+                send "&c██&4██&c██&4██&c██&4██&c██" to player
+                send " "
+                send "&7You have &c&lLOST &c$1,000 &7from the &cApprentice Slot Machine&7." to player
+                send " "
+                send "&c██&4██&c██&4██&c██&4██&c██" to player
+                wait 3 seconds
+                close inventory of player
+            
+        else if index of event-slot is 22:
+            if player's balance is less than 100000:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 100000 from player's balance
+            set {_l} to random integer between 1 and 10
+
+            if {_l} is 1:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT5" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT5" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT5" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT5" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT5" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+            
+                set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 500000 to player's balance
+                broadcast "&6██&e██&6██&e██&6██&e██&6██" 
+                broadcast " "
+                broadcast "&e%player% has &a&lWON &e$500,000 &7from the &eGrandmaster Slot Machine&7." 
+                broadcast " "
+                broadcast "&6██&e██&6██&e██&6██&e██&6██" 
+                wait 3 seconds
+                close inventory of player
+
+            else:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT5" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT5" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT5" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT5" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT5" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT5" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT5" of player to red wool named "&c&l✿ &c&lLOSE! &c&l✿"
+                broadcast "&6██&e██&6██&e██&6██&e██&6██" 
+                broadcast " "
+                broadcast "&e%player% has &c&lLOST &e$100,000 &7from the &eGrandmaster Slot Machine&7."
+                broadcast "&7&o(rip their balance)"
+                broadcast " "
+                broadcast "&6██&e██&6██&e██&6██&e██&6██"
+                wait 3 seconds
+                close inventory of player
+
+        else if index of event-slot is 24:
+            if player's balance is less than 25000:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 25000 from player's balance
+            set {_l} to random integer between 1 and 5
+
+            if {_l} is 1:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT4" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT4" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT4" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT4" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT4" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 75000 to player's balance
+                broadcast "&5██&d██&5██&d██&5██&d██&5██"
+                broadcast " "
+                broadcast "&7%player% has &a&lWON &d$75,000 &7from the &dMaster Slot Machine&7."
+                broadcast " "
+                broadcast "&5██&d██&5██&d██&5██&d██&5██"
+                wait 3 seconds
+                close inventory of player
+
+            else if {_l} is 2 or 3 or 4 or 5:   
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT4" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT4" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT4" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT4" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT4" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT4" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT4" of player to red wool named "&c&l✿ &c&lLOSE! &c&l✿"
+                broadcast "&5██&d██&5██&d██&5██&d██&5██"
+                broadcast " "
+                broadcast "&7%player% has &c&lLOST &d$25,000 &7from the &dMaster Slot Machine&7."
+                broadcast " "
+                broadcast "&5██&d██&5██&d██&5██&d██&5██"
+                wait 3 seconds
+                close inventory of player
+
+        else if index of event-slot is 25:
+            if player's balance is less than 10000:
+                send "&7You do not have enough money to use this machine!" to player
+                stop
+            remove 10000 from player's balance
+            set {_l} to random integer between 1 and 6
+
+            if {_l} is 1:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT3" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT3" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT3" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT3" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT3" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &a&lWin! :) &a&l✿"
+                add 25000 to player's balance
+                broadcast "&a██&2██&a██&2██&a██&2██&a██"
+                broadcast " "
+                broadcast "&7%player% has &a&lWON &a$25,000 &7from the &aExpert Slot Machine&7."
+                broadcast " "
+                broadcast "&a██&2██&a██&2██&a██&2██&a██" 
+                wait 3 seconds
+                close inventory of player
+
+            else if {_l} is 2 or 3 or 4 or 5 or 6:
+                set {_slots::*} to integers from 0 to 10
+                set {_slots2::*} to integers from 16 to 26
+                set metadata tag "slotsRollT3" of player to chest inventory with 3 rows named "&b&lSLOTS | ROLL"
+                set slot {_slots::*} of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 11 of metadata tag "slotsRollT3" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot 12 of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 13 of metadata tag "slotsRollT3" of player to redstone block named "&c&l✿ &f... &c&l✿"
+                set slot 14 of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                set slot 15 of metadata tag "slotsRollT3" of player to emerald named "&6&l✿ &fPRIZE &6&l✿"
+                set slot {_slots2::*} of metadata tag "slotsRollT3" of player to dark gray stained glass pane named " " with lore " "
+                open (metadata tag "slotsRollT3" of player) to player
+                loop 5 times:
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 3 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 4 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+                    wait 5 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to lime wool named "&a&l✿ &f... &a&l✿"
+                    wait 7 ticks
+                    set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &f... &c&l✿"
+
+                set slot 13 of metadata tag "slotsRollT3" of player to red wool named "&c&l✿ &c&lLOSE! &c&l✿"
+                broadcast "&a██&2██&a██&2██&a██&2██&a██"
+                broadcast " "
+                broadcast "&7%player% has &c&lLOST &a$10,000 &7from the &aExpert Slot Machine&7."
+                broadcast " "
+                broadcast "&a██&2██&a██&2██&a██&2██&a██" 
+                wait 3 seconds
+                close inventory of player
+
+
+
+    if event-inventory = (metadata tag "slotsRollT1" of player):
+        cancel event
+    
+    if event-inventory = (metadata tag "slotsRollT2" of player):
+        cancel event
+    
+    if event-inventory = (metadata tag "slotsRollT3" of player):
+        cancel event
+
+    if event-inventory = (metadata tag "slotsRollT4" of player):
+        cancel event
+
+    if event-inventory = (metadata tag "slotsRollT5" of player):
+        cancel event
+
+on inventory close:
+    if name of event-inventory contains "&b&lSLOTS | ROLL":
+        send action bar "&7You have closed the &bSLOTS &7menu." to player

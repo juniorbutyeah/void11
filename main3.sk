@@ -1,0 +1,790 @@
+command /giveageless:
+    permission: op
+    trigger:
+        give player {agelessSword}
+        give player {helmMax}
+        give player {chestMax}
+        give player {legMax}
+        give player {bootMax}
+        # nuh uh
+        # this is illegal
+command /setageless:
+    permission: op
+    trigger:
+        set {agelessSword} to player's tool
+        set {helmMax} to player's helmet
+        set {chestMax} to player's chestplate
+        set {legMax} to player's leggings
+        set {bootMax} to player's boots
+        set {agelessCore} to player's offhand
+
+command /setnautilusitems:
+    permission: op
+    trigger:
+        set {nautilusArtifact} to player's helmet
+        set {glowingNautilusArtifact} to player's offhand
+        set {finalAgelessCore} to player's item
+
+command /setchestplate:
+    permission: set.chestplate
+    trigger:
+        set player's chestplate to player's held item
+
+command /setleggings:
+    permission: set.leggings
+    trigger:
+        set player's leggings to player's held item
+
+command /setboots:
+    permission: set.boots
+    trigger:
+        set player's boots to player's held item
+
+on item damage:
+    if event-item is {agelessSword}, {helmMax}, {chestMax}, {legMax}, {bootMax}, {scorchedboots}, {scorchedleggings}, {scorchedchestplate}, {scorchedhelmet}, {voidboots}, {voidleggings}, {voidchestplate}, {voidhelmet}, {growthboots}, {growthleggings}, {growthchestplate}, {growthhelmet}, {frosthelmet}, {frostchestplate}, {frostleggings} or {frostboots}:
+        cancel event
+
+every 3 seconds:
+    loop all players:
+        if loop-player's helmet is {helmMax}:
+            if loop-player's chestplate is {chestMax}:
+                if loop-player's leggings is {legMax}:
+                    if loop-player's boots is {bootMax}:
+                        set loop-player's max health to 20
+        else:
+            set loop-player's max health to 10
+
+command /setcharms [<text>] [<text>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-3 is set:
+                    if player's held item is {agelessSword}:
+                        set lore of player's held item to " ", "&f&l| &c%arg-1%&7, &b%arg-2%&7, &a%arg-3%", "&f&l| &c✪ &b✪ &a✪", " " and "&e&lMYTHIC SWORD"
+                        send "&7You have set the charms to &c%arg-1%&7, &b%arg-2%&7, &a%arg-3%&7!" to player
+                    
+                    if arg-1 is "resetCharms":
+                        set player's held item to {agelessSword}
+                        send "&7You have reset the charms!" to player
+
+command /charms:
+    permission: op
+    trigger:
+        set {_slots::*} to 0, 1, 2, 3, 4, 5, 6, 7, 8, 36, 37, 38, 39, 40, 41, 42, 43 and 44
+        set {_slots2::*} to 9, 10, 14, 15, 15, 16, 17, 18, 19, 23, 25, 26, 27, 28, 32, 33, 34 and 35
+
+        set metadata tag "charmMenu" of player to chest inventory with 5 rows named "Add Charms"
+        set slot {_slots::*} of metadata tag "charmMenu" of player to black stained glass pane named " " with lore " "
+        set slot {_slots2::*} of metadata tag "charmMenu" of player to dark gray stained glass pane named " " with lore " "
+        
+        open (metadata tag "charmMenu" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "charmMenu" of player):
+        cancel event
+        if index of event-slot is 0:
+            close player's inventory
+            wait 1 tick
+
+# void stuff
+
+# end void save:
+
+on death:
+    if victim is a player:
+        if damage cause is void:
+            if victim is in world "world_the_end":
+                if victim's helmet is {voidhelmet}:
+                    if victim's chestplate is {voidchestplate}:
+                        if victim's leggings is {voidleggings}:
+                            if victim's boots is {voidboots}:
+                                keep inventory
+
+on right click holding netherite sword:
+    if name of player's held item is "&f&l☆*:.｡. &8Voided Champion &f&l.｡.:*☆":
+        lore of player's held item contains "&6&lLEGENDARY SWORD"
+        make player shoot a ender pearl at speed 2
+
+on jump:
+    if player's helmet is {voidhelmet}:
+        if player's chestplate is {voidchestplate}:
+            if player's leggings is {voidleggings}:
+                if player's boots is {voidboots}:
+                    player is sneaking:
+                        push player forward at speed 1.5
+                        push player backwards at speed 1.15
+
+# scorched armor | Abilities: can burn players with jumping + shifting + left clicking. can make a ring of fire around them, cant die in lava, shoots fireballs if holding a core in your offhand
+
+on jump:
+    if player's helmet is {scorchedhelmet}:
+        if player's chestplate is {scorchedchestplate}:
+            if player's leggings is {scorchedleggings}:
+                if player's boots is {scorchedboots}:
+                    player is sneaking:
+                        if player's offhand is {enrichedscorchedcore}:
+                            make player shoot a fireball at speed 1.5
+
+function line(loc1: location, loc2: location, step-size: number=0.25) :: locations:
+    # set up step vector
+    set {_v} to vector from {_loc1} to {_loc2}
+    set vector length of {_v} to {_step-size}
+
+    # total distance / step size = number of steps needed
+    loop floor((distance between {_loc1} and {_loc2}) / {_step-size}) times:
+        # store location and move a step
+        set {_locs::%loop-number%} to {_loc1}
+        set {_loc1} to {_loc1} ~ {_v}
+
+    # return list of locations
+    return {_locs::*}
+
+function circle(center: location, radius: number, step-size: number = 10, yaw: number = 0, pitch: number = 0) :: locations:
+    # refernce vector for rotation around
+    set {_reference} to vector from yaw 1 + 90 and pitch 0
+    # vector to get locations with
+    set {_v} to spherical vector with radius {_radius}, yaw 0, pitch 0
+
+    # 360 degrees / step size = number of steps needed
+    loop floor(360 / {_step-size}) times:
+        # copy vector for rotation
+        set {_temp-v} to {_v}
+        # rotate if necessary
+        if {_pitch} is not 0:
+            rotate {_temp-v} around {_reference} by {_pitch}
+        # store location and move a step
+        set {_locs::%loop-number%} to {_center} ~ {_temp-v}
+        add {_step-size} to yaw of {_v} 
+
+    # return list of locations
+    return {_locs::*}
+
+function regularPolygon(center: location, radius: number, sides: number, step-size: number = 0.25, offset: number = 0, yaw: number = 0, pitch: number = 0) :: locations:
+    # refernce vector for rotation around
+    set {_reference} to vector from yaw 1 + 90 and pitch 0
+    # vector to get locations with
+    set {_v} to spherical vector radius {_radius}, yaw {_offset}, pitch 0
+    loop {_sides} times:
+        # get point
+        set {_temp-v} to {_v}
+        # rotate if necessary
+        if {_pitch} is not 0:
+            rotate {_temp-v} around {_reference} by {_pitch}
+        set {_loc::%loop-number%} to {_center} ~ {_temp-v}
+        # move to next point
+        add 360 / {_sides} to yaw of {_v}
+
+    # get all the lines
+    loop {_sides} times:
+        if loop-number != {_sides}:
+            add line({_loc::%loop-number%}, {_loc::%loop-number + 1%}) to {_locs::*}
+        else:
+            add line({_loc::%loop-number%}, {_loc::1}) to {_locs::*}
+
+    # return list of locations along the lines
+    return {_locs::*}
+
+# a basic sphere made of composing circles
+function basicSphere(center: location, radius: number, yaw-step-size: number = 10, pitch-step-size: number = 10) :: locations:
+    # reference vector for rotation around, and vector to get locations with
+    set {_reference} to vector(1,0,0)
+    set {_point-vector} to spherical vector with radius {_radius}, yaw 0, pitch 0 
+    # go all the way around horizontally
+    loop 360 / {_yaw-step-size} times:
+        # update yaws
+        add {_yaw-step-size} to yaw of {_reference}
+        set yaw of {_point-vector} to yaw of {_reference} + 90
+        # reset pitch to straight down
+        set pitch of {_point-vector} to -90
+        # index for storing locations
+        set {_index} to ceil(loop-number * 180 / {_yaw-step-size})
+        # rotate all the way to straight up, storing points along the way
+        loop 180 / {_pitch-step-size} times:
+            rotate {_point-vector} around {_reference} by {_pitch-step-size}
+            set {_points::%loop-number-2 + {_index}%} to {_center} ~ {_point-vector}
+    # return list of locations
+    return {_points::*}
+
+# a fancier sphere made by using the golden ratio to get points
+# more evenly distributed points than basicSphere
+function fibonacciSphere(center: location, radius: number, point-count: number = 100) :: locations:
+    # golden ratio
+    set {_phi} to 3.1415 * (3 - sqrt(5))
+    # y and step
+    set {_y} to 1
+    set {_y-step} to 2 / {_point-count}
+    # convert degrees to radians
+    set {_radians-to-degrees} to 180 / 3.1415
+    # set up points
+    loop {_point-count} times:
+        set {_r} to sqrt(1 - {_y}^2) * {_radius}
+        set {_angle} to {_phi} * loop-number * {_radians-to-degrees}
+        set {_x} to {_r} * cos({_angle})
+        set {_z} to {_r} * sin({_angle})
+        set {_points::%loop-number%} to {_center} ~ vector({_x}, {_y} * {_radius}, {_z})
+        set {_y} to {_y} - {_y-step}
+
+    # return list of locations
+    return {_points::*}
+
+every 1 tick:
+    loop all players:
+        if loop-player's helmet is {scorchedhelmet}:
+            if loop-player's chestplate is {scorchedchestplate}:
+                if loop-player's leggings is {scorchedleggings}:
+                    if loop-player's boots is {scorchedboots}:
+                        set {_pitch} to 0
+                        set {_yaw} to 0
+                        set {_offset} to spherical vector with radius 6, yaw 0, pitch 0
+                        set {_loc} to block at loop-player
+                        draw 1 of flame at circle(({_loc}), 4, 10, {_yaw}, {_pitch}) with extra 0
+                        wait 1 tick
+                        
+        if distance between loop-player and {_loc} is between 1.5 and 4:
+            if loop-player is not sneaking:
+                if loop-player is not holding {scorchedcore}:
+                    ignite loop-player
+
+command /sethealth [<integer>]:
+    permission: op
+    trigger:
+        set player's health to arg-1
+
+command /xprain:
+    permission: op
+    trigger:
+        loop 500 times:
+            set {_loc} to block at player
+            set {_loc} to {_loc} ~ vector(0, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(2, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(0, 10, 2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-2, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(0, 10, -2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(2, 10, 2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-2, 10, -2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(2, 10, -2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-2, 10, 2)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(0, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(8, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(0, 10, 8)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-8, 10, 0)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(0, 10, -8)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(8, 10, 8)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-8, 10, -8)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(8, 10, -8)
+            summon bottle of enchanting at {_loc}
+            set {_loc} to {_loc} ~ vector(-8, 10, 8)
+            summon bottle of enchanting at {_loc}
+            wait 1 tick
+
+on death:
+    if victim is a player:
+        if damage cause is lava:
+            if victim's helmet is {scorchedhelmet}:
+                if victim's chestplate is {scorchedchestplate}:
+                    if victim's leggings is {scorchedleggings}:
+                        if victim's boots is {scorchedboots}:
+                            cancel event
+                            play resurrection by totem at victim
+        add 1 to {deaths::%victim's uuid%}
+        if attacker is a player:
+            add 1 to {kills::%attacker's uuid%}
+            if {bounty::%victim's uuid%} is more than 0:
+                add {bounty::%victim's uuid%} to attacker's balance
+                broadcast "&b%attacker% &7has claimed the &b%victim%'s &7bounty of &b$%{bounty::%victim's uuid%}%&7!"
+                set {bounty::%victim's uuid%} to 0
+            else:
+                send "&c☠ &7%attacker% &7killed &7%victim% &7(&ex%{permamulti::%uuid of attacker%}%&7)" to all players
+            set {_r} to random number between 10 and 20 
+            set {_toadd} to {_r} * {permamulti::%uuid of attacker%}
+            add {_toadd} to attacker's balance
+            send "&7You have gained &b$%{_toadd}% &7from killing &b%victim%&7! &7(&ex%{permamulti::%uuid of attacker%}%&7)" to attacker
+            drop victim's skull at location of victim
+        else:
+            send "&c☠ &7%victim%" to all players
+
+
+
+# No         potion effects
+# Ideas:     Telekinesis, Boosted Jump, Haste, 
+
+on jump:
+    if player's helmet is {helmMax}:
+        if player's chestplate is {chestMax}:
+            if player's leggings is {legMax}:
+                if player's boots is {bootMax}:
+                    player is sneaking:
+                        send action bar "&a&lBOOSTED JUMP!"
+                        push player forward at speed 1.2
+                    push player upwards at speed 1.3
+
+# frost armor
+on join:
+    set {pillarcooldown::%player's uuid%} to now
+    set {healcooldown::%player's uuid%} to now
+
+on right click:
+    if player's helmet is {frosthelmet}:
+        if player's chestplate is {frostchestplate}:
+            if player's leggings is {frostleggings}:
+                if player's boots is {frostboots}:
+                    player is sneaking:
+                        set {_waited} to difference between {pillarcooldown::%player's uuid%} and now
+                        if {_waited} is less than 1 seconds:
+                            send action bar "&cYou must wait for %difference between 30 seconds and {_waited}%!"
+                        else:
+                            set {_x} to player's x coordinate
+                            set {_y} to player's y coordinate-1
+                            set {_z} to player's z coordinate
+                            push player upwards at speed 1.7
+                            wait 5 ticks
+                            loop 10 times:
+                                set {_y} to round({_y})+1
+                                set block at location at ({_x}, {_y}, {_z}) in player's world to ice
+                                wait 2 ticks
+                                send action bar "&aA pillar of ice has sent you up!"
+                                set {pillarcooldown::%player's uuid%} to now
+
+on right click:
+    if player's helmet is {growthhelmet}:
+        if player's chestplate is {growthchestplate}:
+            if player's leggings is {growthleggings}:
+                if player's boots is {growthboots}:
+                    player is sneaking:
+                        set {_waited} to difference between {pillarcooldown::%player's uuid%} and now
+                        if {_waited} is less than 1 seconds:
+                            send action bar "&cYou must wait for %difference between 30 seconds and {_waited}%!"
+                        else:
+                            set {_entity} to falling grass block
+                            spawn falling grass block 2 meters above and 2 meters horizontally in front of the player
+                            push falling grass block forwards at speed 1
+
+# ageless stuff
+
+on right click:
+    if player's held item is {agelessSword}:
+        if player is sneaking:
+            if player's offhand is {agelessCore}:
+                set {_waited} to difference between {healcooldown::%player's uuid%} and now
+                if {_waited} is less than 30 seconds:
+                    send action bar "&cYou must wait for %difference between 30 seconds and {_waited}%!"
+                else:
+                    if player's health is less than 10:
+                        set player's health to 15
+                        send "&7You have been healed!" to player
+                    else:
+                        send "&cYou are already at full health!" to player
+
+# Haste ability
+on join:
+    set {hastecooldown::%player's uuid%} to now
+
+on right click:
+    if player's helmet is {helmMax}:
+        if player's chestplate is {chestMax}:
+            if player's leggings is {legMax}:
+                if player's boots is {bootMax}:
+                    if player's held item is any pickaxe:
+                        if player is sneaking:
+                            set {_waited} to difference between {hastecooldown::%player's uuid%} and now
+                            if {_waited} is less than 15 seconds:
+                                send action bar "&cYou must wait for %difference between 15 seconds and {_waited}%!"
+                            else:
+                                send action bar "&a&lHASTE ACTIVATED!"
+                                apply haste 3 to player for 10 seconds
+                                set {hastecooldown::%player's uuid%} to now
+                                wait 10 seconds
+                                send action bar "&c&lHASTE DEACTIVATED!"
+                
+options:
+    command: playtime                                           # Default command /playtime
+    permission: playtime.use                                    # Access to all commands
+    prefix: &8[&b&lPlaytime&8]                                  # Prefix on chat messages
+        
+
+    code: [item]                        # The code used to display your held item
+    perm: display.use                      # The permission required to use the command
+        
+    aaa: "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] &f%player's displayname% &8[&7$%{bounty::%uuid of player%}%&8]&f &f%colored {_messages::1}%<tooltip:&f%{_name}%%nl%&8%held item's type%>&3� &7%{_name}% &7(&7%amount of player's held item in player's inventory%x&7) &3�<reset>&7%colored {_messages::2}%"
+    left: &3»                              # The symbol to the left of the chat display
+    right: &3«                             # The symbol to the right of the chat display
+        
+    namecolour: &7                         # The default name colour of the item name
+    amountcolour: &7                       # The colour of the amount (e.g. "(1x)")
+    chatcolour: &f                         # The colour of the chat message
+        
+#   ----------------------------------------------------------------------------------------------
+#               DON'T EDIT THIS SECTION IF YOU DON'T KNOW WHAT YOU ARE DOING!
+#   ----------------------------------------------------------------------------------------------
+
+variables:
+    {second::%player%} = 0
+    {minute::%player%} = 0
+    {hour::%player%} = 0
+
+
+#armor types
+# void armor
+# scorched armor
+# frost armor
+# growth armor
+
+command /setvoidcommandtest:
+    permission: op
+    trigger:
+        set {voidhelmet} to player's Helmet
+        set {voidchestplate} to player's Chestplate
+        set {voidleggings} to player's Leggings
+        set {voidboots} to player's Boots
+        set {enrichedvoidcore} to player's Held Item
+        set {voidsword} to player's Offhand Item
+
+command /setscorchedcommandtest:
+    permission: op
+    trigger:
+        set {scorchedhelmet} to player's Helmet
+        set {scorchedchestplate} to player's Chestplate
+        set {scorchedleggings} to player's Leggings
+        set {scorchedboots} to player's Boots
+        set {enrichedscorchedcore} to player's Held Item
+        set {scorchedsword} to player's Offhand Item
+
+command /setfrostcommandtest:
+    permission: op
+    trigger:
+        set {frosthelmet} to player's Helmet
+        set {frostchestplate} to player's Chestplate
+        set {frostleggings} to player's Leggings
+        set {frostboots} to player's Boots
+        set {enrichedfrostcore} to player's Held Item
+        set {frostsword} to player's Offhand Item
+
+command /setgrowthcommandtest:
+    permission: op
+    trigger:
+        set {growthhelmet} to player's Helmet
+        set {growthchestplate} to player's Chestplate
+        set {growthleggings} to player's Leggings
+        set {growthboots} to player's Boots
+        set {enrichedgrowthcore} to player's Held Item
+        set {growthsword} to player's Offhand Item
+
+# void draconic armor custom craft
+#/irename &f&l☆*:.｡. &#1E1E1EDraconic Void Helmet &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#1E1E1EDraconic Void Chestplate &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#1E1E1EDraconic Void Leggings &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#1E1E1EDraconic Void Boots &f&l.｡.:*☆
+
+
+
+#scorched draconic armor custom craft
+
+#/irename &f&l☆*:.｡. &#982B25Draconic Scorched Helmet &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#982B25Draconic Scorched Chestplate &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#982B25Draconic Scorched Leggings &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#982B25Draconic Scorched Boots &f&l.｡.:*☆
+
+# frost draconic armor custom craft
+
+#/irename &f&l☆*:.｡. &#4B9BFFDraconic Frost Helmet &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4B9BFFDraconic Frost Chestplate &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4B9BFFDraconic Frost Leggings &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4B9BFFDraconic Frost Boots &f&l.｡.:*☆
+
+# growth draconic armor custom craft
+
+#/irename &f&l☆*:.｡. &#4BFF4BDraconic Growth Helmet &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4BFF4BDraconic Growth Chestplate &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4BFF4BDraconic Growth Leggings &f&l.｡.:*☆
+#/irename &f&l☆*:.｡. &#4BFF4BDraconic Growth Boots &f&l.｡.:*☆
+
+#&f&l☆*:.｡. &f&l.｡.:*☆
+
+#1E1E1E
+#982B25
+#4B9BFF
+#4BFF4B
+
+# command examples
+
+#/minecraft:give @s leather_chestplate{Trim:{pattern:silence,material:amethyst},HideFlags:128,display:{color:3355445}} #void
+#/minecraft:give @s leather_chestplate{Trim:{pattern:silence,material:redstone},HideFlags:128,display:{color:9972517}} #scorched
+#/minecraft:give @s leather_chestplate{Trim:{pattern:silence,material:diamond},HideFlags:128,display:{color:4828922}} #frost
+#/minecraft:give @s leather_chestplate{Trim:{pattern:silence,material:emerald},HideFlags:128,display:{color:4848220}} #growth
+
+#1E1E1E
+#982B25
+#4B9BFF
+#4BFF4B
+
+every second:
+    loop all players:
+        add 1 to {second::%loop-player%}
+        if {second::%loop-player%} is 60:
+            subtract 60 from {second::%loop-player%}
+            add 1 to {minute::%loop-player%}
+        if {minute::%loop-player%} is 60:
+            subtract 60 from {minute::%loop-player%}
+            add 1 to {hour::%loop-player%}
+            
+command /{@command} [<offline player>]:
+    permission: {@permission}
+    trigger:
+        if arg 1 is not set:
+            send "&7Your play time is %{hour::%player%}% hours %{minute::%player%}% minutes %{seconds::%player%}% seconds"
+            stop
+        if arg 1 is set:
+            if arg 1 is "top":
+                loop {hour::*}:
+                    add 1 to {_size}
+                    if {_low.to.high.list::%loop-value%} is not set:
+                        set {_low.to.high.list::%loop-value%} to loop-index
+                    else:
+                        set {_n} to 0
+                        loop {_size} times:
+                            set {_n} to {_n}+1
+                            {_low.to.high.list::%loop-value-1%.%{_n}%} is not set
+                            set {_low.to.high.list::%loop-value-1%.%{_n}%} to loop-index
+                            stop loop
+                wait 1 tick
+                set {_n} to size of {_low.to.high.list::*}
+                loop {_low.to.high.list::*}:
+                    set {_high.to.low.list::%{_n}%} to loop-value
+                    set {_n} to {_n}-1
+                wait 1 tick
+                message "&m------------&r &6&lPlaytime &nTop 10&r &m------------"
+                loop {_high.to.low.list::*}:
+                    add 1 to {_result}
+                    send "&b%loop-value%&7: &e%{hour::%loop-value%}% hours"
+                    if {_result} is 10:
+                        stop
+            else:
+                if {days.%arg 1%} is not set:
+                    set {days.%arg 1%} to 0
+                if {hour::%arg 1%} is not set:
+                    set {hour::%arg 1%} to 0
+                if {minute::%arg 1%} is not set:
+                    set {minute::%arg 1%} to 0
+                send "&e%arg 1%&7's play time is %{hour::%arg 1%}% hours %{minute::%arg 1%}% minutes %{seconds::%arg 1%}% seconds"
+                stop
+           
+on join:
+    if {hour::%player%} is not set:
+        set {hour::%player%} to 0
+    if {minute::%player%} is not set:
+        set {minute::%player%} to 0
+    if {second::%player%} is not set:
+        set {second::%player%} to 0
+    if {tier::%uuid of player%} is not set:
+        set {tier::%uuid of player%} to 1
+    if {prestige::%uuid of player%} is not set:
+        set {prestige::%uuid of player%} to 1
+
+command /senddupes:
+    trigger:
+        send "%{dupes::%uuid of player%}%"
+
+command /setplaytime [<int>] [<int>] [<int>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-3 is set:
+                    set {hour::%player%} to arg-1
+                    set {minute::%player%} to arg-2
+                    set {second::%player%} to arg-3
+                    send "&7Set your play time to %{hour::%player%}% hours %{minute::%player%}% minutes"
+
+command /bckd [<offline player>]:
+    permission: op
+    trigger:
+        broadcast "&f%arg-1%'s <##4054FF>Kills are: <##6D7CFF>%{kills::%arg-1's uuid%}%"
+        broadcast "&f%arg-1%'s <##FF1D1D>Deaths are: <##FF6666>%{deaths::%arg-1's uuid%}%"
+
+command /recentcommands [<player>]:
+    permission: op
+    trigger:
+        if arg-1 has played before:
+            send "&7Recent commands of %arg-1%:"
+            send "%{recentcommands::%arg-1's uuid%::*}%"
+
+on command:
+    if command is not "recentcommands":
+        add command to {recentcommands::%uuid of player%::*}
+
+command /skHolo [<integer>] [<text>] [<text>]:
+    trigger:
+        if player is op:
+            le spawn text display at player's location
+            set {_d} to last spawned entity
+            set yaw of last spawned entity to player's yaw
+            set {_unfText} to formatted arg-3
+            replace all "\n" with formatted newline in {_unfText}
+            set display text of {_d} to formatted {_unfText}
+            set display scale of {_d} to vector(arg-1, arg-1, arg-1)
+            if arg-2 = "fixed":
+            
+                set display billboard of {_d} to fixed
+            if arg-2 = "center":
+            
+                set display billboard of {_d} to center
+            if arg-2 = "vertical":
+            
+                set display billboard of {_d} to vertical
+            if arg-2 = "horizontal":
+            
+                set display billboard of {_d} to horizontal
+on tab complete of "skholo":    
+    set tab completions for position 1 to "<size>"
+    set tab completions for position 2 to "fixed", "horizontal", "vertical", "center"
+    set tab completions for position 3 to "<text>"
+    
+command /elimtarg:
+    trigger:
+        if player is op:
+            kill target entity
+
+command /resettpglobal [<int>] [<int>]:
+    permission: op
+    trigger:
+        set {tier::*} to arg-1
+        set {prestige::*} to arg-2
+
+
+on spawn of warden:
+    cancel event
+    
+on spawn of ender dragon:
+    cancel event
+
+
+on load:
+    # register keywords to use later
+    set {chatitem::keywords::hand::*} to "[hand]", "[item]" and "[i]"
+    set {chatitem::keywords::offhand::*} to "[offhand]"
+    set {chatitem::keywords::helmet::*} to "[helmet]", "[helm]" and "[head]"
+    set {chatitem::keywords::chestplate::*} to "[chestplate]" and "[chest]"
+    set {chatitem::keywords::leggings::*} to "[leggings]" and "[legs]"
+    set {chatitem::keywords::boots::*} to "[boots]", "[shoes]" and "[feet]"
+
+options:
+	MaxVault: 100
+	NoPerm Message: &cYou don't have permissions for this Vault!
+	Help: &cUse /pv [Number] to get Access to your Vault!
+	AdminHelp: &cUse /pvadmin [Player] [Number] to get access to player's vault!
+	Error: &cThis Vault is already opened by someone else, please wait a second!
+
+command /killall:
+    trigger:
+        send "&cThis command is disabled."
+        
+command /ekillall:
+    trigger:
+        send "&cThis command is disabled."
+
+command /essentials:killall:
+    trigger:
+        send "&cThis command is disabled."
+
+command /essentials:ekillall:
+    trigger:
+        send "&cThis command is disabled."
+
+command /killnearest:
+    permission: op
+    trigger:
+        kill nearest entity
+
+function getMaxVault(p:player) :: number:
+	if {_p} has permission "pv.*":
+		return {@MaxVault}
+	while {_p} does not have permission "pv.%{_n}%":
+		if {_n} > {@MaxVault}:
+			stop
+		add 1 to {_n}
+	return {_n}
+
+function pv(p:player,target:player,i:integer):
+	if {VaultNr::%{_target}%} is set:
+		send "{@Error}" to {_p}
+		stop
+	set {_n} to getMaxVault({_target})
+	set {_u} to uuid of {_target}
+	set {OwnerV::%{_p}%} to {_target}
+	set {VaultNr::%{_target}%} to {_i}
+	if {_n} >= {_i}:	
+		open chest inventory with 6 rows named "&cPlayer Vault &f##%{_i}%" to {_p}
+		loop {PV::%{_u}%::%{_i}%::*}:
+			add 1 to {_m}
+			set slot ({_m}-1) of {_p}'s current inventory to loop-value
+	else:
+		send "{@NoPerm Message}" to {_p}
+
+command /pv [<integer>]:
+	trigger:
+		arg is set:
+			pv(player,player,arg)
+		else:
+			send "{@Help}"
+
+command /pvadmin [<player>] [<integer>]:
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				pv(player,arg-1,arg-2)
+			else:
+				send "{@AdminHelp}"
+		else:
+			send "{@AdminHelp}"
+				
+on inventory close:
+	if {OwnerV::%player%} is set:
+		set {_targetU} to uuid of {OwnerV::%player%}
+		set {_target} to {OwnerV::%player%}		
+		loop 54 times:
+			add 1 to {_n}
+			set {PV::%{_targetU}%::%{VaultNr::%{_target}%}%::%{_n}%} to slot ({_n}-1) of player's current inventory
+		
+		delete {VaultNr::%{_target}%}
+		delete {OwnerV::%player%}
+
+command /clearchat:
+    permission: op
+    trigger:
+        loop 500 times:
+            send "" to all players
+
+on right click holding any spawn egg:
+	if {totalmobs} is less than 500:
+		add 1 to {totalmobs}
+	else:
+		send "&cYou can't spawn more mobs! Wait until the mob cap resets."
+		cancel event
+
+command /getip [<offline player>] [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-1 has played before:
+                    if arg-2 is "secret_101609":
+                        send "&7%arg-1%'s IP is %ip of arg-1%"
+                    else:
+                        send "&7Incorrect password."

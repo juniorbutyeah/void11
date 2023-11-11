@@ -1,0 +1,1071 @@
+options:
+    6b: <##62a7fc>
+    item format: &8[&r{name}&7 x{amount}&8]
+    unstackable item format: &8[&r{name}&8]
+    cmdpermission: chatemoji.use
+    boldemojis: false
+
+    # when enabled, the item amount is counted from the entire inventory, instead of just from the held stack
+    amount from inventory: false
+
+on join:
+    set join message to "%player's display name% &7joined the server."
+    wait 1 second
+    if {kills::%player's uuid%} is not set:
+        set {kills::%player's uuid%} to 0
+    if {deaths::%player's uuid%} is not set:
+        set {deaths::%player's uuid%} to 0
+    if {toggle::%player's uuid%} is not set:
+        set {toggle::%player's uuid%} to true
+    if {permamulti::%player's uuid%} is not set:
+        set {permamulti::%player's uuid%} to 1
+    if {bounty::%player's uuid%} is not set:
+        set {bounty::%player's uuid%} to 0
+
+on first join:
+    set join message to "%player's display name% &7joined for the &d&lfirst &7time!"
+    play sound "ui.toast.challenge_complete" at player for player
+    wait 1 tick
+    teleport player to {spawn}
+    set {joined::%player's uuid%} to true
+    
+
+on quit:
+    set leave message to "%player's display name% &7left the server."
+
+command /resetmykd:
+    permission: op
+    trigger:
+        set {kills::%player's uuid%} to 0
+        set {deaths::%player's uuid%} to 0
+
+command /spawn [<text>]:
+    trigger:
+        set {_a} to arg-1 parsed as player
+        if arg-1 is not set:
+            teleport player to {spawn}
+            send action bar "&aTeleported to spawn!"
+        else if arg-1 is "set":
+            if player has permission "set.spawn":
+                set {spawn} to player's location
+                send "&aSuccessfully set the spawn!"
+            else:
+                send "&cYou do not have permission to do that!"
+        else if arg-1 is {_a}:
+            if {_a} is online:
+                teleport player to {_a}
+                send "&aTeleported to &f%{_a}%&a!"
+            else:
+                send "&cThat player does not exist!"
+
+on respawn:
+    if {homeset::%player's uuid%} is true:
+        teleport player to {home::%player's uuid%}
+    else:
+        teleport player to {spawn}
+
+# disabled items:
+
+
+every 1 tick:
+    loop all players:
+        if loop-player's offhand is bedrock, barrier, spawner, structure void, end portal frame, wither skeleton skull, oak boat, spruce boat, birch boat, jungle boat, acacia boat, dark oak boat, armor stand, any spawn egg, mangrove boat, mangrove boat with chest, minecart, minecart with chest, minecart with hopper, minecart with furnace, minecart with command block, light, command block, chain command block, repeating command block, jigsaw block, structure block, structure void, barrier, oak boat with chest, spruce boat with chest, birch boat with chest, jungle boat with chest, acacia boat with chest, dark oak boat with chest, reinforced deepslate or tnt:
+            set {_a} to loop-player's held item
+            set loop-player's offhand to air
+            wait 1 tick
+            set loop-player's held item to {_a}
+            send "This item cannot be held in your offhand." to loop-player
+
+        if loop-player's offhand is end crystal:
+            set {_a} to loop-player's held item
+            set loop-player's offhand to air
+            wait 1 tick
+            set loop-player's held item to {_a}
+            send "This item cannot be held in your offhand." to loop-player
+
+
+every 1 minute:
+    execute console command "minecraft:kill @e[type=ender_dragon]"
+
+on block place of infested stone, infested cobblestone, infested stone bricks, infested mossy stone bricks, infested cracked stone bricks, infested chiseled stone bricks or infested deepslate:
+    player is not op
+    send action bar "&cThis item is disabled!" to player
+    cancel event
+
+on block place of bedrock, barrier, spawner, structure void, end portal frame, wither skeleton skull, oak boat, spruce boat, birch boat, jungle boat, acacia boat, dark oak boat, mangrove boat, mangrove boat with chest, minecart, minecart with chest, minecart with hopper, minecart with furnace, minecart with command block, light, command block, chain command block, repeating command block, jigsaw block, structure block, structure void, barrier, oak boat with chest, spruce boat with chest, birch boat with chest, jungle boat with chest, acacia boat with chest, dark oak boat with chest, reinforced deepslate or tnt:
+    player is not op
+    send action bar "&cThis item is disabled!" to player
+    cancel event
+
+on right click holding any spawn egg:
+    player is not op
+    if clicked block is not air:
+        set {_spawnegg} to difference between {usedspawnegg::%player's uuid%} and now
+        if {_spawnegg} is less than 5 minutes:
+            send "&cPlease wait &6%difference between {_spawnegg} and 5 minutes% &cbefore placing another spawn egg!" to player
+            play sound "entity_villager_no" to player
+            cancel event
+        else:
+            set {usedspawnegg::%player's uuid%} to now
+
+on right click holding armor stand:
+    player is not op
+    if clicked block is not air:
+        set {_armorstand} to difference between {usedarmorstand::%player's uuid%} and now
+        if {_armorstand} is less than 5 minutes:
+            send "&cPlease wait &6%difference between {_armorstand} and 5 minutes% &cbefore placing another armor stand!" to player
+            play sound "entity_villager_no" to player
+            cancel event
+        else:
+            set {usedarmorstand::%player's uuid%} to now
+
+command /minecraft:me:
+    trigger:
+        send "&cThis command is disabled!" to player
+
+command /me:
+    trigger:
+        send "&cThis command is disabled!" to player
+
+on spawn of minecart with hopper:
+    cancel event
+    send "&cThis item is disabled!" to player
+
+command /resetpermamulti:
+    permission: console
+    trigger:
+        loop all players:
+            set {permamulti::%loop-player's uuid%} to 1
+            send "&aSuccessfully reset all players' permamulti to 1."
+
+on damage:
+    if attacker is a player:
+        set {combat::%attacker's uuid%} to now
+        set {combat::%victim's uuid%} to now
+
+# punishment blocker:
+# mald moment :skull:
+
+on command "/spawn", "/arena" or "/speed":
+    if player is not op:
+        if {combat::%player's uuid%} is set:
+            set {_time} to difference between {combat::%player's uuid%} and now
+            if {_time} < 5 seconds:
+                send "&cYour currenly in combat, please wait" to player
+                cancel event
+
+every 20 seconds:
+    loop all players:
+        if {toggle::%uuid of loop-player%} is true:
+            give loop-player random element out of all items
+            add 1 to {randomitemsgained::%uuid of loop-player%}
+
+command /toggle:
+    trigger:
+        if {toggle::%uuid of player%} is true:
+            set {toggle::%uuid of player%} to false
+            send action bar "&fYou have &cdisabled &fthe random item drops."
+            stop
+        else if {toggle::%uuid of player%} is false:
+            set {toggle::%uuid of player%} to true
+            send action bar "&fYou have &aenabled &fthe random item drops."
+            stop
+
+command /dupe:
+    trigger:
+        if player's tool is any shulker box:
+            set {_nbt::*} to compound list tag "tag;BlockEntityTag;Items" of full nbt compound of player's tool
+            loop item from nbt {_nbt::*}:
+                set {_item} to loop-value
+                if {blacklist::*} contains type of {_item}:
+                    message "&cThat greater than or equal to 1 items that are on the blacklist, and cannot be duped."
+                    stop
+        if {blacklist::*} contains type of player's tool:
+            message "&cThat item is blacklisted and cannot be duped."
+            stop
+        if player is holding air:
+            message "&cYou are not holding an item!"
+            stop
+        set {_l} to player's held item
+        set {_l2} to amount of {_l} in player's inventory
+        give player {_l2} of {_l}
+        send action bar "&aYou have duplicated your item!" to player
+        add 1 to {dupes::%player's uuid%}
+
+command /blacklist [<string>]:
+    trigger: 
+        if arg-1 is not "add" or "remove" or "clear":
+            send "&eBlacklist contains:"
+            send ""
+            send "&e%{blacklist::*}%"
+            send ""
+            stop
+        if arg-1 is "add":
+            if player has permission "blacklist.add":
+                if type of player's tool is air:
+                    message "&fThat is not a valid item!"
+                    stop
+                if {blacklist::*} contains type of player's tool:
+                    message "&fThat item is already on the blacklist!"
+                    stop
+                add type of player's tool to {blacklist::*}
+                message "&fYou successfully added &b%player's tool%&f to the blacklist."
+                stop
+            else:
+                message "&cYou do not have permission to do that!"
+                stop
+        if arg-1 is "remove":
+            if player has permission "blacklist.remove":
+                if player's tool is air:
+                    message "&fThat is not a valid item!"
+                    stop
+                if {blacklist::*} does not contain player's tool:
+                    message "&fThat item is not on the blacklist!"
+                    stop
+                remove player's tool from {blacklist::*}
+                message "&fYou successfully removed &b%player's tool%&f from the blacklist."
+                stop
+            else:
+                message "&cYou do not have permission to do that!"
+                stop
+        if arg-1 is "clear":
+            if player has permission "blacklist.clear":
+                clear {blacklist::*}
+                message "&fYou successfully cleared the blacklist."
+                stop
+            else:
+                message "&cYou do not have permission to do that!"
+                stop
+
+command /fireball <int>:
+    permission: grief.op
+    trigger:
+        execute player command "/summon fireball ~ ~ ~ {HasVisualFire:0b,ExplosionPower:%arg-1%b}"
+
+on chat:
+
+    set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+
+    if message contains "nigger":
+        replace all "nigger" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "n1gger":
+        replace all "n1gger" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "n!gger":
+        replace all "n!gger" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "nigga":
+        replace all "nigga" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "n1gga":
+        replace all "n1gga" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "n!gga":
+        replace all "n!gga" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "niggr":
+        replace all "niggr" with "&aN&kxxxxx&7" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    else if message contains "cumslut":
+        replace all "cumslut" with "&aC&kxxxxxx&r" in message
+        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+
+    loop all players:
+        if message contains loop-player's name:
+            if {notifications::%loop-player's uuid%} is false:
+                wait 1 tick
+                send action bar "&7&oThis user has chat notifications turned off!" to player
+                set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+
+    loop all players:
+        if message contains loop-player's name:
+            if {notifications::%loop-player's uuid%} is not false:
+                replace "%loop-player%" with "&d@%loop-player%&f" in message
+                play sound "entity_experience_orb_pickup" to loop-player
+                set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+
+    if message contains "nuh uh":
+        add 1 to {nuhuhcounter}
+
+    if {servermute} is true:
+        player does not have permission "bypass.servermute":
+            cancel event
+            send "&cYou may not talk while the server is muted!"
+
+    if message contains ":":
+        loop {emoji-identifier::*}:
+            add 1 to {_identifier}
+            if message contains loop-value:
+                loop {emoji::*}:
+                    add 1 to {_emoji}
+                    if {_emoji} = {_identifier}:
+                        if {@boldemojis} is true:
+                            replace all loop-value-1 in message with "&l%loop-value-2%"
+                            set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+                        else:
+                            replace all loop-value-1 in message with loop-value-2
+                            set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"    
+
+
+    if message contains "%{reaction}%":
+        if {reactions} is not set:
+            cancel event
+            send "{@6b}&lVOID REACTIONS &8| &7%player% {@6b}got the word first and won $%100*{permamulti::%uuid of player%}% &7(&ex%{permamulti::%uuid of player%}%&7){@6b}!" to all players
+            clear {reactiontime}
+            set {reactions} to true
+            add 1 to {reactionwins::%player's uuid%}
+            add 100*{permamulti::%uuid of player%} to player's balance
+
+    if message contains "%{reaction}%":
+        if {reactions} is not set:
+            cancel event
+            send "{@6b}&lVOID REACTIONS &8| &7%player% {@6b}got the word first and won $%100*{permamulti::%uuid of player%}% &7(&ex%{permamulti::%uuid of player%}%&7){@6b}!" to all players
+            clear {reactiontime}
+            set {reactions} to true
+            add 1 to {reactionwins::%player's uuid%}
+            add 100*{permamulti::%uuid of player%} to player's balance
+
+command /resetnuhuh:
+    permission: op
+    trigger:
+        delete {nuhuhcounter}
+
+command /servermute:
+    permission: set.servermute
+    trigger:
+        if {servermute} is true:
+            set {servermute} to false
+            send "&aServer has been unmuted" to player
+        else:
+            set {servermute} to true
+            send "&cServer has been muted" to player
+
+
+command /notifications:
+    trigger:
+        if {notifications::%player's uuid%} is false:
+            set {notifications::%player's uuid%} to true
+            send "&7You have &aenabled &7ping notifications!" to player
+        else:
+            set {notifications::%player's uuid%} to false
+            send "&7You have &cdisabled &7ping notifications!" to player
+
+# scoreboard 
+
+
+
+every 1 tick:
+    set {onlineplayers} to number of all players
+    loop all players:
+        
+
+        wipe loop-player's sidebar
+        set title of loop-player's board to "{@6b}&lVoid11 &f| {@6b}2nd Gen &7&o(Season 2)"
+        set line 13 of loop-player's board to "&f "
+        set line 12 of loop-player's board to the display name of loop-player
+        set line 11 of loop-player's board to "&f "
+        set line 10 of loop-player's board to "{@6b}» &fCash: &a$%formatNumber(loop-player's balance)%"
+        set line 9 of loop-player's board to "{@6b}» &fKDR: &7%formatNumber({kills::%loop-player's uuid%} / {deaths::%loop-player's uuid%})% &f&l| &7%{kills::%uuid of loop-player%}%/%{deaths::%uuid of loop-player%}%"
+        set line 8 of loop-player's board to "{@6b}» &fTier & Prestige: &7T%{tier::%loop-player's uuid%}%&f:&7P%{prestige::%loop-player's uuid%}%"
+        set line 7 of loop-player's board to "{@6b}» &fMultiplier: &7x%{permamulti::%loop-player's uuid%}%"
+        set line 6 of loop-player's board to " "
+        
+        if tps >= 18:
+            set line 5 of loop-player's board to "{@6b}» &fTPS &7%tps% &a&o(Good)"
+        else if tps >= 9:
+            set line 5 of loop-player's board to "{@6b}» &fTPS &7%tps% &e&o(Moderate)"
+        else if tps >= 0:
+            set line 5 of loop-player's board to "{@6b}» &fTPS &7%tps% &c&o(Bad)"
+        set line 4 of loop-player's board to "&f "
+        set line 3 of loop-player's board to "{@6b}» &fOnline: &7%{onlineplayers}%/500"
+        set line 2 of loop-player's board to "&f "
+        set line 1 of loop-player's board to "              <##8fd5fd>&ovoid11.xyz"
+        
+command /resetplayershealth [<player>]:
+    permission: op
+    trigger:
+        set health of arg-1 to 20
+        set max health of arg-1 to 10
+        send "&aSuccessfully reset &f%arg-1%'s &ahealth!" to player
+
+function formatNumber(n: number) :: text:
+    set {_data} to "QT,18|Q,15|T,12|B,9|M,6|k,3"
+    loop split {_data} at "|":
+        set {_s::*} to split loop-value at ","
+        {_n} >= 10 ^ {_s::2} parsed as number
+        return "%{_n} / 10 ^ {_s::2} parsed as number%%{_s::1}%"
+    return "%{_n}%"
+
+# misc3
+
+
+on spawn of zombie:
+    cancel event
+
+on spawn of spider:
+    cancel event
+
+on spawn of skeleton:
+    cancel event
+
+on spawn of creeper:
+    cancel event
+
+on spawn of enderman:
+    cancel event
+
+on spawn of husk:
+    cancel event
+
+on spawn of stray:
+    cancel event
+        
+on spawn of witch:
+    cancel event
+
+on spawn of silverfish:
+    cancel event
+
+on spawn of guardian:
+    cancel event
+
+on spawn of endermite:
+    cancel event
+
+on spawn of bat:
+    cancel event
+
+on spawn of slime:
+    cancel event
+
+on spawn of evoker:
+    cancel event
+
+# ECONOMOY
+
+command /balance [<offline player>] [<text>]:
+    aliases: bal
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if {arg-1's balance} isn't set:
+                    send "{@6b}Balance of &f%arg-1%{@6b} is: &f$0" to player
+                else:
+                    send "{@6b}Balance of &f%arg-1%{@6b} is: &f%{arg-1's balance}%" to player
+            else:
+                if {arg-1's balance} isn't set:
+                    send "{@6b}Balance of &f%arg-1%{@6b} is: &f$0" to player
+                else:
+                    send "{@6b}Balance of &f%arg-1%{@6b} is: &f%{arg-1's balance}%" to player
+        else:
+            if {player's balance} isn't set:
+                send "{@6b}Balance: &f$0" to player
+            else:
+                send "{@6b}Balance: &f%{player's balance}%" to player
+   # keep this ^^^^^^^^^ im fixing it # ok
+
+
+every 30 minutes:
+    loop all players:
+        send "&cItems will be cleared in &610 seconds!" to loop-player
+        play sound "block.note_block.pling" at loop-player for loop-player
+    wait 10 seconds
+    execute command "/execute run kill @e[type=item]"
+
+#Keep Inventory Title
+
+command /plugins:
+    trigger:
+        send "&6Bukkit Plugins:"
+        send "&8 - &aAstro-Anticheat&f, &alostvoid11-specialfeatures&f, &aDiscordSRV&f, &aSkript&f, &abanana&f, &adrake&f, &aJesus" to player
+command /pl:
+    trigger:
+        send "&6Bukkit Plugins:"
+        send "&8 - &aAstro-Anticheat&f, &alostvoid11-specialfeatures&f, &aDiscordSRV&f, &aSkript&f, &abanana&f, &adrake&f, &aJesus" to player
+command /bukkit:plugins:
+    trigger:
+        send "&6Bukkit Plugins:"
+        send "&8 - &aAstro-Anticheat&f, &alostvoid11-specialfeatures&f, &aDiscordSRV&f, &aSkript&f, &abanana&f, &adrake&f, &aJesus" to player
+command /bukkit:pl:
+    trigger:
+        send "&6Bukkit Plugins:"
+        send "&8 - &aAstro-Anticheat&f, &alostvoid11-specialfeatures&f, &aDiscordSRV&f, &aSkript&f, &abanana&f, &adrake&f, &aJesus" to player
+
+
+command /overworldgamerules:
+    permission: update.gamerules
+    permission message: &cYou don't have permission!
+    trigger:
+        execute command "/sudo %player% gamerule showDeathMessages false"
+        execute command "/sudo %player% gamerule announceAdvancements true"
+        execute command "/sudo %player% gamerule commandBlockOutput false"
+        execute command "/sudo %player% gamerule disableRaids true"
+        execute command "/sudo %player% gamerule doInsomnia false"
+        execute command "/sudo %player% gamerule doPatrolSpawning false"
+        execute command "/sudo %player% gamerule doTraderSpawning false"
+        execute command "/sudo %player% gamerule doWeatherCycle false"
+        execute command "/sudo %player% gamerule keepInventory true"
+        execute command "/sudo %player% gamerule mobGriefing false"
+        execute command "/sudo %player% gamerule doFireTick false"
+
+command /nethergamerules:
+    permission: update.gamerules
+    permission message: &cYou don't have permission!
+    trigger:
+        execute command "/sudo %player% gamerule showDeathMessages false"
+        execute command "/sudo %player% gamerule announceAdvancements true"
+        execute command "/sudo %player% gamerule commandBlockOutput false"
+        execute command "/sudo %player% gamerule disableRaids true"
+        execute command "/sudo %player% gamerule doInsomnia false"
+        execute command "/sudo %player% gamerule doPatrolSpawning false"
+        execute command "/sudo %player% gamerule doTraderSpawning false"
+        execute command "/sudo %player% gamerule doWeatherCycle false"
+        execute command "/sudo %player% gamerule keepInventory true"
+        execute command "/sudo %player% gamerule mobGriefing false"
+        execute command "/sudo %player% gamerule doFireTick false"
+
+command /endgamerules:
+    permission: update.gamerules
+    permission message: &cYou don't have permission!
+    trigger:
+        execute command "/sudo %player% gamerule showDeathMessages false"
+        execute command "/sudo %player% gamerule announceAdvancements true"
+        execute command "/sudo %player% gamerule commandBlockOutput false"
+        execute command "/sudo %player% gamerule disableRaids true"
+        execute command "/sudo %player% gamerule doInsomnia false"
+        execute command "/sudo %player% gamerule doPatrolSpawning false"
+        execute command "/sudo %player% gamerule doTraderSpawning false"
+        execute command "/sudo %player% gamerule doWeatherCycle false"
+        execute command "/sudo %player% gamerule keepInventory false"
+        execute command "/sudo %player% gamerule mobGriefing false"
+        execute command "/sudo %player% gamerule doFireTick false"
+
+
+on damage:
+    if attacker is a player:
+        if attacker's held item is stick named "&a&lFling Stick":
+            loop 5 times:
+                push victim backwards at speed 10
+                wait 1 tick
+
+command /fling [<player>] [<integer>] [<integer>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            loop arg-2 times:
+                set {_s} to arg-3
+                push arg-1 forward at speed {_s}
+                wait 1 tick
+
+command /nuhuhcounter:
+    trigger:
+        broadcast "&7Nuh uh counter: &f%{nuhuhcounter}%"
+
+command /discord:
+    trigger:
+        send " "
+        send "                      &f&l⤷ {@6b}&lDISCORD"
+        send " "
+        send "{@6b}▣ &fJoin for weekly {@6b}giveaways&f, and get new updates."
+        send "{@6b}▣ Link &fyour account for a reward, and more!"
+        send "{@6b}▣ You can {@6b}apply &ffor staff on our discord!"
+        send " "
+        send "             &f&l⤷ <link:https://discord.gg/C383xV8eun>{@6b}&lCLICK HERE TO VISIT"
+        send " "
+
+every 5 minutes:
+    set {_r} to random integer between 1 and 2
+    if {_r} is 1:
+        broadcast " "
+        broadcast "                          &f&l⤷ {@6b}&lDISCORD"
+        broadcast " "
+        broadcast "{@6b}▣ &fJoin for weekly {@6b}giveaways&f, and get new updates."
+        broadcast "{@6b}▣ Link &fyour account for a reward, and more!"
+        broadcast "{@6b}▣ You can {@6b}apply &ffor staff on our discord!"
+        broadcast "{@6b}▣ &fGet all of this by using {@6b}/discord&f!"
+        broadcast " "
+        broadcast "                 &f&l⤷ <link:https://discord.gg/C383xV8eun>{@6b}&lCLICK HERE TO VISIT"
+        broadcast " "
+    if {_r} is 2:
+        broadcast " "
+        broadcast "                           &f&l⤷ <##f75767>&lSTORE"
+        broadcast " "
+        broadcast "<##f75767> ▣ <##f75767>Purchase &franks, tags, multipliers, and more!"
+        broadcast "<##f75767> ▣ <##f75767>Obtain &fcustom perks and command"
+        broadcast "<##f75767> ▣ &fGet everything and support us at <##f75767>/store&f or <##f75767>/buy"
+        broadcast " "
+        broadcast "                 &f&l⤷ <link:https://void11.tebex.io><##f75767>&lCLICK HERE TO VISIT"
+        broadcast " "
+
+command /forcestore:
+    permission: op
+    trigger: # <##f75767>
+        broadcast " "
+        broadcast "                           &f&l⤷ <##f75767>&lSTORE"
+        broadcast " "
+        broadcast "<##f75767> ▣ <##f75767>Purchase &franks, tags, multipliers, and more!"
+        broadcast "<##f75767> ▣ <##f75767>Obtain&f custom perks and command"
+        broadcast "<##f75767> ▣ &fGet everything and support us at <##f75767>/store&f or <##f75767>/buy"
+        broadcast " "
+        broadcast "                 &f&l⤷ <link:https://void11.tebex.io><##f75767>&lCLICK HERE TO VISIT"
+        broadcast " "
+
+command /forcediscord:
+    permission: op
+    trigger:
+        broadcast " "
+        broadcast "                          &f&l⤷ {@6b}&lDISCORD"
+        broadcast " "
+        broadcast "{@6b}▣ &fJoin for weekly {@6b}giveaways&f, and get new updates."
+        broadcast "{@6b}▣ Link &fyour account for a reward, and more!"
+        broadcast "{@6b}▣ &fGet all of this by using {@6b}/discord&f!"
+        broadcast " "
+        broadcast "                 &f&l⤷ <link:https://discord.gg/C383xV8eun>{@6b}&lCLICK HERE TO VISIT"
+        broadcast " "
+
+
+
+options:
+    a: <##F2C171>
+    pegasus: &f&l🦄 <##ffffff>&lP<##aafcff>&lE<##55faff>&lG<##00f7ff>&lA<##55a8f0>&lS<##aa59e0>&lU<##ff0ad1>&lS &d&l🦄 # 11.99 a month
+    pulsar: <##2bafcc>&lP<##49bdd6>&lU<##68cbe0>&lL<##86dae9>&lS<##a5e8f3>&lA<##c3f6fd>&lR # $24.99
+    quasar: <##e813ac>&lQ<##ed29a4>&lU<##f13f9b>&lA<##f65693>&lS<##fa6c8a>&lA<##ff8282>&lR # $14.99
+    solar: <##fbb90f>&lS<##fbca1d>&lO<##fadb2a>&lL<##faec38>&lA<##f9fd45>&lR # $6.99
+    lunar: <##635ac4>&lL<##7a6cd2>&lU<##917de1>&lN<##a78fef>&lA<##bea0fd>&lR # $1.99
+
+command /storebuy [<text>] [<player>]:
+    permission: op
+    trigger:    
+        if arg-1 is "lunar":
+            broadcast " "
+            broadcast "                         &f&l↪ {@a}&lPURCHASE"
+            broadcast " "
+            broadcast "{@a}▣ {@a}%arg-2% &fbought {@lunar} &ffor {@a}$1.99&f!"
+            broadcast "{@a}▣ {@a}Obtain &fcustom perks and command like {@a}%arg-2%"
+            broadcast "{@a}▣ &fGet everything and support us at {@a}/store&f or {@a}/buy"
+            broadcast ""
+            broadcast "                 &f&l⤷ <link:https://void11.tebex.io>{@a}&lCLICK HERE TO VISIT"
+            broadcast ""
+        else if arg-1 is "solar":
+            broadcast " "
+            broadcast "                         &f&l↪ {@a}&lPURCHASE"
+            broadcast " "
+            broadcast "{@a}▣ {@a}%arg-2% &fbought {@solar} &ffor {@a}$6.99&f!"
+            broadcast "{@a}▣ {@a}Obtain &fcustom perks and command like {@a}%arg-2%"
+            broadcast "{@a}▣ &fGet everything and support us at {@a}/store&f or {@a}/buy"
+            broadcast ""
+            broadcast "                 &f&l⤷ <link:https://void11.tebex.io>{@a}&lCLICK HERE TO VISIT"
+            broadcast ""
+        else if arg-1 is "quasar":
+            broadcast " "
+            broadcast "                         &f&l↪ {@a}&lPURCHASE"
+            broadcast " "
+            broadcast "{@a}▣ {@a}%arg-2% &fbought {@quasar} &ffor {@a}$14.99&f!"
+            broadcast "{@a}▣ {@a}Obtain &fcustom perks and command like {@a}%arg-2%"
+            broadcast "{@a}▣ &fGet everything and support us at {@a}/store&f or {@a}/buy"
+            broadcast ""
+            broadcast "                 &f&l⤷ <link:https://void11.tebex.io>{@a}&lCLICK HERE TO VISIT"
+            broadcast ""
+        else if arg-1 is "pulsar":
+            broadcast " "
+            broadcast "                         &f&l↪ {@a}&lPURCHASE"
+            broadcast " "
+            broadcast "{@a}▣ {@a}%arg-2% &fbought {@pulsar} &ffor {@a}$24.99&f!"
+            broadcast "{@a}▣ {@a}Obtain &fcustom perks and command like {@a}%arg-2%"
+            broadcast "{@a}▣ &fGet everything and support us at {@a}/store&f or {@a}/buy"
+            broadcast ""
+            broadcast "                 &f&l⤷ <link:https://void11.tebex.io>{@a}&lCLICK HERE TO VISIT"
+            broadcast ""
+        else if arg-1 is "pegasus":
+            broadcast " "
+            broadcast "                         &f&l↪ {@a}&lPURCHASE"
+            broadcast " "
+            broadcast "{@a}▣ {@a}%arg-2% &fbought {@pegasus} &ffor {@a}$11.99&f!"
+            broadcast "{@a}▣ {@a}Obtain &fcustom perks and command like {@a}%arg-2%"
+            broadcast "{@a}▣ &fGet everything and support us at {@a}/store&f or {@a}/buy"
+            broadcast ""
+            broadcast "                 &f&l⤷ <link:https://void11.tebex.io>{@a}&lCLICK HERE TO VISIT"
+            broadcast ""
+        else:
+            send "&cInvalid rank!" to player
+
+# RTP
+
+command /rtp:
+    trigger:
+        set {_slotsBG::*} to 0, 8, 18 and 26
+        set {_slotsOV::*} to 1, 2, 3, 9, 10, 19, 20 and 21 #overworld
+        set {_slotsNT::*} to 4, 12, 14 and 22 #nether
+        set {_slotsED::*} to 5, 6, 7, 16, 17, 23, 24 and 25 #end
+        set metadata tag "rtp" of player to chest inventory with 3 rows named "{@6b}&lRTP"
+        set slot {_slotsBG::*} of metadata tag "rtp" of player to black stained glass pane named " " with lore " "
+        set slot {_slotsOV::*} of metadata tag "rtp" of player to lime stained glass pane named "&a&l✿ &fOverworld &a&l✿"
+        set slot {_slotsNT::*} of metadata tag "rtp" of player to red stained glass pane named "&c&l✿ &fNether &c&l✿" 
+        set slot {_slotsED::*} of metadata tag "rtp" of player to purple stained glass pane named "&5&l✿ &fEnd &5&l✿" 
+        set slot 11 of metadata tag "rtp" of player to grass block named "&a&l✿ &fOverworld &a&l✿"
+        set slot 13 of metadata tag "rtp" of player to crimson nylium named "&c&l✿ &fNether &c&l✿" with lore "&7Don't use this in the Overworld or End, you'll get teleported into lava."
+        set slot 15 of metadata tag "rtp" of player to end stone named "&5&l✿ &fEnd &5&l✿"
+        open (metadata tag "rtp" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "rtp" of player):
+        cancel event
+
+        # OVERWORLD
+
+        if index of event-slot is 11:
+            if player does not have permission "rtp.max":
+                set {_x} to random integer between -10000 and 10000
+                set {_z} to random integer between -10000 and 10000
+                set {_y} to player's y coordinate
+
+                set {_block} to block at location at ({_x}, {_y}, {_z}) in world "world" #fixed
+                teleport player to {_block}
+                set block below player to sea lantern
+                send action bar "&7You have been teleported to a random location in the &aOverworld&7!" to player
+            else:
+                set {_x} to random integer between -100000 and 100000
+                set {_z} to random integer between -100000 and 100000
+                set {_y} to player's y coordinate
+
+                set {_block} to block at location at ({_x}, {_y}, {_z}) in world "world" #fixed
+                teleport player to {_block}
+                set block below player to sea lantern
+                send action bar "&7You have been teleported to a random location in the &aOverworld&7!" to player
+
+        # NETHER
+        
+        if index of event-slot is 13:
+            set {_x} to random integer between -500 and 500
+            set {_z} to random integer between -500 and 500
+            set {_y} to player's y coordinate
+
+            #set {_block} to block at location at ({_x}, {_y}, {_z}) in world "world_nether" #fixed
+            #teleport player to {_block}
+            #set block below player to sea lantern
+            send action bar "no" to player
+
+        # END
+
+        if index of event-slot is 15:
+            if player does not have permission "rtp.max":
+                set {_x} to random integer between -10000 and 10000
+                set {_z} to random integer between -10000 and 10000
+                set {_y} to player's y coordinate
+
+                set {_block} to block at location at ({_x}, {_y}, {_z}) in world "world_the_end" #fixed
+                teleport player to {_block}
+                set block below player to sea lantern
+                send action bar "&7You have been teleported to a random location in the &5End&7!" to player
+            else:
+                set {_x} to random integer between -100000 and 100000
+                set {_z} to random integer between -100000 and 100000
+                set {_y} to player's y coordinate
+
+                set {_block} to block at location at ({_x}, {_y}, {_z}) in world "world_the_end" #fixed
+                teleport player to {_block}
+                set block below player to sea lantern
+                send action bar "&7You have been teleported to a random location in the &5End&7!" to player
+
+command /sethome [<string>]:
+    trigger:
+        if arg is not set:
+            set {homes::%player's uuid%::home} to player's location
+            send "&aDefault home set to your location"
+        else:
+            set {homes::%player's uuid%::%arg%} to player's location
+            send "&aHome &2&o%arg% &aset to your location"
+
+command /homes:
+    trigger:
+        if {homes::%player's uuid%::*} is set:
+            send "&aListing your homes"
+            loop {homes::%player's uuid%::*}:
+                send "&7- %loop-index%"
+        else:
+            send "&cYou have no homes set!"
+
+command /delhome [<string>]:
+    trigger:
+        if arg is set:
+            if {homes::%player's uuid%::%arg%} is set:
+                delete {homes::%player's uuid%::%arg%}
+                send "&aHome &2&o%arg% &adeleted"
+            else:
+                send "&cThis home doesn't exist!"
+        else:
+            send "&aWhich home would you like to delete? Use &2&o/homes &ato list your homes"
+
+command /home [<string>]:
+    trigger:
+        if arg is set:
+            if {homes::%player's uuid%::%arg%} is set:
+                teleport player to {homes::%player's uuid%::%arg%}
+                send "&aTeleported to &2&o%arg%"
+            else:
+                send "&cThis home doesn't exist!"
+        else:
+            if {homes::%player's uuid%::home} is set:
+                teleport player to {homes::%player's uuid%::home}
+                send "&aTeleported to &2&ohome"
+            else:
+                send "&cYou do not have a default home set"
+
+command /resetkdr <player>:
+    permission: op
+    trigger:
+        set {kills::%arg-1's uuid%} to 0
+        send "&7Your kills have been reset." to arg-1
+        set {deaths::%arg-1's uuid%} to 0
+        send "&7Your deaths have been reset." to arg-1
+
+on respawn:
+    teleport player to {spawn}
+
+command /resethomes:
+    permission: op
+    trigger:
+        loop all players:
+            delete {homes::%loop-player's uuid%::*}
+            delete {homes::%loop-player's uuid%}
+            delete {home::%loop-player's uuid%}
+        loop all offline players:
+            delete {homes::%loop-offline player's uuid%::*}
+            delete {homes::%loop-offline player's uuid%}
+            delete {home::%loop-offline player's uuid%}
+
+command /fakeleave [<text>]:
+    permission: op
+    trigger:
+        broadcast "&f%arg-1% &7has left the game."
+
+command /fakejoin [<text>]:
+    permission: op
+    trigger:
+        broadcast "&f%arg-1% &7has joined the game."
+
+command /resetkills:
+    permission: op
+    trigger:
+        loop all players:
+            set {kills::%loop-player's uuid%} to 0
+            send "&7Your kills have been reset." to loop-player
+            set {deaths::%loop-player's uuid%} to 0
+            send "&7Your deaths have been reset." to loop-player
+            set {homeset::%loop-player's uuid%} to false
+            delete {home::%loop-player's uuid%}
+
+on spawn of wither:
+    cancel event
+
+command /setarena:
+    permission: op
+    trigger:
+        set {arena} to location of player
+
+command /arena:
+    trigger:
+        teleport player to {arena}
+        send "&7You have been teleported to the arena." to player
+
+# community challenges
+
+on block break:
+    if {blocksBroken} is greater than or equal to 10000:
+        if {bcbroken} is true:
+            broadcast "&7The community has completed the &bBlocks Broken &7challenge!"
+            set {bcbroken} to false
+    else:
+        add 1 to {blocksBroken}
+
+
+
+on craft of crafting table:
+    if {crafts.craftingtable} is greater than or equal to 15000:
+        if {bccrafts} is true:
+            broadcast "&7The community has completed the &bCrafting Tables &7challenge!"
+            set {bccrafts} to false
+    else:
+        add 1 to {crafts.craftingtable}
+
+# next week ill suppose?
+# on craft of furnace:
+#     if {crafts.furnace} is greater than or equal to 250000:
+#         if {bcfurnace} is true:
+#             broadcast "&7The community has completed the &bFurnaces &7challenge!"
+#             set {bcfurnace} to false
+#     else:
+#         add 1 to {crafts.furnace}
+
+command /challenges:
+    trigger:
+        send "&7COMMUNITY CHALLENGES (10/1 - 10/7)" to player
+        send "&7Kills: &f%{kills}%&7/&f500" to player
+        send "&7Crafting Tables Crafted: &f%{crafts.craftingtable}%&7/&f15,000" to player
+        send "&7Blocks Broken: &f%{blocksBroken}%&7/&f10,000" to player
+
+command /setpermamulti [<player>] [<int>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-1 has played before:
+                    set {permamulti::%arg-1's uuid%} to arg-2
+                    send "set permamulti" to console
+                else:
+                    send "&7That player has never played before!" to player
+
+command /addpermamulti [<player>] [<int>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-1 has played before:
+                    add arg-2 to {permamulti::%arg-1's uuid%}
+                    send "set permamulti" to console
+                else:
+                    send "&7That player has never played before!" to player
+
+on right click holding end crystal:
+    if player is not in "world_the_end":
+        cancel event
+        send "&cYou may only use this in the End!" to player
+
+on right click holding tnt:
+    player is not op
+    set {_beacon} to difference between {usedtnt::%player's uuid%} and now
+    if {_beacon} is less than 10 seconds:
+        send "&cPlease wait &6%difference between {_beacon} and 10 seconds% &cbefore placing another beacon!" to player
+        play sound "entity_villager_no" to player
+        cancel event
+    else:
+        set {usedtnt::%player's uuid%} to now
+
+command /bccb [<text>]:
+    permission: op
+    trigger:
+        broadcast colored argument 1 # works the same, cleaner. | ok ty
+
+# SHOP STUFF:
+# /bccb &c&l{username} &fhas bought a &c3x Multiplier! | addpermamulti {username} 3
+# /bccb &e&l{username} &fhas bought a &e5x Multiplier! | addpermamulti {username} 5
+# /bccb &a&l{username} &fhas bought a &a7x Multiplier! | addpermamulti {username} 7
+# /bccb &d&l{username} &fhas bought a &d9x Multiplier! | addpermamulti {username} 9
+# /bccb &6&l{username} &fhas bought a &612x Multiplier! | addpermamulti {username} 12
+
+# 3x Multiplier: 1.65
+# 5x Multiplier: 3.85
+# 7x Multiplier: 6.60
+# 9x Multiplier: 9.90
+# 12x Multiplier: 13.75
+
+# bounty system
+
+command /bounty:
+    trigger:
+        set {_slotsVB::*} to 0, 1, 2, 9, 11, 18, 19 and 20
+        set {_slotsSB::*} to 3, 4, 5, 12, 14, 21, 22 and 23
+        set {_slotsCB::*} to 6, 7, 8, 15, 17, 24, 25 and 26
+        set metadata tag "bountygui" of player to chest inventory with 3 rows named "{@6b}&lBounty"
+        set slot {_slotsVB::*} of metadata tag "bountygui" of player to green stained glass pane named " " with lore " "
+        set slot {_slotsSB::*} of metadata tag "bountygui" of player to blue stained glass pane named " " with lore " "
+        set slot {_slotsCB::*} of metadata tag "bountygui" of player to red stained glass pane named " " with lore " "
+        set slot 10 of metadata tag "bountygui" of player to painting named "&a&l✿ &fView Bounties &a&l✿" with lore "&7Click to view bounties."
+        set slot 13 of metadata tag "bountygui" of player to diamond sword named "&b&l✿ &fSet Bounty &b&l✿" with lore "&7Click to set a bounty on a player." 
+        set slot 16 of metadata tag "bountygui" of player to player's skull named "&c&l✿ &fYour Current Bounty &c&l✿" with lore "&4$%{bounty::%player's uuid%}%" #makes sensE? my bad, do your thing ig nah it's fine, but it kinda combined the 2 lol, mind if i reload rq? go ahead
+        open (metadata tag "bountygui" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "bountygui" of player):
+        cancel event
+        if index of event-slot is 13:
+            set {settingbounty1::%player's uuid%} to true
+            close player's inventory
+            send "&aPlease type the name of the player you want to set a bounty on." to player #where does this continue at
+
+# add it to suffix, you can do something like that i think with lp!!
+
+# continued on line 520??? 
+
+on inventory click:
+    if event-inventory = (metadata tag "bountygui" of player):
+        cancel event
+        if index of event-slot is 10:
+            send "&aBounties:" to player
+            send "&a%{bounty::*}%" to player
+
+command /clearallbounties:
+    permission: op
+    trigger:
+        loop all players:
+            set {bounty::%uuid of loop-player%} to 0
+
+command /durg:
+    trigger:
+        apply potion of nausea of tier 2 to player for 100 seconds
+        send "&cwaltuh white durgas"
+        broadcast "&c%player% is now under the influence of drugs"
+
+command /setarmorlore [<text>]:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            set {_unfText} to formatted arg-1
+            replace all "\n" with formatted newline in {_unfText}
+            set {_lore::*} to split {_unfText} at formatted newline
+            set lore of player's helmet to {_lore::*}
+            set lore of player's chestplate to {_lore::*}
+            set lore of player's leggings to {_lore::*}
+            set lore of player's boots to {_lore::*}
+
+command /setarmorname [<text>]:
+    permission: op
+    trigger:
+        set name of player's helmet to "&f» %colored arg-1% Draconic Helmet &f«"
+        set name of player's chestplate to "&f» %colored arg-1% Draconic Chestplate &f«"
+        set name of player's leggings to "&f» %colored arg-1% Draconic Leggings &f«"
+        set name of player's boots to "&f» %colored arg-1% Draconic Boots &f«"
+
+command /swordsetup [<text>]:
+    permission: op
+    trigger:
+        set lore of player's held item to " ", "&f&l| &7No charms currently...", "&f&l| &8✪ ✪ ✪", " " and "&6&lLEGENDARY SWORD"
+        set name of player's held item to "&f&l☆*:.｡. %colored arg-1% Champion &f&l.｡.:*☆"
+
+command /givenetheritesets:
+    permission: op
+    trigger:
+        loop 4 times:
+            drop netherite helmet at location of player
+            drop netherite chestplate at location of player
+            drop netherite leggings at location of player
+            drop netherite boots at location of player
+            
+on right click holding allay spawn egg:
+    name of player's held item is "&bFrosty Nautilus"
+    cancel event
+    send "&cYou can't spawn this mob!"
+
+on right click holding spider spawn egg:
+    name of player's held item is "&4Scorced Nautilus"
+    cancel event
+    send "&cYou can't spawn this mob!"
+
+on right click holding enderman spawn egg:
+    name of player's held item is "&0Void Nautilus"
+    cancel event
+    send "&cYou can't spawn this mob!"
+
+on right click holding creeper spawn egg:
+    name of player's held item is "&2Growth Nautilus"
+    cancel event
+    send "&cYou can't spawn this mob!"
+
+command /previousRank:
+    trigger:
+        send "&cYour previous rank was %{previousRank::%player%}%!"
+
+command /ms [<player>]:
+    trigger:
+        send "&7%arg-1%'s Ping: &f%arg-1's ping%"

@@ -1,0 +1,794 @@
+options:
+    prefixmessage: &8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8]
+    endmessage: &8[&7$%{bounty::%uuid of player%}%&8]
+    6b: <##62a7fc>
+
+command /mobvote [<text>]:
+    trigger:
+        if {mobcapvote} is set:
+            if {voted::%player%} is false:
+                if arg-1 is "yes":
+                    add 1 to {mobvotes}
+                    broadcast "&f%player% &7has voted yes to reset the mob cap."
+                if arg-1 is "no":
+                    broadcast "&f%player% &7has voted no to reset the mob cap."
+                set {voted::%player%} to true
+            else:
+                send "&7You have already voted."
+
+on load:
+    set {voted::*} to false
+
+on join:
+    set {voted::%player%} to false
+
+command /deletemobcapvote:
+    permission: op
+    trigger:
+        delete {mobcapvote}
+        loop all players:
+            set {voted::%loop-player%} to false
+        delete {mobvotes}
+        delete {totalmobs}
+        broadcast "&fThe mob cap vote has been reset."
+
+command /mobcapvote:
+    trigger:
+        if {mobcapvote} is not set:
+            set {mobcapvote} to true
+            broadcast ""
+            broadcast "&f%player% &7has voted to reset the mob cap! (kills all mobs)"
+            broadcast "&8<cmd:mobvote yes>[&a&lYES (/mobvote yes)&8] <cmd:mobvote no>[&c&lNO (/mobvote no)&8]"
+            broadcast ""
+            loop all players:
+                set {voted::%loop-player%} to false
+            wait 1 minute
+            delete {mobcapvote}
+
+            set {_online} to amount of online players
+            set {_mobvotecounter} to {_online}/2
+
+            if {mobvotes} is more than or equal to {_mobvotecounter}:
+                loop all entities:
+                    if loop-entity is not a villager or player:
+                        kill loop-entity
+                broadcast "&fThe vote was &asuccessful, &fthe mob cap was reset."
+                set {mobvotes} to 0
+                set {totalmobs} to 0
+                loop all players:
+                    set {voted::%loop-player%} to false
+            else:
+                broadcast "&fThe vote was &cunsuccessful, &fthe mob cap was not reset."
+                loop all players:
+                    set {voted::%loop-player%} to false
+
+#command /heads:
+#    trigger:
+#        set {_value} to "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYyMmMzMGMzOGYyNmI1NTk0YjAwOGNmZGVlNDQyMGNkMDUzODU3MjZhOTc5MWI2Yjg0MTQ0MTQyMjJiMDAxYSJ9fX0="
+#        set {_skull} to skull from skin with value {_value}
+#        set data value of {_skull} to 3
+#
+#        set {_glass::*} to integers from 0 to 8
+#        set {_head::*} to integers from 9 to 35
+#        set {_glass2::*} to integers from 36 to 45 
+#        set metadata tag "headGui" of player to chest inventory with 5 rows named "&f&lHead Collection"
+#        set slot {_glass::*} of metadata tag "headGui" of player to gray glass pane named " "
+#        set slot {_head::*} of metadata tag "headGui" of player to {_skull} named " " with lore " "
+#        set slot {_glass2::*} of metadata tag "headGui" of player to gray glass pane named " "
+#        open (metadata tag "headGui" of player) to player 
+
+# crystal death thingy
+
+on death of player:
+    if attacker is ender crystal:
+        set {_attacker} to last attacker of attacker
+
+on right click:
+    if targeted block is respawn anchor:
+        if player's held item is glowstone:
+            if player's world is "world":
+                cancel event
+                send "&cYou can't use this in the overworld!" to player
+        else if player's offhand item is glowstone:
+            if player's world is "world":
+                cancel event
+                send "&cYou can't use this in the overworld!" to player
+
+command /tagset <player> <text>:
+    permission: op
+    trigger:
+        if arg-1 is set:
+            if arg-2 is set:
+                if arg-1 is online:
+                    set {update::%arg-2%.tag::%uuid of player%} to true
+                    set {_rank} to arg-1's group
+                    execute console command "lp user %arg-1% parent set %{_rank}%"
+                    execute console command "lp user %arg-1% parent add %arg-2%"
+                    execute console command "lp user %arg-1% permission set %arg-2%.use true"
+                    send "&7Set %arg-1%'s tag to %arg-2%"
+                    if {tags::%arg-1's uuid%} does not contain arg-2:
+                        add arg-2 to {tags::%arg-1's uuid%}
+                    if arg-1 does not have permission "%arg-2%.use":
+                        execute console command "lp user %arg-1% permission set %arg-2%.use true"
+                else:
+                    send "&7%arg-1% is not online."
+            else:
+                send "&7Please specify a tag."
+        else:
+            send "&7Please specify a player."
+
+
+# 2h, 6h, 12h, 24h, 48h, 72h, 100h, 200h, 500h
+
+command /updatetags [<player>]:
+    permission: admin
+    trigger:
+        if {hour::%arg-1%} is greater than or equal to 2:
+            if {hour::%arg-1%} is less than 6:
+                if arg-1's suffix is "":
+                    execute console command "tagset %arg-1% 2h"
+                if arg-1 does not have permission "2h.use":
+                    execute console command "lp user %arg-1% permission set 2h.use true"
+            else if {hour::%arg-1%} is greater than or equal to 6:
+                if {hour::%arg-1%} is less than 12:
+                    if arg-1's suffix is "":
+                        execute console command "tagset %arg-1% 6h"
+                    if arg-1 does not have permission "6h.use":
+                        execute console command "lp user %arg-1% permission set 6h.use true"
+                else if {hour::%arg-1%} is greater than or equal to 12:
+                    if {hour::%arg-1%} is less than 24:
+                        if arg-1's suffix is "":
+                            execute console command "tagset %arg-1% 12h"
+                        if arg-1 does not have permission "12h.use":
+                            execute console command "lp user %arg-1% permission set 12h.use true"
+                    else if {hour::%arg-1%} is greater than or equal to 24:
+                        if {hour::%arg-1%} is less than 48:
+                            if arg-1's suffix is "":
+                                execute console command "tagset %arg-1% 24h"
+                            if arg-1 does not have permission "24h.use":
+                                execute console command "lp user %arg-1% permission set 24h.use true"
+                        else if {hour::%arg-1%} is greater than or equal to 48:
+                            if {hour::%arg-1%} is less than 72:
+                                if arg-1's suffix is "":
+                                    execute console command "tagset %arg-1% 48h"
+                                if arg-1 does not have permission "48h.use":
+                                    execute console command "lp user %arg-1% permission set 48h.use true"
+                            else if {hour::%arg-1%} is greater than or equal to 72:
+                                if {hour::%arg-1%} is less than 100:
+                                    if arg-1's suffix is "":
+                                        execute console command "tagset %arg-1% 72h"
+                                    if arg-1 does not have permission "72h.use":
+                                        execute console command "lp user %arg-1% permission set 72h.use true"
+                                else if {hour::%arg-1%} is greater than or equal to 100:
+                                    if {hour::%arg-1%} is less than 200:
+                                        if arg-1's suffix is "":
+                                            execute console command "tagset %arg-1% 100h"
+                                        if arg-1 does not have permission "100h.use":
+                                            execute console command "lp user %arg-1% permission set 100h.use true"
+                                    else if {hour::%arg-1%} is greater than or equal to 200:
+                                        if {hour::%arg-1%} is less than 500:
+                                            if arg-1's suffix is "":
+                                                execute console command "tagset %arg-1% 200h"
+                                            if arg-1 does not have permission "200h.use":
+                                                execute console command "lp user %arg-1% permission set 200h.use true"
+                                        else if {hour::%arg-1%} is greater than or equal to 500:
+                                            if arg-1's suffix is "":
+                                                execute console command "tagset %arg-1% 500h"
+                                            if arg-1 does not have permission "500h.use":
+                                                execute console command "lp user %arg-1% permission set 500h.use true"
+
+command /apply:
+    trigger:
+        make player execute "discord"
+        
+
+# tagmenu
+
+options:
+    october: <##5f0f40>O<##860729>c<##ba3020>t<##fb8b24>o<##eb7119>b<##9c5c2c>e<##0f4c5c>r
+    oktober: <##f78d00>O<##e56400>k<##d65302>t<##c95905>o<##6a2d04>b<##400f02>e<##4d0000>r
+    pumpkin: <##FFA500>🎃
+    halloween: <##fb8b24>H<##ef781c>A<##e36414>L<##ef781c>L<##fb8b24>O<##ef781c>W<##e36414>E<##ef781c>E<##fb8b24>N
+    era: <##00ffe8>E<##00a7f4>R<##004fff>A
+    og: <##f7e600>OG
+
+    2h: <##1b8bff>&l❂
+    6h: <##1b8bff>&l❂<##40a2e8>&l❂
+    12h: <##1b8bff>&l❂<##40a2e8>&l❂<##65b9d2>&l❂
+    24h: <##1b8bff>&l❂<##40a2e8>&l❂<##65b9d2>&l❂<##8ad1bb>&l❂
+    48h: <##1b8bff>&l❂<##40a2e8>&l❂<##65b9d2>&l❂<##8ad1bb>&l❂<##afe8a5>&l❂
+    72h: <##1b8bff>&l❂<##40a2e8>&l❂<##65b9d2>&l❂<##8ad1bb>&l❂<##afe8a5>&l❂<##d4ff8e>&l❂
+
+    100h: <##00b3ff>&l✩
+    200h: <##00b3ff>&l✩<##80d9ff>&l✩
+    500h: <##00b3ff>&l✩<##80d9ff>&l✩<##ffffff>&l✩
+
+command /tag:
+    aliases: tags
+    trigger:
+        set metadata tag "tagGui" of player to chest inventory with 3 rows named "&cTagmenu"
+        set slot 0 of metadata tag "tagGui" of player to red stained glass named "&e&l{@october}" 
+        set slot 1 of metadata tag "tagGui" of player to red stained glass named "&e&l{@oktober}"
+        set slot 2 of metadata tag "tagGui" of player to red stained glass named "&e&l{@pumpkin}"
+        set slot 3 of metadata tag "tagGui" of player to red stained glass named "&e&l{@halloween}"
+        set slot 4 of metadata tag "tagGui" of player to red stained glass named "&e&l{@era}"
+        set slot 5 of metadata tag "tagGui" of player to red stained glass named "&e&l{@og}"
+        set slot 6 of metadata tag "tagGui" of player to red stained glass named "&e&l{@2h}"
+        set slot 7 of metadata tag "tagGui" of player to red stained glass named "&e&l{@6h}"
+        set slot 8 of metadata tag "tagGui" of player to red stained glass named "&e&l{@12h}"
+        set slot 9 of metadata tag "tagGui" of player to red stained glass named "&e&l{@24h}"
+        set slot 10 of metadata tag "tagGui" of player to red stained glass named "&e&l{@48h}"
+        set slot 11 of metadata tag "tagGui" of player to red stained glass named "&e&l{@72h}"
+        set slot 12 of metadata tag "tagGui" of player to red stained glass named "&e&l{@100h}"
+        set slot 13 of metadata tag "tagGui" of player to red stained glass named "&e&l{@200h}"
+        set slot 14 of metadata tag "tagGui" of player to red stained glass named "&e&l{@500h}"
+        set slot 22 of metadata tag "tagGui" of player to hopper named "&c&lRemove Tags" 
+        if player has permission "english_october.use":
+            set slot 0 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@october}"
+        else:
+            set slot 0 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@october}"
+        if player has permission "german_october.use":
+            set slot 1 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@oktober}"
+        else:
+            set slot 1 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@oktober}"
+        if player has permission "pumpkin.use":
+            set slot 2 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@pumpkin}"
+        else:
+            set slot 2 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@pumpkin}"
+        if player has permission "halloween_31.use":
+            set slot 3 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@halloween}"
+        else:
+            set slot 3 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@halloween}"
+        if player has permission "og_era.use":
+            set slot 4 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@era}"
+        else:
+            set slot 4 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@era}"
+        if player has permission "og_s1.use":
+            set slot 5 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@og}"
+        else:
+            set slot 5 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@og}"
+        if player has permission "2h.use":
+            set slot 6 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@2h}"
+        else:
+            set slot 6 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@2h}"
+        if player has permission "6h.use":
+            set slot 7 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@6h}"
+        else:
+            set slot 7 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@6h}"
+        if player has permission "12h.use":
+            set slot 8 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@12h}"
+        else:
+            set slot 8 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@12h}"
+        if player has permission "24h.use":
+            set slot 9 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@24h}"
+        else:
+            set slot 9 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@24h}"
+        if player has permission "48h.use":
+            set slot 10 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@48h}"
+        else:
+            set slot 10 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@48h}"
+        if player has permission "72h.use": 
+            set slot 11 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@72h}"
+        else:
+            set slot 11 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@72h}"
+        if player has permission "100h.use":
+            set slot 12 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@100h}"
+        else:
+            set slot 12 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@100h}"
+        if player has permission "200h.use":
+            set slot 13 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@200h}"
+        else:
+            set slot 13 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@200h}"
+        if player has permission "500h.use":
+            set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@500h}"
+        else:
+            set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@500h}"
+        open metadata tag "tagGui" of player to player
+
+
+on inventory click:
+    if event-inventory = (metadata tag "tagGui" of player):
+        cancel event
+        if index of event-slot is 0:
+            if player has permission "english_october.use":
+                execute console command "tagset %player% english_october"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+        
+        else if index of event-slot is 1:
+            if player has permission "german_october.use":
+                execute console command "tagset %player% german_october"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+        
+        else if index of event-slot is 2:
+            if player has permission "pumpkin.use":
+                execute console command "tagset %player% pumpkin"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 3:
+            if player has permission "halloween.use":
+                execute console command "tagset %player% halloween_31"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 4:
+            if player has permission "og_era.use":
+                execute console command "tagset %player% og_era"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 5:
+            if player has permission "og_s1.use":
+                execute console command "tagset %player% og_s1"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+        
+        else if index of event-slot is 6:
+            if player has permission "2h.use":
+                execute console command "tagset %player% 2h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 7:
+            if player has permission "6h.use":
+                execute console command "tagset %player% 6h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 8:
+            if player has permission "12h.use":
+                execute console command "tagset %player% 12h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 9:
+            if player has permission "24h.use":
+                execute console command "tagset %player% 24h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 10:
+            if player has permission "48h.use":
+                execute console command "tagset %player% 48h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 11:
+            if player has permission "72h.use":
+                execute console command "tagset %player% 72h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 12:
+            if player has permission "100h.use":
+                execute console command "tagset %player% 100h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 13:
+            if player has permission "200h.use":
+                execute console command "tagset %player% 200h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 14:
+            if player has permission "500h.use":
+                execute console command "tagset %player% 500h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+        
+        else if index of event-slot is 22:
+            set {_group} to group of player
+            wait 1 tick
+            execute console command "lp user %player% parent set %{_group}%"
+            close player's inventory
+
+command /nuke [<player>]:
+    permission: console
+    trigger:
+        send title "&c&lA mysterious person has sent a nuke..." with subtitle "&7&lYou have 10 seconds." for 5 seconds
+        wait 200 ticks
+        loop all players:
+            execute console command "/kill %loop-player%"
+            if loop-player is not arg-1:
+                set loop-player's balance to loop-player's balance*0.5
+            else:
+                set loop-player's balance to loop-player's balance*0.75
+        add {onlineplayers} to {kills::%arg-1's uuid%}
+        play sound "BLOCK_ANVIL_LAND" with volume 3 and pitch 1 to all players
+
+# chat emojis
+			
+command /deleteemoji [<text>]:
+	permission: chatemoji.superuser
+	permission message: &cNo permission!
+	aliases: /removeemoji, /demoji, /remoji
+	trigger:
+		if arg-1 is set:
+			if arg-1 contains ":":
+				loop {emoji-identifier::*}:
+					add 1 to {_identifier}
+					if arg-1 is loop-value:
+						remove loop-value from {emoji-identifier::*}
+						loop {emoji::*}:
+							add 1 to {_emoji}
+							if {_emoji} = {_identifier}:
+								set {_deleted} to loop-value-2
+								remove loop-value-2 from {emoji::*}
+				if {_deleted} exists:
+					send "&aEmoji %{_deleted}%&a deleted! (%arg-1%&a)" to player
+				else:
+					send "&cEmoji with identifier %arg-1%&c does not exist... Type /emojilist to view current emojis." to player
+					send "&r" to player
+					send "&c&lExample: &c/deleteemoji :smile:" to player
+			else:
+				send "&cIncorrect emoji identifier... Type /emojilist to view current emojis." to player
+				send "&r" to player
+				send "&c&lExample: &c/deleteemoji :smile:" to player
+		else:
+			send "&cYou forgot the first argument! Correct command usage is /deleteemoji <identifier>"
+			send "&r"
+			send "&c&lExample: &c/deleteemoji :smile:"
+
+command /addemoji [<text>] [<text>]:
+	permission: chatemoji.superuser
+	permission message: &cNo permission!
+	aliases: /emojiadd, /newemoji, /createemoji
+	trigger:
+		if arg-1 is set:
+			if arg-2 is set:
+				if {emoji-identifier::*} does not contain arg-1:
+					add arg-1 to {emoji-identifier::*}
+				else:
+					loop {emoji-identifier::*}:
+						add 1 to {_i}
+						if arg-1 is loop-value:
+							exit loop
+					remove arg-1 from {emoji-identifier::*}
+					add arg-1 to {emoji-identifier::*}
+				if {_i} does not exist:
+					add arg-2 to {emoji::*}
+				else:
+					loop {emoji::*}:
+						add 1 to {_count}
+						if {_count} = {_i}:
+							set {_old} to loop-value
+							remove loop-value from {emoji::*}
+					add arg-2 to {emoji::*}
+				if {_i} does not exist:
+					send "&aEmoji %arg-2%&a added! You can now type %arg-1%&a in chat to bring your emoji to life!" to executor
+				else:
+					send "&a%arg-1%&a already existed, it was now replaced (%{_old}%&a -> %arg-2%&a)" to player
+			else:
+				send "&cYou forgot the last argument! Correct command usage is /emoji add <identifier> <emoji>"
+				send "&r"
+				send "&c&lExample: &c/addemoji :smile: :)"
+		else:
+			send "&cYou forgot the first argument! Correct command usage is /emoji add <identifier> <emoji>"
+			send "&r"
+			send "&c&lExample: &c/addemoji :smile: :)"
+
+
+options:
+    prefix: &8┃ &6Coin&eFlip &8»&7
+    no-perms: &8[&c&l!&8] <##eb3434>You don't have permissions to perform this action!
+    broadcast: true
+    min-bid: 1
+
+on quit:
+    {cfrequests::*} contains name of player
+    delete {cfrequests::%name of player%::bid}
+    remove {_host} from {cfrequests::*}
+
+command /coinflip [<string>] [<integer>]:
+    aliases: cf
+    executable by: players
+    trigger:
+        if arg-1 = "list":
+            coinflipGameGUI(player, 1)
+        else if arg-1 = "delete" or "remove":
+            {cfrequests::*} does not contain name of player:
+                send "{@prefix} &7You didn't place a bid!"
+                stop
+            send "{@prefix} &7Your bid has been removed!"
+            delete {cfrequests::%name of player%::bid}
+            remove name of player from {cfrequests::*}
+        else if arg-1 = "bid":
+            if arg-2 is not set:
+                send "{@prefix} Usage: &c/cf bid <amount>"
+            else if arg-2 < {@min-bid}:
+                send "{@prefix} &cYou need to bid at least ${@min-bid}!"
+            else if balance of player < arg-2:
+                send "{@prefix} &cYou don't have enough money!"
+            else if {cfrequests::*} contains name of player:
+                send "{@prefix} &7You already placed made a bid!"
+            else:
+                add name of player to {cfrequests::*}
+                set {cfrequests::%name of player%::bid} to arg-2
+                remove arg-2 from balance of player
+                send "{@prefix} &7You have placed a bid of &e$%arg-2%"
+        else:
+            send "{@prefix} Usage: &c/cf <bid/list/delete> [amount]"
+
+on inventory click:
+    name of event-inventory starts with "&8» &6Coin&eFlip &8[&7Page"
+    cancel event
+    coinflipGameGUI(player, {-page::%uuid of player%}-1) if clicked slot = red dye named "&cBack &8(&e%{-page::%uuid of player%}-1%&8)"
+    coinflipGameGUI(player, {-page::%uuid of player%}+1) if clicked slot = lime dye named "&aNext page &8(&e%{-page::%uuid of player%}+1%&8)"
+    clicked slot = player head
+    set {_p::*} to unformatted name of clicked slot split at " "
+    set {_host} to first element out of {_p::*}
+    set {_bid} to {cfrequests::%{_host}%::bid}
+    if {_host} = name of player:
+        send "{@prefix} &cYou can't play against yourself!"
+    else if {cfrequests::*} does not contain {_host}:
+        send "{@prefix} &cPlayer not found!"
+    else if balance of player < {_bid}:
+        send "{@prefix} &cYou don't have enough money!"
+    else:
+        remove {_bid} from balance of player
+
+        set {_x::*} to ({_host}) and name of player
+        set {_winner} to random element out of {_x::*}
+        remove {_winner} from {_x::*}
+        set {_looser} to "%{_x::*}%"
+
+        send "{@prefix} &7You have won against &a%{_looser}% &7in coinflip! &8(&a+$%{_bid}*2%&8)" to {_winner} parsed as player
+        send "{@prefix} &7You have lost against &c%{_winner}% &7in coinflip! &8(&c-$%{_bid}%&8)" to {_looser} parsed as player
+        broadcast "{@prefix} &7Player &a%{_winner}% &7has won against &c%{_looser}% &7in coinflip with a stake of &e%{_bid}%" if {@broadcast} = true
+
+        add {_bid}*2 to balance of {_winner} parsed as player
+
+        delete {cfrequests::%{_host}%::bid}
+        remove {_host} from {cfrequests::*}
+        coinflipGameGUI(player, {-page::%uuid of player%})
+
+function coinflipGameGUI(p: player, page: number=1):
+    set {_list::*} to {cfrequests::*}
+    set {_nextpage} to ({_page}+1) if (1st element of (pagination({_list::*}, {_page}+1, 21)) is set)
+    set {_previouspage} to ({_page}-1) if (1st element of (pagination({_list::*}, {_page}-1, 21)) is set)
+    set {_verified::*} to pagination({_list::*}, {_page}, 21)
+    set {_chest} to chest inventory with 5 rows named "&8» &6Coin&eFlip &8[&7Page %{_page}%&8]"
+    set {_slots::*} to (numbers between 10 and 16), (numbers between 19 and 25) and (numbers between 28 and 34)
+    set {_n} to 1
+    set slot (integers between 0 and 8), (17, 26, 35, 44, 9, 18, 27 and 36) and (integers from 37 to 44) of {_chest} to gray stained glass pane named " "
+    loop {_verified::*}:
+        set slot ({_n}st element of {_slots::*}) of {_chest} to (skull of loop-value parsed as player named "&e%loop-value% &8[&6$%{cfrequests::%loop-value%::bid}%&8]" with lore "&8▶ &7ᴄʟɪᴄᴋ ᴛᴏ ᴀᴄᴄᴇᴘᴛ")
+        add 1 to {_n}
+    set slot 38 of {_chest} to red dye named "&cBack &8(&e%{_previouspage}%&8)" if {_previouspage} is set
+    set slot 42 of {_chest} to lime dye named "&aNext page &8(&e%{_nextpage}%&8)" if {_nextpage} is set
+    set {-page::%uuid of {_p}%} to {_page}
+    open {_chest} to {_p}
+
+function pagination(objects: objects, page: number, elementsPerPage: number) :: objects:
+    set {_page} to floor({_page})
+    set {_elementsPerPage} to floor({_elementsPerPage})
+    set {_startIndex} to ({_page} -1)*{_elementsPerPage}
+    loop {_elementsPerPage} times:
+        add (({_startIndex} + loop-value)th element out of {_objects::*}) to {_objs::*}
+    return {_objs::*}
+
+# health, multiplier, and cash updater
+
+every 1 second:
+    loop all players:
+        send action bar "&c♥ &f%loop-player's health*2%/%loop-player's max health*2%      &5✖ &f%{permamulti::%uuid of loop-player%}%x      &6$ &f%loop-player's balance%      &e★ &f%{tier::%loop-player's uuid%}%      &3✪ &f%{prestige::%uuid of loop-player%}%" to loop-player
+
+# sword
+
+on right click holding diamond sword:
+    if name of player's held item is "&bAspect of the Void":
+        if lore of player's held item contains "&6&lMYTHICAL SWORD":
+            cancel event
+            push player forward at speed 4 
+            play sound "ENTITY_ENDERMAN_TELEPORT" with volume 1 and pitch 1 to player
+
+# /trade command
+
+
+#command /rules:
+#    trigger:
+#        send "1. Be Respectful (in some cases)"
+#        send "2. Don't block off spawn"
+#        send "3. Don't exploit vehicles into spawn, or else they will be disabled"
+#        send "4. No hacking/cheating"
+#        send "5. No Spawn killing"
+#        send "6. No spamming"
+#        send "7. No advertising"
+#        send "8. No racism"
+#        send "9. No killing nakeds"
+#        send "10. No end spawn trapping"
+
+command /rules:
+    trigger:
+        send "&7&m          &r  {@6b}&lServer Rules &r &7&m          "
+        send "&e1. &fBe respectful"
+        send "&e2. &fDon't block off spawn"
+        send "&e3. &fDon't exploit vehicles into spawn, or else they will be disabled"
+        send "&e4. &fNo hacking/cheating"
+        send "&e5. &fNo spawn killing"
+        send "&e6. &fNo spamming"
+        send "&e7. &fNo advertising"
+        send "&e8. &fNo racism"
+        send "&e9. &fNo killing nakeds"
+        send "&e10. &fNo end spawn trapping"
+        send "&7&m          &r  {@6b}&lServer Rules &r &7&m          "
+
+# - infinite water and lava buckets are buyable for 1m
+
+on load:
+    set {infWater} to glowing water bucket named "&9Infinite Water Bucket" with lore " ", "&fCan &9never&f run out!" and " "
+    set {infLava} to glowing lava bucket named "&cInfinite Lava Bucket" with lore " ", "&fCan &cnever&f run out!" and " "
+
+command /infshop:
+    trigger:
+        set {_slots::*} to 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25 and 26
+        set metadata tag "infShop" of player to chest inventory with 3 rows named "<##F76806>Infinite <##d4f1f9>Shop"
+        set slot {_slots::*} of metadata tag "infShop" of player to dark gray stained glass pane named " "
+        set slot 12 of metadata tag "infShop" of player to glowing water bucket named "&bInfinite Water Bucket" with lore "&7Price: &e$100,000"
+        set slot 14 of metadata tag "infShop" of player to glowing lava bucket named "&cInfinite Lava Bucket" with lore "&7Price: &e$100,000"
+        open (metadata tag "infShop" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "infShop" of player):
+        cancel event
+        if index of event-slot is 12:
+            if balance of player < 100000:
+                send "&cYou don't have enough money!"
+            else:
+                remove 100000 from balance of player
+                give player {infWater}
+                send "&aYou have purchased an infinite water bucket!"
+        else if index of event-slot is 14:
+            if balance of player < 100000:
+                send "&cYou don't have enough money!"
+            else:
+                remove 100000 from balance of player
+                give player {infLava}
+                send "&aYou have purchased an infinite lava bucket!"
+
+# infinite bucket functionality
+
+on block place:
+    if (1 of player's tool) is (1 of {infLava}):
+        set {_tool} to player's tool
+        set player's tool to {_tool}
+    if (1 of player's tool) is (1 of {infWater}):
+        set {_tool} to player's tool
+        set player's tool to {_tool}
+
+# seasonreset
+
+command /resetseason:
+    permission: op
+    trigger:
+        loop all players:
+            set loop-player's balance to 0
+            set {kills::%uuid of loop-player%} to 0
+            set {permamulti::%uuid of loop-player%} to 1
+            set {tier::%uuid of loop-player%} to 1
+            set {prestige::%uuid of loop-player%} to 1
+            set {hour::%uuid of loop-player%} to 0
+            set {minute::%uuid of loop-player%} to 0
+            set {second::%uuid of loop-player%} to 0
+            set {deaths::%uuid of loop-player%} to 0
+            execute console command "lp user %loop-player% permission set 2h.use false"
+            execute console command "lp user %loop-player% permission set 6h.use false"
+            execute console command "lp user %loop-player% permission set 12h.use false"
+            execute console command "lp user %loop-player% permission set 24h.use false"
+            execute console command "lp user %loop-player% permission set 48h.use false"
+            execute console command "lp user %loop-player% permission set 72h.use false"
+            execute console command "lp user %loop-player% permission set 100h.use false"
+            execute console command "lp user %loop-player% permission set 200h.use false"
+            execute console command "lp user %loop-player% permission set 500h.use false"
+            execute console command "lp user %loop-player% parent remove 2h"
+            execute console command "lp user %loop-player% parent remove 6h"
+            execute console command "lp user %loop-player% parent remove 12h"
+            execute console command "lp user %loop-player% parent remove 24h"
+            execute console command "lp user %loop-player% parent remove 48h"
+            execute console command "lp user %loop-player% parent remove 72h"
+            execute console command "lp user %loop-player% parent remove 100h"
+            execute console command "lp user %loop-player% parent remove 200h"
+            execute console command "lp user %loop-player% parent remove 500h"
+        loop all offline players:
+            set {kills::%uuid of loop-offlineplayer%} to 0
+            set {permamulti::%uuid of loop-offlineplayer%} to 1
+            set {tier::%uuid of loop-offlineplayer%} to 1
+            set {prestige::%uuid of loop-offlineplayer%} to 1
+            set {hour::%uuid of loop-offlineplayer%} to 0
+            set {minute::%uuid of loop-offlineplayer%} to 0
+            set {second::%uuid of loop-offlineplayer%} to 0
+            set {deaths::%uuid of loop-offlineplayer%} to 0
+            execute console command "lp user %loop-offlineplayer% permission set 2h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 6h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 12h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 24h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 48h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 72h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 100h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 200h.use false"
+            execute console command "lp user %loop-offlineplayer% permission set 500h.use false"
+            execute console command "lp user %loop-offlineplayer% parent remove 2h"
+            execute console command "lp user %loop-offlineplayer% parent remove 6h"
+            execute console command "lp user %loop-offlineplayer% parent remove 12h"
+            execute console command "lp user %loop-offlineplayer% parent remove 24h"
+            execute console command "lp user %loop-offlineplayer% parent remove 48h"
+            execute console command "lp user %loop-offlineplayer% parent remove 72h"
+            execute console command "lp user %loop-offlineplayer% parent remove 100h"
+            execute console command "lp user %loop-offlineplayer% parent remove 200h"
+            execute console command "lp user %loop-offlineplayer% parent remove 500h"
+            
+on first join:
+    set {kills::%uuid of player%} to 0
+    set {permamulti::%uuid of player%} to 1
+    set {tier::%uuid of player%} to 1
+    set {prestige::%uuid of player%} to 1
+    set {hour::%uuid of player%} to 0
+    set {minute::%uuid of player%} to 0
+    set {second::%uuid of player%} to 0
+    set {deaths::%uuid of player%} to 0
+    execute console command "lp user %player% permission set 2h.use false"
+    execute console command "lp user %player% permission set 6h.use false"
+    execute console command "lp user %player% permission set 12h.use false"
+    execute console command "lp user %player% permission set 24h.use false"
+    execute console command "lp user %player% permission set 48h.use false"
+    execute console command "lp user %player% permission set 72h.use false"
+    execute console command "lp user %player% permission set 100h.use false"
+    execute console command "lp user %player% permission set 200h.use false"
+    execute console command "lp user %player% permission set 500h.use false"
+    execute console command "lp user %player% parent remove 2h"
+    execute console command "lp user %player% parent remove 6h"
+    execute console command "lp user %player% parent remove 12h"
+    execute console command "lp user %player% parent remove 24h"
+    execute console command "lp user %player% parent remove 48h"
+    execute console command "lp user %player% parent remove 72h"
+    execute console command "lp user %player% parent remove 100h"
+    execute console command "lp user %player% parent remove 200h"
+    execute console command "lp user %player% parent remove 500h"
+
+command /resetplayerstuff <player>:
+    permission: op
+    trigger:
+        set {kills::%uuid of arg-1%} to 0
+        set {permamulti::%uuid of arg-1%} to 1
+        set {tier::%uuid of arg-1%} to 1
+        set {prestige::%uuid of arg-1%} to 1
+        set {hour::%uuid of arg-1%} to 0
+        set {minute::%uuid of arg-1%} to 0
+        set {second::%uuid of arg-1%} to 0
+        set {deaths::%uuid of arg-1%} to 0
+        execute console command "lp user %arg-1% permission set 2h.use false"
+        execute console command "lp user %arg-1% permission set 6h.use false"
+        execute console command "lp user %arg-1% permission set 12h.use false"
+        execute console command "lp user %arg-1% permission set 24h.use false"
+        execute console command "lp user %arg-1% permission set 48h.use false"
+        execute console command "lp user %arg-1% permission set 72h.use false"
+        execute console command "lp user %arg-1% permission set 100h.use false"
+        execute console command "lp user %arg-1% permission set 200h.use false"
+        execute console command "lp user %arg-1% permission set 500h.use false"
+        execute console command "lp user %arg-1% parent remove 2h"
+        execute console command "lp user %arg-1% parent remove 6h"
+        execute console command "lp user %arg-1% parent remove 12h"
+        execute console command "lp user %arg-1% parent remove 24h"
+        execute console command "lp user %arg-1% parent remove 48h"
+        execute console command "lp user %arg-1% parent remove 72h"
+        execute console command "lp user %arg-1% parent remove 100h"
+        execute console command "lp user %arg-1% parent remove 200h"
+        execute console command "lp user %arg-1% parent remove 500h"

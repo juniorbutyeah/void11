@@ -1,0 +1,33 @@
+options:
+    chatFormat: &8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message% 
+    staffchatFormat: &8[&3Staff&8] %player's displayname%&f: %message%
+    staffchatFormatLoopPlayer: &8[&3Staff&8] %loop-player's displayname%&f: %message%
+
+on load:
+    set {version} to "2.00"
+    set {server} to "Void11"
+    set {author} to "lostmatter"
+
+on join:
+    send "&7Welcome to <##71B3F2>&lVoid11&7! &8(%player%)"
+    send ""
+    # large v
+    send "<##525252>⬛⬛⬛      <##525252>⬛⬛⬛"
+    send "<##525252> ⬛⬛⬛      <##525252>⬛⬛"
+    send "<##525252>  ⬛⬛⬛  &b⬛  <##525252>⬛"
+    send "<##525252>   ⬛⬛⬛  &b⬛"
+    send "<##525252>    ⬛⬛⬛  &b⬛"
+    send "<##525252>     ⬛⬛⬛  "
+    send "<##525252>      ⬛⬛⬛"
+    send ""
+    send "&7&oCurrent Update/Version: &b&o%{version}%"
+    send "&7&oJoin our <##71B3F2>Discord&7&o! &8&o/discord"
+
+command /setServerVersion [<int>]:
+    permission: op
+    trigger:
+        set {version} to arg-1
+
+# Staff Commands: /supervanish, /staffchat enable/disable (can use ## before it)
+
+# 
