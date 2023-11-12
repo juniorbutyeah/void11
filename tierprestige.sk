@@ -2,7 +2,7 @@ command /tierup:
     trigger:
         set {_price} to 2000
         set {_price} to {_price}*{tier::%uuid of player%}
-        if {tier::%uuid of player%} is greater than or equal to 75+{prestige::%uuid of player%}*25:
+        if {tier::%uuid of player%} is greater than or equal to {prestige::%uuid of player%}*500:
             send "&cPrestige (/prestige) to tier up further!"
             stop
         if player's balance is more than or equal to {_price}:
@@ -61,10 +61,10 @@ command /tierup:
 
 command /tierupmax:
     trigger:
-        loop 10000000 times:
+        loop 100 times:
             set {_price} to 2000
             set {_price} to {_price}*{tier::%uuid of player%}
-            if {tier::%uuid of player%} is greater than or equal to 75+{prestige::%uuid of player%}*25:
+            if {tier::%uuid of player%} is greater than or equal to {prestige::%uuid of player%}*500:
                 send "&cPrestige (/prestige) to tier up further!"
                 stop
             if player's balance is more than or equal to {_price}:
@@ -128,7 +128,7 @@ command /prestige:
         set {_price} to 100000
         set {_price} to {_price}*{prestige::%uuid of player%}
         if player's balance is more than or equal to {_price}:
-            if {tier::%uuid of player%} is more than or equal to 100:
+            if {tier::%uuid of player%} is more than or equal to {prestige::%uuid of player%}*500:
                 set {prestige::%uuid of player%} to {prestige::%uuid of player%}+1
                 set {permamulti::%uuid of player%} to {permamulti::%uuid of player%}*1.5
                 wait 1 tick

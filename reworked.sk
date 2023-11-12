@@ -68,3 +68,13 @@ on break of brown terracotta:
         send "&cYou have broken your Netherite Scrap Generator!"
         remove location of event-block from {scrapgenloc::*}
         remove location of event-block from {scrap::%uuid of player%::loc}
+
+
+# diamond studded boxing glove
+
+on damage of a player:
+    if attacker's tool is player head item:
+        if name of attacker's tool is "&bDiamond Studded Boxing Glove":
+            set {_damage} to 2
+            set damage to 0
+            set victim's health to victim's health - ({_damage} / 2)
