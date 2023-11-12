@@ -30,17 +30,42 @@ command /setServerVersion [<int>]:
 
 # Staff Commands: /supervanish, /staffchat enable/disable (can use ## before it)
 
-# Prestige Tree
+# generators
 
-command /prestigetreetest:
+#scrap gen
+
+command /setplacedgen:
     permission: op
     trigger:
-        set {_slots::*} to integers from 0 to 53
-        set metadata tag "prestigeTree" of player to chest inventory with 5 rows named " &7&m         &r &cPrestige Tree &7&m         "
-        set slot {_slots::*} of metadata tag "prestigeTree" of player to dark gray stained glass pane named " " with lore " "
-        #set slot 19 of metadata tag "prestigeTree" of player to diamond named "&b&lNovice Slot Machine" with lore "&7&oi been in the hood dudes"
-        open (metadata tag "prestigeTree" of player) to player
+        set {scrap::%uuid of player%::placed} to false
 
-on inventory click:
-    if event-inventory = (metadata tag "prestigeTree" of player):
+on load:
+    if {scrap::%uuid of player%::placed} is not set:
+        set {scrap::%uuid of player%::placed} to false
+
+on right click holding brown terracotta:
+    name of player's held item is "<##964B00>Netherite Scrap Generator"
+    if {scrap::%uuid of player%::placed} is true:
+        send "&cYou already have a generator placed!"
         cancel event
+    else:
+        set {scrap::%uuid of player%::placed} to true
+        send "&aYou have placed a Netherite Scrap Generator!"
+        set {scrap::%uuid of player%::scrap} to 0
+        set {scrap::%uuid of player%::loc} to location of event-block
+        add location of event-block to {scrapgenloc::*}
+
+every 30 seconds:
+    loop all players:
+        if {scrap::%uuid of loop-player%::placed} is true:
+            add 1 to {scrap::%uuid of loop-player%::scrap}
+            send "&aYou have gained 1 Netherite Scrap!" to loop-player
+            give loop-player netherite scrap
+
+on block break:
+    event-block is brown terracotta
+    if {scrap::%uuid of player%::placed} is true:
+        if {scrap::%uuid of player%::loc} contains location of event-block:
+            set {scrap::%uuid of player%::placed} to false
+            send "&cYou have broken your Netherite Scrap Generator!"
+            remove location of event-block from {scrapgenloc::*}
