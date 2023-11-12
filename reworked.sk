@@ -68,6 +68,8 @@ on break of brown terracotta:
         send "&cYou have broken your Netherite Scrap Generator!"
         remove location of event-block from {scrapgenloc::*}
         remove location of event-block from {scrap::%uuid of player%::loc}
+        cancel drops
+        give player brown terracotta named "<##964B00>Netherite Scrap Generator"
 
 
 # diamond studded boxing glove
