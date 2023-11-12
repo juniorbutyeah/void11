@@ -43,7 +43,7 @@ on load:
     if {scrap::%uuid of player%::placed} is not set:
         set {scrap::%uuid of player%::placed} to false
 
-on right click holding brown terracotta:
+on place of brown terracotta:
     name of player's held item is "<##964B00>Netherite Scrap Generator"
     if {scrap::%uuid of player%::placed} is true:
         send "&cYou already have a generator placed!"
@@ -62,10 +62,9 @@ every 30 seconds:
             send "&aYou have gained 1 Netherite Scrap!" to loop-player
             give loop-player netherite scrap
 
-on block break:
-    event-block is brown terracotta
-    if {scrap::%uuid of player%::placed} is true:
-        if {scrap::%uuid of player%::loc} contains location of event-block:
-            set {scrap::%uuid of player%::placed} to false
-            send "&cYou have broken your Netherite Scrap Generator!"
-            remove location of event-block from {scrapgenloc::*}
+on break of brown terracotta:
+    if {scrapgenloc::*} contains location of event-block:
+        set {scrap::%uuid of player%::placed} to false
+        send "&cYou have broken your Netherite Scrap Generator!"
+        remove location of event-block from {scrapgenloc::*}
+        remove location of event-block from {scrap::%uuid of player%::loc}
