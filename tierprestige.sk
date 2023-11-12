@@ -1,23 +1,18 @@
-
 command /tierup:
     trigger:
         set {_price} to 2000
         set {_price} to {_price}*{tier::%uuid of player%}
+        if {tier::%uuid of player%} is greater than or equal to 75+{prestige::%uuid of player%}*25:
+            send "&cPrestige (/prestige) to tier up further!"
+            stop
         if player's balance is more than or equal to {_price}:
             set {tier::%uuid of player%} to {tier::%uuid of player%}+1
             set {permamulti::%uuid of player%} to {permamulti::%uuid of player%}*1.01
             wait 1 tick
             if {tier::%uuid of player%} is less than 100:
                 send "&fYou are now tier &a%{tier::%uuid of player%}%"
-            if {tier::%uuid of player%} is between 100 and 500:
+            if {tier::%uuid of player%} is greater than 100:
                 send "&fYou are now tier &6%{tier::%uuid of player%}%"
-            if {tier::%uuid of player%} is between 500 and 999:
-                send "&fYou are now tier &c%{tier::%uuid of player%}%"
-            if {tier::%uuid of player%} is 1000:
-                send "&fYou are now tier &4%{tier::%uuid of player%}%"
-            if {tier::%uuid of player%} is more than 1000:
-                send "&fYou are now tier &4%{tier::%uuid of player%}%"
-                broadcast "&f%player% &7has reached tier &4%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 1:
                 broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
@@ -32,33 +27,33 @@ command /tierup:
                 broadcast "&f%player% &7has reached tier &4%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 30:
-                give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
-                give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
-                give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
-
+                if {prestige::%uuid of player%} is less than or equal to 1:
+                    give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
+                    give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
+                    give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
             if {tier::%uuid of player%} is 40:
-                if {tier13edition} is not set:
-                    set {tier13edition} to 1
-                give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                add 1 to {tier13edition}
-
+                if {prestige::%uuid of player%} is less than or equal to 1:
+                    if {tier13edition} is not set:
+                        set {tier13edition} to 1
+                    give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                    give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                    give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                    give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                    add 1 to {tier13edition}
             if {tier::%uuid of player%} is 50:
-                if {tier15edition} is not set:
-                    set {tier15edition} to 1
-                give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                add 1 to {tier15edition}
-
+                if {prestige::%uuid of player%} is less than or equal to 1:
+                    if {tier15edition} is not set:
+                        set {tier15edition} to 1
+                    give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                    give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                    give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                    add 1 to {tier15edition}
             if {tier::%uuid of player%} is 100:
-                if {tier17edition} is not set:
-                    set {tier17edition} to 1
-                give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
-                add 1 to {tier17edition}
-
+                if {prestige::%uuid of player%} is less than or equal to 1:
+                    if {tier17edition} is not set:
+                        set {tier17edition} to 1
+                    give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
+                    add 1 to {tier17edition}
 # stuff
             remove {_price} from player's balance
         else:
@@ -66,25 +61,21 @@ command /tierup:
 
 command /tierupmax:
     trigger:
-        loop 1000000000 times:
+        loop 10000000 times:
             set {_price} to 2000
             set {_price} to {_price}*{tier::%uuid of player%}
+            if {tier::%uuid of player%} is greater than or equal to 75+{prestige::%uuid of player%}*25:
+                send "&cPrestige (/prestige) to tier up further!"
+                stop
             if player's balance is more than or equal to {_price}:
                 set {tier::%uuid of player%} to {tier::%uuid of player%}+1
                 set {permamulti::%uuid of player%} to {permamulti::%uuid of player%}*1.01
                 wait 1 tick
                 if {tier::%uuid of player%} is less than 100:
                     send "&fYou are now tier &a%{tier::%uuid of player%}%"
-                if {tier::%uuid of player%} is between 100 and 500:
+                if {tier::%uuid of player%} is greater than 100:
                     send "&fYou are now tier &6%{tier::%uuid of player%}%"
-                if {tier::%uuid of player%} is between 500 and 999:
-                    send "&fYou are now tier &c%{tier::%uuid of player%}%"
-                if {tier::%uuid of player%} is 1000:
-                    send "&fYou are now tier &4%{tier::%uuid of player%}%"
-                if {tier::%uuid of player%} is more than 1000:
-                    send "&fYou are now tier &4%{tier::%uuid of player%}%"
-                    broadcast "&f%player% &7has reached tier &4%{tier::%uuid of player%}%"
-
+                
                 if {tier::%uuid of player%} is 1:
                     broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
 
@@ -94,36 +85,37 @@ command /tierupmax:
                 if {tier::%uuid of player%} is 100:
                     broadcast "&f%player% &7has reached tier &6%{tier::%uuid of player%}%"
 
-                if {tier::%uuid of player%} is 1000:
-                    broadcast "&f%player% &7has reached tier &4%{tier::%uuid of player%}%"
-
                 if {tier::%uuid of player%} is 30:
-                    give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
-                    give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
-                    give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
+                    if {prestige::%uuid of player%} is less than or equal to 1:
+                        give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
+                        give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
+                        give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
 
                 if {tier::%uuid of player%} is 40:
-                    if {tier13edition} is not set:
-                        set {tier13edition} to 1
-                    give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    add 1 to {tier13edition}
+                    if {prestige::%uuid of player%} is less than or equal to 1:
+                        if {tier13edition} is not set:
+                            set {tier13edition} to 1
+                        give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                        give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                        give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                        give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
+                        add 1 to {tier13edition}
 
                 if {tier::%uuid of player%} is 50:
-                    if {tier15edition} is not set:
-                        set {tier15edition} to 1
-                    give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    add 1 to {tier15edition}
+                    if {prestige::%uuid of player%} is less than or equal to 1:
+                        if {tier15edition} is not set:
+                            set {tier15edition} to 1
+                        give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                        give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                        give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
+                        add 1 to {tier15edition}
 
                 if {tier::%uuid of player%} is 100:
-                    if {tier17edition} is not set:
-                        set {tier17edition} to 1
-                    give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
-                    add 1 to {tier17edition}
+                    if {prestige::%uuid of player%} is less than or equal to 1:
+                        if {tier17edition} is not set:
+                            set {tier17edition} to 1
+                        give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
+                        add 1 to {tier17edition}
 
 # stuff 
                 remove {_price} from player's balance
