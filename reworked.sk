@@ -30,4 +30,17 @@ command /setServerVersion [<int>]:
 
 # Staff Commands: /supervanish, /staffchat enable/disable (can use ## before it)
 
-# 
+# Prestige Tree
+
+command /prestigetreetest:
+    permission: op
+    trigger:
+        set {_slots::*} to integers from 0 to 53
+        set metadata tag "prestigeTree" of player to chest inventory with 5 rows named " &7&m         &r &cPrestige Tree &7&m         "
+        set slot {_slots::*} of metadata tag "prestigeTree" of player to dark gray stained glass pane named " " with lore " "
+        #set slot 19 of metadata tag "prestigeTree" of player to diamond named "&b&lNovice Slot Machine" with lore "&7&oi been in the hood dudes"
+        open (metadata tag "prestigeTree" of player) to player
+
+on inventory click:
+    if event-inventory = (metadata tag "prestigeTree" of player):
+        cancel event

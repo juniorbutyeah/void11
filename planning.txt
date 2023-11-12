@@ -1,5 +1,3 @@
-wassup im at school
-
 Holiday
     [🎃] - halloween_2023
     [HALLOWEEN] - halloween_31
@@ -64,48 +62,8 @@ color codes: &f&l🦄 &#ffffff&lP&#aafcff&lE&#55faff&lG&#00f7ff&lA&#55a8f0&lS&#a
 
 --------------------------
 
-Era/Gen 2 Season 2 Features:
+Era/Gen 2 Season 2.1 Features:
 
-- tierup cost reduced to 2k X
-- clans are being removed X
-- playtime tags X
-- tag menu X
-- release of tags X
-- multiple sethomes X
-- chat emojis X 
-- new chat format X
-- new halloween spawn again X
-- new scoreboard format X
-- chat broadcasts remade X
-- ah reconfigured X
-- play.kyotocraft.net is setup X
-- a new gambling game X
-- gambling gui fixed
-- gambling command now has tab completors X
-- 3 new armor sets week 1: X week 2: Z week 3: Z
-- new sword X
-- monthly rank X
-- renaming some ranks X
-- new tierup rewards X
-- /trade implemented X
-- crystals now count as kills for the player X
-- nether being added X
-- full eco reset X
-- full inventory reset X
-- new holograms X
-- new join/first join message (J) X
-- nukes now drain everyone's balance except the buyer (only 25%) by 50% (J) | done
-- exp rain is now a thing (J) | it's alr5eady worked :sob:
-- promote sakutenshi X
-- reenabling beacons X
-- leaderboard for chat reactions X
-- fix mob vote stuff X
-- remove /freerank and /freekit X
-- new /rules menu X
-- infinite water and lava buckets are buyable for 1m
-
-- store is updated
-- money printers?
 - exclusive items (stay through seasons)
 - adding a season save vault (5 items per season, no shulkers/bundles)
 - new death messages (J)  
@@ -115,10 +73,14 @@ Era/Gen 2 Season 2 Features:
 - new nuke message
 - new nuke sound
 - nuke animation
-- spawn egg's are fixed
-- gps item in gui
 - new /help menu
 - staff handbook
+- prestige tree
+
+- store is updated
+- money printers?
+- spawn egg's are fixed
+- gps item in gui
 - more cash uses
 - optional custom texture pack
 - slot machines odds reworked again lmao (J)1
@@ -131,7 +93,6 @@ Era/Gen 2 Season 2 Features:
 - rtp reworked
 - head gui
 - tutorial book on join
-- anchor 100 blocks from spawn
 - make draconic armor easier
 - custom chat colors 
 - fix /challenges
