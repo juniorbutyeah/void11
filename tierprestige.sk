@@ -159,7 +159,7 @@ command /prestige:
                 set {tier::%uuid of player%} to 1
 
             else:
-                send "&fYou need to be tier 100 to prestige!"
+                send "&cYou need to be tier %{prestige::%uuid of player%}*500%% to prestige!"
         else:
             send "&fYou need &a$%{_price}% &fto prestige!"
 

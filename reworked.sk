@@ -54,6 +54,8 @@ on place of brown terracotta:
         set {scrap::%uuid of player%::scrap} to 0
         set {scrap::%uuid of player%::loc} to location of event-block
         add location of event-block to {scrapgenloc::*}
+        set {_loc} to {scrap::%uuid of player%::loc}
+        set blocks in circular radius 2 of {_loc} to stone
 
 every 30 seconds:
     loop all players:
@@ -74,9 +76,20 @@ on break of brown terracotta:
 
 # diamond studded boxing glove
 
-on damage of a player:
+on damage:
     if attacker's tool is player head item:
         if name of attacker's tool is "&bDiamond Studded Boxing Glove":
-            set {_damage} to 2
-            set damage to 0
-            set victim's health to victim's health - ({_damage} / 2)
+            if attacker is not on ground:
+                set {_damage} to 3
+                set damage to 0
+                set victim's health to victim's health - ({_damage} / 2)
+            else:
+                set {_damage} to 2
+                set damage to 0
+                set victim's health to victim's health - ({_damage} / 2)
+
+on entity knockback:
+    if knockback attacker is a player:
+        if knockback attacker's tool is player head item:
+            if name of knockback attacker's tool is "&bDiamond Studded Boxing Glove":
+                cancel event
