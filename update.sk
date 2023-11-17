@@ -202,6 +202,7 @@ options:
     100h: <##00b3ff>&l✩
     200h: <##00b3ff>&l✩<##80d9ff>&l✩
     500h: <##00b3ff>&l✩<##80d9ff>&l✩<##ffffff>&l✩
+    furry: <##4169E1>furry
 
 command /tag:
     aliases: tags
@@ -283,6 +284,10 @@ command /tag:
             set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@500h}"
         else:
             set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@500h}"
+        if player has permission "furry.use":
+            set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@furry}"
+        else:
+            set slot 14 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@furry}"
         open metadata tag "tagGui" of player to player
 
 
@@ -390,6 +395,13 @@ on inventory click:
         else if index of event-slot is 14:
             if player has permission "500h.use":
                 execute console command "tagset %player% 500h"
+                close player's inventory
+            else:
+                send "&c&lYou do not have permission to use this tag!"
+
+        else if index of event-slot is 15:
+            if player has permission "furry.use":
+                execute console command "tagset %player% furry"
                 close player's inventory
             else:
                 send "&c&lYou do not have permission to use this tag!"
