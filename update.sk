@@ -49,8 +49,8 @@ command /mobcapvote:
             set {_mobvotecounter} to {_online}/2
 
             if {mobvotes} is more than or equal to {_mobvotecounter}:
-                loop all entities:
-                    if loop-entity is not a villager or player:
+                loop all mobs:
+                    if loop-mob is not a villager:
                         kill loop-entity
                 broadcast "&fThe vote was &asuccessful, &fthe mob cap was reset."
                 set {mobvotes} to 0
