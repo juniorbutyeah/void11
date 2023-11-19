@@ -246,46 +246,53 @@ command /fireball <int>:
 
 on chat:
 
-    set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+    set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
 
     if message contains "nigger":
         replace all "nigger" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "n1gger":
         replace all "n1gger" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "n!gger":
         replace all "n!gger" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "nigga":
         replace all "nigga" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "n1gga":
         replace all "n1gga" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "n!gga":
         replace all "n!gga" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "niggr":
         replace all "niggr" with "&aN&kxxxxx&7" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        execute console command "tempban %player% 10m Slur's (Console)"
     else if message contains "cumslut":
         replace all "cumslut" with "&aC&kxxxxxx&r" in message
-        set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+        set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
 
     loop all players:
         if message contains loop-player's name:
             if {notifications::%loop-player's uuid%} is false:
                 wait 1 tick
                 send action bar "&7&oThis user has chat notifications turned off!" to player
-                set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+                set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
 
     loop all players:
         if message contains loop-player's name:
             if {notifications::%loop-player's uuid%} is not false:
                 replace "%loop-player%" with "&d@%loop-player%&f" in message
                 play sound "entity_experience_orb_pickup" to loop-player
-                set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+                set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
 
     if message contains "nuh uh":
         add 1 to {nuhuhcounter}
@@ -304,10 +311,10 @@ on chat:
                     if {_emoji} = {_identifier}:
                         if {@boldemojis} is true:
                             replace all loop-value-1 in message with "&l%loop-value-2%"
-                            set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
+                            set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"
                         else:
                             replace all loop-value-1 in message with loop-value-2
-                            set chat format to "&8[&e★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"    
+                            set chat format to "&8[%{tiercolor::%uuid of player%}%★%{tier::%uuid of player%}%&8] &8[&3✪%{prestige::%uuid of player%}%&8] %player's displayname%&f: %message%"    
 
 
     if message contains "%{reaction}%":

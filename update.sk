@@ -288,6 +288,10 @@ command /tag:
             set slot 15 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@furry}"
         else:
             set slot 15 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@furry}"
+        if player has permission "yowai_mo.use"
+            set slot 16 of metadata tag "tagGui" of player to tripwire hook named "&e&l{@yowai_mo}"
+        else:
+            set slot 16 of metadata tag "tagGui" of player to tripwire hook named "&c&l{@yowai_mo}"
         open metadata tag "tagGui" of player to player
 
 

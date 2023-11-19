@@ -15,45 +15,56 @@ command /tierup:
                 send "&fYou are now tier &6%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 1:
-                broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
+                broadcast "&f%player's displayname% &7has reached tier &a%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 10:
-                broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
+                broadcast "&f%player's displayname% &7has reached tier &a%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 100:
-                broadcast "&f%player% &7has reached tier &6%{tier::%uuid of player%}%"
+                broadcast "&f%player's displayname% &7has reached tier &6%{tier::%uuid of player%}%"
 
             if {tier::%uuid of player%} is 1000:
-                broadcast "&f%player% &7has reached tier &4%{tier::%uuid of player%}%"
+                broadcast "&f%player's displayname% &7has reached tier &4%{tier::%uuid of player%}%"
 
-            if {tier::%uuid of player%} is 30:
-                if {prestige::%uuid of player%} is less than or equal to 1:
-                    give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
-                    give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
-                    give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
-            if {tier::%uuid of player%} is 40:
-                if {prestige::%uuid of player%} is less than or equal to 1:
-                    if {tier13edition} is not set:
-                        set {tier13edition} to 1
-                    give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                    add 1 to {tier13edition}
-            if {tier::%uuid of player%} is 50:
-                if {prestige::%uuid of player%} is less than or equal to 1:
-                    if {tier15edition} is not set:
-                        set {tier15edition} to 1
-                    give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                    add 1 to {tier15edition}
-            if {tier::%uuid of player%} is 100:
-                if {prestige::%uuid of player%} is less than or equal to 1:
-                    if {tier17edition} is not set:
-                        set {tier17edition} to 1
-                    give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
-                    add 1 to {tier17edition}
+# chat color per 15 tiers
+            if {tier::%uuid of player%} is between 0 and 14:
+                set {tiercolor::%uuid of player%} to "&e"
+            if {tier::%uuid of player%} is between 15 and 29:
+                set {tiercolor::%uuid of player%} to "&a"
+            if {tier::%uuid of player%} is between 30 and 44:
+                set {tiercolor::%uuid of player%} to "&b"
+            if {tier::%uuid of player%} is between 45 and 59:
+                set {tiercolor::%uuid of player%} to "&3"
+            if {tier::%uuid of player%} is between 60 and 74:
+                set {tiercolor::%uuid of player%} to "&9"
+            if {tier::%uuid of player%} is between 75 and 89:
+                set {tiercolor::%uuid of player%} to "&d"
+            if {tier::%uuid of player%} is between 90 and 100:
+                set {tiercolor::%uuid of player%} to "&5"
+            if {tier::%uuid of player%} is between 101 and 149:
+                set {tiercolor::%uuid of player%} to "&6"
+            if {tier::%uuid of player%} is between 150 and 199:
+                set {tiercolor::%uuid of player%} to "&c"
+            if {tier::%uuid of player%} is between 200 and 299:
+                set {tiercolor::%uuid of player%} to "&4"
+            if {tier::%uuid of player%} is between 300 and 699:
+                set {tiercolor::%uuid of player%} to "&4&l"
+            if {tier::%uuid of player%} is between 700 and 999:
+                set {tiercolor::%uuid of player%} to "<##ffa2a2>"
+            if {tier::%uuid of player%} is between 1000 and 1499:
+                set {tiercolor::%uuid of player%} to "<##ffd874>"
+            if {tier::%uuid of player%} is between 1500 and 1999:
+                set {tiercolor::%uuid of player%} to "<##e8ff74>"
+            if {tier::%uuid of player%} is between 2000 and 2999:
+                set {tiercolor::%uuid of player%} to "<##74ff7b>"
+            if {tier::%uuid of player%} is between 3000 and 6999:
+                set {tiercolor::%uuid of player%} to "<##74f9ff>"
+            if {tier::%uuid of player%} is between 7000 and 9999:
+                set {tiercolor::%uuid of player%} to "<##c474ff>"
+            if {tier::%uuid of player%} is 10000:
+                set {tiercolor::%uuid of player%} to "<##ff74f2>"
+            
+
 # stuff
             remove {_price} from player's balance
         else:
@@ -75,53 +86,55 @@ command /tierupmax:
                     send "&fYou are now tier &a%{tier::%uuid of player%}%"
                 if {tier::%uuid of player%} is greater than 100:
                     send "&fYou are now tier &6%{tier::%uuid of player%}%"
+                if {tier::%uuid of player%} is between 0 and 14:
+                    set {tiercolor::%uuid of player%} to "&e"
+                if {tier::%uuid of player%} is between 15 and 29:
+                    set {tiercolor::%uuid of player%} to "&a"
+                if {tier::%uuid of player%} is between 30 and 44:
+                    set {tiercolor::%uuid of player%} to "&b"
+                if {tier::%uuid of player%} is between 45 and 59:
+                    set {tiercolor::%uuid of player%} to "&3"
+                if {tier::%uuid of player%} is between 60 and 74:
+                    set {tiercolor::%uuid of player%} to "&9"
+                if {tier::%uuid of player%} is between 75 and 89:
+                    set {tiercolor::%uuid of player%} to "&d"
+                if {tier::%uuid of player%} is between 90 and 100:
+                    set {tiercolor::%uuid of player%} to "&5"
+                if {tier::%uuid of player%} is between 101 and 149:
+                    set {tiercolor::%uuid of player%} to "&6"
+                if {tier::%uuid of player%} is between 150 and 199:
+                    set {tiercolor::%uuid of player%} to "&c"
+                if {tier::%uuid of player%} is between 200 and 299:
+                    set {tiercolor::%uuid of player%} to "&4"
+                if {tier::%uuid of player%} is between 300 and 699:
+                    set {tiercolor::%uuid of player%} to "&4&l"
+                if {tier::%uuid of player%} is between 700 and 999:
+                    set {tiercolor::%uuid of player%} to "<##ffa2a2>"
+                if {tier::%uuid of player%} is between 1000 and 1499:
+                    set {tiercolor::%uuid of player%} to "<##ffd874>"
+                if {tier::%uuid of player%} is between 1500 and 1999:
+                    set {tiercolor::%uuid of player%} to "<##e8ff74>"
+                if {tier::%uuid of player%} is between 2000 and 2999:
+                    set {tiercolor::%uuid of player%} to "<##74ff7b>"
+                if {tier::%uuid of player%} is between 3000 and 6999:
+                    set {tiercolor::%uuid of player%} to "<##74f9ff>"
+                if {tier::%uuid of player%} is between 7000 and 9999:
+                    set {tiercolor::%uuid of player%} to "<##c474ff>"
+                if {tier::%uuid of player%} is 10000:
+                    set {tiercolor::%uuid of player%} to "<##ff74f2>"
                 
-                if {tier::%uuid of player%} is 1:
-                    broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
-
-                if {tier::%uuid of player%} is 10:
-                    broadcast "&f%player% &7has reached tier &a%{tier::%uuid of player%}%"
-
-                if {tier::%uuid of player%} is 100:
-                    broadcast "&f%player% &7has reached tier &6%{tier::%uuid of player%}%"
-
-                if {tier::%uuid of player%} is 30:
-                    if {prestige::%uuid of player%} is less than or equal to 1:
-                        give player diamond axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " "
-                        give player diamond pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " "
-                        give player diamond sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " "
-
-                if {tier::%uuid of player%} is 40:
-                    if {prestige::%uuid of player%} is less than or equal to 1:
-                        if {tier13edition} is not set:
-                            set {tier13edition} to 1
-                        give player diamond helmet of protection 10 named "&f&l&k| &b&lTier Helmet &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                        give player diamond chestplate of protection 10 named "&f&l&k| &b&lTier Chestplate &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                        give player diamond leggings of protection 10 named "&f&l&k| &b&lTier Leggings &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                        give player diamond boots of protection 10 named "&f&l&k| &b&lTier Boots &f&l&k|" with lore " " and "&7&lEdition &a%{tier13edition}%"
-                        add 1 to {tier13edition}
-
-                if {tier::%uuid of player%} is 50:
-                    if {prestige::%uuid of player%} is less than or equal to 1:
-                        if {tier15edition} is not set:
-                            set {tier15edition} to 1
-                        give player netherite axe of efficiency 10 named "&f&l&k| &b&lTier Axe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                        give player netherite pickaxe of efficiency 10 named "&f&l&k| &b&lTier Pickaxe &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                        give player netherite sword of sharpness 10 named "&f&l&k| &b&lTier Sword &f&l&k|" with lore " " and "&7&lEdition &a%{tier15edition}%"
-                        add 1 to {tier15edition}
-
-                if {tier::%uuid of player%} is 100:
-                    if {prestige::%uuid of player%} is less than or equal to 1:
-                        if {tier17edition} is not set:
-                            set {tier17edition} to 1
-                        give player netherite shovel of efficiency 10 named "&f&l&k| &b&lTier Shovel &f&l&k|" with lore " " and "&7&lEdition &a%{tier17edition}%"
-                        add 1 to {tier17edition}
+                
 
 # stuff 
                 remove {_price} from player's balance
             else:
                 send "&cYou don't have enough money to tier up anymore!"
                 stop
+
+
+command /checktiercolor:
+    trigger:
+        send "&fYour tier color is &a%{tiercolor::%uuid of player%}%Hello!"
 
 command /prestige:
     trigger:
@@ -134,16 +147,18 @@ command /prestige:
                 wait 1 tick
                 if {prestige::%uuid of player%} is less than 100:
                     send "&fYou are now prestige &a%{prestige::%uuid of player%}%"
-                    broadcast "&f%player% &7has reached prestige &a%{prestige::%uuid of player%}%"
+                    broadcast "&f%player's displayname% &7has reached prestige &a%{prestige::%uuid of player%}%"
                 if {prestige::%uuid of player%} is between 100 and 499:
                     send "&fYou are now prestige &6%{prestige::%uuid of player%}%"
-                    broadcast "&f%player% &7has reached prestige &6%{prestige::%uuid of player%}%"
+                    broadcast "&f%player's displayname% &7has reached prestige &6%{prestige::%uuid of player%}%"
                 if {prestige::%uuid of player%} is between 500 and 999:
                     send "&fYou are now prestige &c%{prestige::%uuid of player%}%"
-                    broadcast "&f%player% &7has reached prestige &c%{prestige::%uuid of player%}%"
+                    broadcast "&f%player's displayname% &7has reached prestige &c%{prestige::%uuid of player%}%"
                 if {prestige::%uuid of player%} is 1000:
                     send "&fYou are now prestige &4%{prestige::%uuid of player%}%"
-                    broadcast "&f%player% &7has reached prestige &4%{prestige::%uuid of player%}%"
+                    broadcast "&f%player's displayname% &7has reached prestige &4%{prestige::%uuid of player%}%"
+                
+                set {tiercolor::%uuid of player%} to "&e"
 
 # rewards
 
@@ -211,3 +226,4 @@ command /resetalltiersprestiges:
             set {tier::%uuid of loop-player%} to 1
             set {prestige::%uuid of loop-player%} to 1
         send "&7Reset all players' tiers and prestiges to 1"
+

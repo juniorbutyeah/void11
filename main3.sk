@@ -653,7 +653,7 @@ command /skHolo [<integer>] [<text>] [<text>]:
                 set display billboard of {_d} to horizontal
 on tab complete of "skholo":    
     set tab completions for position 1 to "<size>"
-    set tab completions for position 2 to "fixed", "horizontal", "vertical", "center"
+    set tab completions for position 2 to "fixed", "horizontal", "vertical" and "center"
     set tab completions for position 3 to "<text>"
     
 command /elimtarg:
@@ -768,8 +768,8 @@ on inventory close:
 command /clearchat:
     permission: op
     trigger:
-        loop 500 times:
-            send "" to all players
+        loop 100 times:
+            send nl to all players
 
 on right click holding any spawn egg:
 	if {totalmobs} is less than 500:

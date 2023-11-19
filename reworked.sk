@@ -23,7 +23,7 @@ on join:
     send "&7&oCurrent Update/Version: &b&o%{version}%"
     send "&7&oJoin our <##71B3F2>Discord&7&o! &8&o/discord"
 
-command /setServerVersion [<int>]:
+command /setServerVersion [<string>]:
     permission: op
     trigger:
         set {version} to arg-1
@@ -93,3 +93,27 @@ on entity knockback:
         if knockback attacker's tool is player head item:
             if name of knockback attacker's tool is "&bDiamond Studded Boxing Glove":
                 cancel event
+
+# 2.11
+
+on region enter:
+    set {_loc} to location of player
+    if {combat::%player's uuid%} is set:
+        set {_time} to difference between {combat::%player's uuid%} and now
+        if {_time} < 5 seconds:
+            send "&cYour currenly in combat, please wait" to player
+            teleport player to {_loc}
+            push player backwards at speed 1
+
+on command:
+    if {combat::%player's uuid%} is set:
+        set {_time} to difference between {combat::%player's uuid%} and now
+        if {_time} < 5 seconds:
+            send "&cYour currenly in combat, please wait" to player
+            cancel event
+
+
+on first join:
+    set {tiercolor::%uuid of player%} to "&e"
+
+# balls
